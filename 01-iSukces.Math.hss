@@ -5,7 +5,8 @@ var builder = new ProjectBuilder()
     Nuget =
     {
         Exe           = GlobalVar["Nuget"],
-        RepositoryDir = GlobalVar["Private Nuget Repository"]
+        RepositoryDir = GlobalVar["Private Nuget Repository"],
+	ForceNugetName = "iSukces.Math"
     },
 
     SolutionName = "iSukces.Math",
