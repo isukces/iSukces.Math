@@ -9,14 +9,14 @@
     <SignAssembly>true</SignAssembly>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Product>iSukces.Math</Product>
-    <PackageId>iSukces.Mathematics</PackageId>
+    <PackageId>iSukces.Math</PackageId>
     <Description>Użyteczne klasy i metody do nieco bardziej zaawansowanej matematyki</Description>
     <IncludeSource>false</IncludeSource>
     <IncludeSymbols>true</IncludeSymbols>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <AssemblyVersion>1.0.21250.107</AssemblyVersion>
-    <Version>1.0.21250.107</Version>
-    <FileVersion>1.0.21250.107</FileVersion>
+    <AssemblyVersion>1.0.21250.108</AssemblyVersion>
+    <Version>1.0.21250.108</Version>
+    <FileVersion>1.0.21250.108</FileVersion>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
