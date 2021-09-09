@@ -24,7 +24,24 @@ namespace iSukces.Mathematics
             XRange = xRange;
             YRange = yRange;
         }
+        
+        public Range2D(Point p1, Point p2)
+        {
+            XRange = Range.FromValues(p1.X, p2.X);
+            YRange = Range.FromValues(p1.Y, p2.Y);
+        }
 
+        public Range2D(Rect rect)
+        {
+            XRange = new Range(rect.Left, rect.Right);
+            YRange = new Range(rect.Top, rect.Bottom);
+        }
+
+        public Range2D Round()
+        {
+            return new Range2D(XRange.RoundDouble(), YRange.RoundDouble());
+        }
+        
         public bool Includes(ThePoint point)
         {
             return XRange.Includes(point.X) && YRange.Includes(point.Y);
@@ -79,5 +96,15 @@ namespace iSukces.Mathematics
         {
             get { return IsEmpty ? Size.Empty : new Size(XRange.Length, YRange.Length); }
         }
+
+        public double Left() => XRange.Min;
+        public double Right() => XRange.Max;
+        public double Top() => YRange.Min;
+        public double Bottom() => YRange.Max;
+
+        public double X1() => XRange.Min;
+        public double X2() => XRange.Max;
+        public double Y1() => YRange.Min;
+        public double Y2() => YRange.Max;
     }
 }

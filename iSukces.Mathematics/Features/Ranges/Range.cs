@@ -183,6 +183,7 @@ namespace iSukces.Mathematics
         public bool IncludesExclusive(double x) { return !IsEmpty && x > Min && x < Max; }
 
         public RangeI Round() { return new RangeI(Min.Round(), Max.Round()); }
+        public Range RoundDouble() { return new Range(Min.Round(), Max.Round()); }
 
         public bool ShouldSerializeCenter() { return false; }
 
@@ -254,3 +255,4 @@ namespace iSukces.Mathematics
         Normal
     }
 }
+

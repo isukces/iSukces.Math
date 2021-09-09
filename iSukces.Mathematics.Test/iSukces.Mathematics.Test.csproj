@@ -13,9 +13,6 @@
     <FileVersion>1.0.0.0</FileVersion>
     <ApplicationIcon />
     <RootNamespace>iSukces.Mathematics.test</RootNamespace>
-<!--
-    <TargetFramework>net48</TargetFramework>
--->
    <TargetFrameworks>netstandard2.0;net461;net47;net48;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
     <!--

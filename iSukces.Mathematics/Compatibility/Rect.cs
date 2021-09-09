@@ -6,23 +6,29 @@ namespace iSukces.Mathematics.Compatibility
     {
         public Rect(double x, double y, double width, double height)
         {
-            X = x;
-            Y = y;
-            Width = width;
+            X      = x;
+            Y      = y;
+            Width  = width;
             Height = height;
+        }
+
+        public Rect(Point topLeft, Point bottomRight)
+        {
+            X     = topLeft.X;
+            Y     = topLeft.Y;
+            Width = bottomRight.X - topLeft.X;
+            Height = bottomRight.Y - topLeft.Y;
         }
 
         public static bool operator ==(Rect rect1, Rect rect2)
         {
-            if (rect1.X == rect2.X && rect1.Y == rect2.Y && rect1.Width == rect2.Width)
-                return rect1.Height == rect2.Height;
-            return false;
+            return rect1.X == rect2.X
+                   && rect1.Y == rect2.Y
+                   && rect1.Width == rect2.Width
+                   && rect1.Height == rect2.Height;
         }
 
-        public static bool operator !=(Rect rect1, Rect rect2)
-        {
-            return !(rect1 == rect2);
-        }
+        public static bool operator !=(Rect rect1, Rect rect2) { return !(rect1 == rect2); }
 
         private static Rect CreateEmptyRect()
         {
@@ -39,16 +45,10 @@ namespace iSukces.Mathematics.Compatibility
             return false;
         }
 
-        public override bool Equals(object o)
-        {
-            return o is Rect rect && Equals(this, rect);
-        }
+        public override bool Equals(object o) { return o is Rect rect && Equals(this, rect); }
 
 
-        public bool Equals(Rect value)
-        {
-            return Equals(this, value);
-        }
+        public bool Equals(Rect value) { return Equals(this, value); }
 
 
         public override int GetHashCode()
@@ -82,10 +82,8 @@ namespace iSukces.Mathematics.Compatibility
 
         public double Height { get; }
 
-
         public double Left => X;
-
-
+        
         public double Top => Y;
 
 
@@ -109,6 +107,14 @@ namespace iSukces.Mathematics.Compatibility
                 return Y + Height;
             }
         }
+
+        public Point TopLeft => new Point(Left, Top);
+
+        public Point TopRight => new Point(Right, Top);
+
+        public Point BottomLeft => new Point(Left, Bottom);
+
+        public Point BottomRight => new Point(Right, Bottom);
     }
 }
 #endif

@@ -2,10 +2,17 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using System.Windows.Media.Media3D;
-using iSukces.Mathematics.TypeConverters;
 using Newtonsoft.Json;
 using Xunit;
+using iSukces.Mathematics.TypeConverters;
+
+#if COREFX
+using iSukces.Mathematics.Compatibility;
+
+#else
+using System.Windows;
+using System.Windows.Media.Media3D;
+#endif
 
 namespace iSukces.Mathematics.test
 {
@@ -73,7 +80,9 @@ namespace iSukces.Mathematics.test
             test(new MinMaxI(1, 3), "1,3");
             test(new MinMaxI(1, -3), "1,-3");
 
-            var converted = new MinMaxITypeConverter().ConvertToString(null, Polish, new MinMaxI(1, 3));
+            var converted = new MinMaxITypeConverter()
+                // ReSharper disable once AssignNullToNotNullAttribute
+                .ConvertToString(null, Polish, new MinMaxI(1, 3));
             Assert.Equal("1;3", converted);
         }
 

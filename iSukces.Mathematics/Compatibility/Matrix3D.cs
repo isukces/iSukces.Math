@@ -28,7 +28,6 @@ namespace iSukces.Mathematics.Compatibility
 
         private static Matrix3D CreateIdentity()
         {
-            // Don't call this function, use s_identity.
             var matrix = new Matrix3D(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
             return matrix;
         }
