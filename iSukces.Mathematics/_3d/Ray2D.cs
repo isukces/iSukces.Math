@@ -29,8 +29,6 @@ namespace iSukces.Mathematics
             axis.Normalize();
         }
 
-        // Public Methods 
-
         public static Point CrossLines(Ray2D ray1, Ray2D ray2)
         {
             var m = ray1.axis.Y * ray2.axis.X - ray1.axis.X * ray2.axis.Y;
@@ -73,8 +71,6 @@ namespace iSukces.Mathematics
             );
         }
 
-        // Public Methods 
-
         public double? Cross(Ray2D r)
         {
             var v = r.BeginPoint - BeginPoint;
@@ -113,7 +109,6 @@ namespace iSukces.Mathematics
             return string.Format("[{0}] => [{3}], axis={1}, distance={2}", BeginPoint, axis, Distance,
                 BeginPoint + axis * Distance);
         }
-        // Private Methods 
 
         Point IPoint12Mapper.MapPoint12(double x)
         {

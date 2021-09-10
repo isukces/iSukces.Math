@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-#if COREFX
+﻿#if COREFX
 using iSukces.Mathematics.Compatibility;
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
-using TheVector=iSukces.Mathematics.Compatibility.Vector;
 #else
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using ThePoint = System.Windows.Point;
-using TheVector = System.Windows.Vector;
 #endif
 
 #if ALLFEATURES
 using iSukces.Mathematics.TypeConverters;
 #endif
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 
 namespace iSukces.Mathematics
@@ -41,6 +35,7 @@ namespace iSukces.Mathematics
         {
             Add(items);
         }
+
 
         public MinMax(params MinMax[] a)
             : base(0, -1)
@@ -69,7 +64,7 @@ namespace iSukces.Mathematics
 
         public static List<MinMax> Compact(IEnumerable<MinMax> src)
         {
-            var aa = src.Where(a => !a.IsZeroOnInvalid).ToList();
+            var aa    = src.Where(a => !a.IsZeroOnInvalid).ToList();
             var again = true;
             while (again)
             {
@@ -84,8 +79,16 @@ namespace iSukces.Mathematics
                     again = true;
                 }
             }
+
             aa.Sort(CompareSort);
             return aa;
+        }
+
+
+        private static int CompareSort(MinMax a, MinMax b)
+        {
+            var i = a.Min.CompareTo(b.Min);
+            return i != 0 ? i : a.Max.CompareTo(b.Max);
         }
 
         public static List<MinMax> Cut(IEnumerable<MinMax> src, IEnumerable<MinMax> cutters)
@@ -97,6 +100,7 @@ namespace iSukces.Mathematics
                     var a = Cut(src, c);
                     src = a;
                 }
+
             return src is List<MinMax> ? src as List<MinMax> : src.ToList();
         }
 
@@ -116,15 +120,9 @@ namespace iSukces.Mathematics
             return result;
         }
 
-        public static List<MinMax> Cut(MinMax src, IEnumerable<MinMax> cutters)
-        {
-            return Cut(new[] {src}, cutters);
-        }
+        public static List<MinMax> Cut(MinMax src, IEnumerable<MinMax> cutters) { return Cut(new[] { src }, cutters); }
 
-        public static MinMax From2Values(double a, double b)
-        {
-            return a < b ? new MinMax(a, b) : new MinMax(b, a);
-        }
+        public static MinMax From2Values(double a, double b) { return a < b ? new MinMax(a, b) : new MinMax(b, a); }
 
         public static MinMax FromCenterAndSize(double center, double size)
         {
@@ -175,10 +173,7 @@ namespace iSukces.Mathematics
         /// <param name="min">wartość min zakresu</param>
         /// <param name="max">wartość max zakresu</param>
         /// <returns><c>true</c> jeśli x jest w zakresie min-max</returns>
-        public static bool IsInRange(double x, double min, double max)
-        {
-            return x >= min && x <= max;
-        }
+        public static bool IsInRange(double x, double min, double max) { return x >= min && x <= max; }
 
         public static List<MinMax> Merge(IEnumerable<MinMax> src, IEnumerable<MinMax> append)
         {
@@ -205,6 +200,41 @@ namespace iSukces.Mathematics
             return result;
         }
 
+        private static List<MinMax> Merge(IEnumerable<MinMax> src, MinMax append)
+        {
+            src = src.Where(x => !x.IsZeroOnInvalid);
+            if (append.IsZeroOnInvalid)
+                return src.ToList();
+            var r = new List<MinMax>(src);
+            r.Add(append);
+            while (true)
+            {
+                var l = r.Count;
+                if (l < 2) return r;
+                var wasChange = false;
+                for (var i = 0; i < l; i++)
+                {
+                    var a = r[i];
+                    for (var j = i + 1; j < l; j++)
+                    {
+                        var    b = r[j];
+                        MinMax c;
+                        if (!a.TryMergeValidRanges(b, out c)) continue;
+                        r[i] = c;
+                        r.RemoveAt(l - 1);
+                        wasChange = true;
+                        break;
+                    }
+
+                    if (wasChange) break;
+                }
+
+                if (!wasChange) break;
+            }
+
+            return r;
+        }
+
         public static MinMax operator +(MinMax a, MinMax b)
         {
             if (a.IsZeroOnInvalid) return b.CloneX();
@@ -228,15 +258,9 @@ namespace iSukces.Mathematics
         }
 
 
-        public static bool operator ==(MinMax left, MinMax right)
-        {
-            return Equals(left, right);
-        }
+        public static bool operator ==(MinMax left, MinMax right) { return Equals(left, right); }
 
-        public static bool operator !=(MinMax left, MinMax right)
-        {
-            return !Equals(left, right);
-        }
+        public static bool operator !=(MinMax left, MinMax right) { return !Equals(left, right); }
 
 
         public static MinMax operator *(MinMax a, double b)
@@ -259,10 +283,7 @@ namespace iSukces.Mathematics
             return a == null ? null : new MinMax(a.Min - b, a.Max - b);
         }
 
-        public static MinMax operator -(MinMax a)
-        {
-            return a == null ? null : new MinMax(-a.Max, -a.Min);
-        }
+        public static MinMax operator -(MinMax a) { return a == null ? null : new MinMax(-a.Max, -a.Min); }
 
         /// <summary>
         ///     Zwraca tablicę przedziałów utworzoną na podstawie listy punktów krańcowych
@@ -272,7 +293,7 @@ namespace iSukces.Mathematics
         public static MinMax[] RangesFromEdges(IEnumerable<double> edges)
         {
             var edges1 = edges.Distinct().OrderBy(a => a).ToArray();
-            var cnt = edges1.Length - 1;
+            var cnt    = edges1.Length - 1;
             if (cnt < 1) return new MinMax[0];
             var result = new MinMax[cnt];
             for (var i = 0; i < cnt; i++)
@@ -282,9 +303,9 @@ namespace iSukces.Mathematics
 
         public static MinMax[] RangesFromEdges2(IEnumerable<double> edges)
         {
-            var edges1 = edges.Distinct().OrderBy(a => a).ToArray();
-            var maxI = edges1.Length;
-            var result = new MinMax[maxI + 1];
+            var    edges1 = edges.Distinct().OrderBy(a => a).ToArray();
+            var    maxI   = edges1.Length;
+            var    result = new MinMax[maxI + 1];
             MinMax item;
             for (var i = 0; i <= maxI; i++)
             {
@@ -298,46 +319,8 @@ namespace iSukces.Mathematics
                 else
                     item.Max = double.MaxValue;
             }
+
             return result;
-        }
-
-
-        private static int CompareSort(MinMax a, MinMax b)
-        {
-            var i = a.Min.CompareTo(b.Min);
-            return i != 0 ? i : a.Max.CompareTo(b.Max);
-        }
-
-        private static List<MinMax> Merge(IEnumerable<MinMax> src, MinMax append)
-        {
-            src = src.Where(x => !x.IsZeroOnInvalid);
-            if (append.IsZeroOnInvalid)
-                return src.ToList();
-            var r = new List<MinMax>(src);
-            r.Add(append);
-            while (true)
-            {
-                var l = r.Count;
-                if (l < 2) return r;
-                var wasChange = false;
-                for (var i = 0; i < l; i++)
-                {
-                    var a = r[i];
-                    for (var j = i + 1; j < l; j++)
-                    {
-                        var b = r[j];
-                        MinMax c;
-                        if (!a.TryMergeValidRanges(b, out c)) continue;
-                        r[i] = c;
-                        r.RemoveAt(l - 1);
-                        wasChange = true;
-                        break;
-                    }
-                    if (wasChange) break;
-                }
-                if (!wasChange) break;
-            }
-            return r;
         }
 
         public void Add(double x)
@@ -381,19 +364,13 @@ namespace iSukces.Mathematics
         }
 
 
-        public object Clone()
-        {
-            return new MinMax(Min, Max);
-        }
+        public object Clone() { return new MinMax(Min, Max); }
 
-        public MinMax CloneX()
-        {
-            return new MinMax(Min, Max);
-        }
+        public MinMax CloneX() { return new MinMax(Min, Max); }
 
         public List<MinMax> Cut(IEnumerable<MinMax> cutList)
         {
-            var itemsToCut = new List<MinMax> {this};
+            var itemsToCut = new List<MinMax> { this };
             if (cutList == null)
                 return itemsToCut;
             var minMaxes = cutList as IList<MinMax> ?? cutList.ToArray();
@@ -408,16 +385,42 @@ namespace iSukces.Mathematics
                     var o1 = itemToCut.Cut(cutter);
                     cuttedResult.AddRange(o1);
                 }
+
                 itemsToCut = cuttedResult;
             }
+
             return itemsToCut;
         }
 
-
-        public double CutToRange(double a)
+        private IEnumerable<MinMax> Cut(MinMax r)
         {
-            return a < Min ? Min : a > Max ? Max : a;
+            var result = new List<MinMax>();
+            if (r.Max < Min || r.Min > Max)
+                result.Add(this); // rozłączne
+            else if (r.Min > Min && r.Max < Max)
+            {
+                // wycina
+                result.Add(new MinMax(Min, r.Min));
+                result.Add(new MinMax(r.Max, Max));
+            }
+            else if (r.Min <= Min && r.Max >= Max)
+            {
+                // całkowicie wycina
+                return result;
+            }
+            else
+            {
+                if (r.Min > Min)
+                    result.Add(new MinMax(Min, Math.Min(Max, r.Min)));
+                if (r.Max < Max)
+                    result.Add(new MinMax(Math.Max(Min, r.Max), Max));
+            }
+
+            return result;
         }
+
+
+        public double CutToRange(double a) { return a < Min ? Min : a > Max ? Max : a; }
 
 
         /// <summary>
@@ -425,10 +428,7 @@ namespace iSukces.Mathematics
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public double DistanceToNearEnd(double x)
-        {
-            return Math.Min(Math.Abs(x - Min), Math.Abs(x - Max));
-        }
+        public double DistanceToNearEnd(double x) { return Math.Min(Math.Abs(x - Min), Math.Abs(x - Max)); }
 
 
         public bool Equals(MinMax other)
@@ -481,35 +481,31 @@ namespace iSukces.Mathematics
             {
                 throw new NotImplementedException("Uzupełnić");
             }
+
             if (o.IsZeroOnInvalid || IsZeroOnInvalid)
                 return false;
             return !(o.Max < Min) && !(o.Min > Max);
         }
+
+        public bool HasCommonRangeWithPositiveLength(double min, double max) { return max > Min && min < Max; }
+
+        public bool HasCommonRangeWithPositiveLength(Range q) { return q.Max > Min && q.Min < Max; }
 
         /// <summary>
         ///     Czy liczba zawiera się w przedziale domkniętym [min;max]
         /// </summary>
         /// <param name="x">liczba</param>
         /// <returns><c>true</c> jeśli liczba jest w przedziale domkniętym [min;max] </returns>
-        public bool Includes(double x)
-        {
-            return x >= Min && x <= Max;
-        }
+        public bool Includes(double x) { return x >= Min && x <= Max; }
 
         /// <summary>
         ///     Czy liczba zawiera się w przedziale otwartym [min;max]
         /// </summary>
         /// <param name="x">liczba</param>
         /// <returns><c>true</c> jeśli liczba jest w przedziale otwartym [min;max] </returns>
-        public bool IncludesExclusive(double x)
-        {
-            return x > Min && x < Max;
-        }
+        public bool IncludesExclusive(double x) { return x > Min && x < Max; }
 
-        public double InsideOrEnd(double x)
-        {
-            return x < Min ? Min : x > Max ? Max : x;
-        }
+        public double InsideOrEnd(double x) { return x < Min ? Min : x > Max ? Max : x; }
 
         public MinMax Intersection(MinMax other)
         {
@@ -521,35 +517,23 @@ namespace iSukces.Mathematics
             );
         }
 
-        public bool IsInsideInclusive(double x)
-        {
-            return x >= Min && x <= Max;
-        }
+        public bool IsInsideInclusive(double x) { return x >= Min && x <= Max; }
 
-        public bool IsInsideInclusive(MinMax x)
-        {
-            return x.Min >= Min && x.Max <= Max;
-        }
+        public bool IsInsideInclusive(MinMax x) { return x.Min >= Min && x.Max <= Max; }
 
         /// <summary>
         ///     Mapuje wartość X na przedział 0 - 1, gdzie jeśli x=xmin => 0 , x=xmax => 1
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public double MapTo01(double x)
-        {
-            return (x - Min) / (Max - Min);
-        }
+        public double MapTo01(double x) { return (x - Min) / (Max - Min); }
 
         /// <summary>
         ///     Mapuje wartość X na przedział -1 - +1, gdzie jeśli x=xmin => -1 , x=xmax => +1
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public double MapTo11(double x)
-        {
-            return (x - Min) / (Max - Min) * 2 - 1;
-        }
+        public double MapTo11(double x) { return (x - Min) / (Max - Min) * 2 - 1; }
 
         public double MapToAny(double x, double aMin, double aMax)
         {
@@ -557,35 +541,17 @@ namespace iSukces.Mathematics
             return (aMax - aMin) * x + aMin;
         }
 
-        public MinMaxI Round()
-        {
-            return new MinMaxI((int)Math.Round(Min), (int)Math.Round(Max));
-        }
+        public MinMaxI Round() { return new MinMaxI((int)Math.Round(Min), (int)Math.Round(Max)); }
 
-        public bool ShouldSerializeCenter()
-        {
-            return false;
-        }
+        public bool ShouldSerializeCenter() { return false; }
 
-        public bool ShouldSerializeHasPositiveLength()
-        {
-            return false;
-        }
+        public bool ShouldSerializeHasPositiveLength() { return false; }
 
-        public bool ShouldSerializeIsEmpty()
-        {
-            return false;
-        }
+        public bool ShouldSerializeIsEmpty() { return false; }
 
-        public bool ShouldSerializeIsZeroOnInvalid()
-        {
-            return false;
-        }
+        public bool ShouldSerializeIsZeroOnInvalid() { return false; }
 
-        public bool ShouldSerializeLength()
-        {
-            return false;
-        }
+        public bool ShouldSerializeLength() { return false; }
 
         public override string ToString()
         {
@@ -600,34 +566,9 @@ namespace iSukces.Mathematics
                 result = other;
                 return true;
             }
+
             result = this;
             return !other.IsZeroOnInvalid && TryMergeValidRanges(other, out result);
-        }
-
-        private IEnumerable<MinMax> Cut(MinMax r)
-        {
-            var result = new List<MinMax>();
-            if (r.Max < Min || r.Min > Max)
-                result.Add(this); // rozłączne
-            else if (r.Min > Min && r.Max < Max)
-            {
-                // wycina
-                result.Add(new MinMax(Min, r.Min));
-                result.Add(new MinMax(r.Max, Max));
-            }
-            else if (r.Min <= Min && r.Max >= Max)
-            {
-                // całkowicie wycina
-                return result;
-            }
-            else
-            {
-                if (r.Min > Min)
-                    result.Add(new MinMax(Min, Math.Min(Max, r.Min)));
-                if (r.Max < Max)
-                    result.Add(new MinMax(Math.Max(Min, r.Max), Max));
-            }
-            return result;
         }
 
         /// <summary>
@@ -644,41 +585,27 @@ namespace iSukces.Mathematics
                 result = this;
                 return false;
             }
+
             result = new MinMax(Math.Min(Min, other.Min), Math.Max(Max, other.Max));
             return true;
         }
 
-        public static MinMax Invalid
-        {
-            get { return new MinMax(0, -1); }
-        }
+        public static MinMax Invalid => new MinMax(0, -1);
 
-        public bool IsZeroOnInvalid
-        {
-            get { return Max <= Min; }
-        }
+        public bool IsZeroOnInvalid => Max <= Min;
 
-        public bool IsInvalid
-        {
-            get { return Max < Min; }
-        }
+        public bool IsInvalid => Max < Min;
 
         /// <summary>
         ///     Długość przedziału
         /// </summary>
-        public double Length
-        {
-            get { return Max - Min; }
-        }
+        public double Length => Max - Min;
 
         public MinMax[] ArrayOfValid
         {
-            get { return IsZeroOnInvalid ? new MinMax[0] : new[] {this}; }
+            get { return IsZeroOnInvalid ? new MinMax[0] : new[] { this }; }
         }
 
-        public double Center
-        {
-            get { return (Min + Max) / 2; }
-        }
+        public double Center => (Min + Max) / 2;
     }
 }

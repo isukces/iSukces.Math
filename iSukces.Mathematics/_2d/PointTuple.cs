@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace iSukces.Mathematics
 {
-    public class PointTuple : IPoint12Mapper
+    public sealed class PointTuple : IPoint12Mapper
     {
         public PointTuple() { }
 

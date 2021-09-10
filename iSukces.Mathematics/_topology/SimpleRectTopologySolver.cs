@@ -1,28 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using iSukces.Mathematics;
-#if COREFX
 using iSukces.Mathematics.Compatibility;
+#if COREFX
+
 #else
 using System.Windows;
 #endif
 
 
-namespace iSukces.Graph.Topology
+namespace iSukces.Mathematics
 {
     /// <summary>
     ///     Klasa dzieląca prostokąt z prostokątnymi otworami na listę różnicowych prostokątów
     /// </summary>
     public sealed class SimpleRectTopologySolver
     {
-        private static bool AAAA(MinMax r, double x1, double x2)
-        {
-            // wychodzę od ! (x2 <= r.Min | x1 => r.Max)
-            return x2 > r.Min && x1 < r.Max;
-        }
-
-
         private static Tuple<Point, Point>[] Divide(Point p1, Point p2, Rect[] cutters)
         {
             if (p1 == p2)
@@ -120,9 +113,7 @@ namespace iSukces.Graph.Topology
 
             return lines.ToArray();
             ;
-        }
-
-    
+        } 
 
         private List<Range2D> ComputeRoundedHolesInside(Range2D source)
         {
@@ -189,7 +180,7 @@ namespace iSukces.Graph.Topology
             foreach (var xRange in XRanges)
             {
                 var xCenter    = xRange.Center;
-                var rectXRange = rh.Where(rect => AAAA(xRange, rect.X1(), rect.X2())).ToList();
+                var rectXRange = rh.Where(rect => xRange.HasCommonRangeWithPositiveLength(rect.XRange)).ToList();
                 var edgesY = rectXRange.Select(rect => rect.Y1())
                     .Union(rectXRange.Select(rect => rect.Y2())) // union
                     .Where(y => srcYRange.IncludesExclusive(y))
@@ -199,11 +190,11 @@ namespace iSukces.Graph.Topology
                 var yRanges = MinMax.RangesFromEdges(edgesY);
                 foreach (var yRange in yRanges)
                 {
-                    var rectYRange = rectXRange.Where(rect => AAAA(yRange, rect.Y1(), rect.Y2())).ToArray();
+                    var rectYRange = rectXRange.Where(rect => yRange.HasCommonRangeWithPositiveLength(rect.YRange)).ToArray();
                     if (rectYRange.Length > 0) continue;
 
                     Rect a;
-                    if (_reverseY)
+                    if (ReverseY)
                     {
                         var c = new Point(xRange.Min, SwapY(yRange.Max));
                         var d = new Point(xRange.Max, SwapY(yRange.Min));
@@ -260,6 +251,6 @@ namespace iSukces.Graph.Topology
         /// </summary>
         public int RoundDigits { get; set; } = 3;
 
-        private bool _reverseY;
+        public bool ReverseY { get; set; }
     }
 }
