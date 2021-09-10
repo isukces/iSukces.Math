@@ -56,12 +56,4 @@ namespace iSukces.Mathematics
         /// </summary>
         bool HasSharpYEdges { get; }
     }
-
-    public static class CuttingSurfaceExtensions
-    {
-        public static ICuttingSurface Coalesce(this ICuttingSurface value)
-        {
-            return value ?? NullCuttingSurface.Instance;
-        }
-    }
 }
