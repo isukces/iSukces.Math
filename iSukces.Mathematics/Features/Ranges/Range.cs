@@ -134,7 +134,7 @@ namespace iSukces.Mathematics
             var has1 = b.Min > a.Min;
             var has2 = b.Max < a.Max;
             if (!has1)
-                return has2 ? new[] { new Range(b.Max, a.Max) } : new Range[0];
+                return has2 ? new[] { new Range(b.Max, a.Max) } : Array.Empty<Range>();
             var r1 = new Range(a.Min, b.Min);
             return has2
                 ? new[] { r1, new Range(b.Max, a.Max) }

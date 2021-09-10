@@ -294,7 +294,7 @@ namespace iSukces.Mathematics
         {
             var edges1 = edges.Distinct().OrderBy(a => a).ToArray();
             var cnt    = edges1.Length - 1;
-            if (cnt < 1) return new MinMax[0];
+            if (cnt < 1) return Array.Empty<MinMax>();
             var result = new MinMax[cnt];
             for (var i = 0; i < cnt; i++)
                 result[i] = new MinMax(edges1[i], edges1[i + 1]);
@@ -603,7 +603,7 @@ namespace iSukces.Mathematics
 
         public MinMax[] ArrayOfValid
         {
-            get { return IsZeroOnInvalid ? new MinMax[0] : new[] { this }; }
+            get { return IsZeroOnInvalid ? Array.Empty<MinMax>() : new[] { this }; }
         }
 
         public double Center => (Min + Max) / 2;

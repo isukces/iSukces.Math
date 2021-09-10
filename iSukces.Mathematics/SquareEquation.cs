@@ -116,7 +116,7 @@ c = ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯�
             {
                 double d = Delta;
                 if (d < 0)
-                    return new double[0];
+                    return Array.Empty<double>();
                 double m = -2 * A;
                 if (d == 0)
                     return new double[] { B / m };

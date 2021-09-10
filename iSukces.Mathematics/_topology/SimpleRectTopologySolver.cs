@@ -19,7 +19,7 @@ namespace iSukces.Mathematics
         private static Tuple<Point, Point>[] Divide(Point p1, Point p2, Rect[] cutters)
         {
             if (p1 == p2)
-                return new Tuple<Point, Point>[0];
+                return Array.Empty<Tuple<Point, Point>>();
             IEnumerable<Tuple<Point, Point>> o;
             if (p1.X == p2.X)
             {

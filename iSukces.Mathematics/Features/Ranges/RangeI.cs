@@ -44,7 +44,7 @@ namespace iSukces.Mathematics
         public static IReadOnlyList<RangeI> Cut(IEnumerable<RangeI> src, IEnumerable<RangeI> cutters)
         {
             if (src == null)
-                return new RangeI[0];
+                return Array.Empty<RangeI>();
             if (cutters != null)
                 foreach (var c in cutters)
                 {
@@ -205,7 +205,7 @@ namespace iSukces.Mathematics
             var has1 = b.Min > a.Min;
             var has2 = b.Max < a.Max;
             if (!has1)
-                return has2 ? new[] {new RangeI(b.Max, a.Max)} : new RangeI[0];
+                return has2 ? new[] {new RangeI(b.Max, a.Max)} : Array.Empty<RangeI>();
             var r1 = new RangeI(a.Min, b.Min);
             return has2
                 ? new[] {r1, new RangeI(b.Max, a.Max)}
@@ -228,7 +228,7 @@ namespace iSukces.Mathematics
         {
             var edges1 = edges.Distinct().OrderBy(a => a).ToArray();
             var cnt = edges1.Length - 1;
-            if (cnt < 1) return new RangeI[0];
+            if (cnt < 1) return Array.Empty<RangeI>();
             var result = new RangeI[cnt];
             for (var i = 0; i < cnt; i++)
                 result[i] = new RangeI(edges1[i], edges1[i + 1]);
@@ -238,7 +238,7 @@ namespace iSukces.Mathematics
         public RangeI[] ArrayOfValid()
         {
             return IsZeroOnInvalid
-                ? new RangeI[0]
+                ? Array.Empty<RangeI>()
                 : new[] {this};
         }
 
@@ -250,12 +250,12 @@ namespace iSukces.Mathematics
         public IReadOnlyList<RangeI> Cut(RangeI cutter)
         {
             if (IsEmpty)
-                return new RangeI[0];
+                return Array.Empty<RangeI>();
             var common = cutter * this;
             if (common.IsZeroOnInvalid)
                 return new[] {this};
             if (common.Equals(this))
-                return new RangeI[0];
+                return Array.Empty<RangeI>();
 
             if (cutter.IsZeroOnInvalid || cutter.Max <= Min || cutter.Min >= Max)
                 return new[] {this};
@@ -264,7 +264,7 @@ namespace iSukces.Mathematics
                 return new[] {new RangeI(Min, cutter.Min), new RangeI(cutter.Max, Max)};
             if (cutter.Min <= Min && cutter.Max >= Max)
                 // całkowicie wycina
-                return new RangeI[0];
+                return Array.Empty<RangeI>();
             var result = new List<RangeI>();
             if (cutter.Min > Min)
                 result.Add(new RangeI(Min, Math.Min(Max, cutter.Min)));

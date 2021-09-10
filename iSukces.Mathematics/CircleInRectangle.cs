@@ -54,7 +54,7 @@ namespace iSukces.Mathematics
 
         public SolutionTypes Solve()
         {
-            CrossPoints = new Point[0];
+            CrossPoints = Array.Empty<Point>();
             if (Rectangle.IsEmpty || Radius <= 0)
                 return SolutionType = SolutionTypes.PartialCross;
             if (Center.X + Radius <= Rectangle.Right && Center.X - Radius >= Rectangle.Left
