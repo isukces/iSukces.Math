@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using iSukces.Mathematics.Compatibility;
 #if COREFX
-
+using iSukces.Mathematics.Compatibility;
 #else
 using System.Windows;
 #endif
