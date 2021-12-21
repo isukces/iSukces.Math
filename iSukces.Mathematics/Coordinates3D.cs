@@ -1,4 +1,8 @@
-﻿#if COREFX
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+#if COREFX
 using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;
 using iSukces.Mathematics.Compatibility;
@@ -10,9 +14,6 @@ using TheVector = System.Windows.Vector;
 #if ALLFEATURES
 using iSukces.Mathematics.TypeConverters;
 #endif
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 
 namespace iSukces.Mathematics
@@ -81,9 +82,10 @@ namespace iSukces.Mathematics
             _origin = new Point3D(x0, y0, z0);
         }
 
+        // Assume vector length equals 1
         public static Vector3D BeautyVersor(Vector3D v)
         {
-            var vLength = v.Length;
+            const double one = 1;
 #if DEBUG
             if (double.IsNaN(v.X) || double.IsNaN(v.Y) || double.IsNaN(v.Z)) throw new Exception("Błędny wektor");
 #endif
@@ -94,39 +96,21 @@ namespace iSukces.Mathematics
             if (v.Z == 1 || v.Z == -1)
                 return new Vector3D(0, 0, v.Z);
 
-            if (MathEx.PitagorasC(v.X, v.Z) == vLength)
+            if (MathEx.PitagorasCSquared(v.X, v.Z) == one)
             {
                 v = new Vector3D(v.X, 0, v.Z);
-                if (v.Length != vLength)
-                {
-                    v.Normalize();
-                    v = v * vLength;
-                }
-
                 return v;
             }
 
-            if (MathEx.PitagorasC(v.X, v.Y) == vLength)
+            if (MathEx.PitagorasCSquared(v.X, v.Y) == one)
             {
                 v = new Vector3D(v.X, v.Y, 0);
-                if (v.Length != vLength)
-                {
-                    v.Normalize();
-                    v = v * vLength;
-                }
-
                 return v;
             }
 
-            if (MathEx.PitagorasC(v.Y, v.Z) == vLength)
+            if (MathEx.PitagorasCSquared(v.Y, v.Z) == one)
             {
                 v = new Vector3D(0, v.Y, v.Z);
-                if (v.Length != vLength)
-                {
-                    v.Normalize();
-                    v = v * vLength;
-                }
-
                 return v;
             }
 
@@ -199,6 +183,54 @@ namespace iSukces.Mathematics
             return new Coordinates3D(x, y);
         }
 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Coordinates3D FromZRotationDegrees(double angleDeg)
+        {
+            return FromZRotationRadians(angleDeg * MathEx.DEGTORAD);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Coordinates3D FromZRotationRadians(double angle)
+        {
+            var cos = Math.Cos(angle);
+            var sin = Math.Sin(angle);
+            return FromZXO(ZVersor, new Vector3D(cos, sin, 0));
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Coordinates3D FromXRotationRadians(double angle)
+        {
+            var cos = Math.Cos(angle);
+            var sin = Math.Sin(angle);
+            return new Coordinates3D(XVersor, new Vector3D(0, cos, sin));
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Coordinates3D FromXRotationDegrees(double angle)
+        {
+            return FromXRotationRadians(angle * MathEx.DEGTORAD);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Coordinates3D FromYRotationRadians(double angle)
+        {
+            var cos = Math.Cos(angle);
+            var sin = Math.Sin(angle);
+            return FromYZO(YVersor, new Vector3D(sin, 0, cos));
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Coordinates3D FromYRotationDegrees(double angle)
+        {
+            return FromYRotationRadians(angle * MathEx.DEGTORAD);
+        }
+
+
         public static Coordinates3D FromTranslate(double dx, double dy, double dz)
         {
             return new Coordinates3D(XVersor, YVersor, new Point3D(dx, dy, dz));
@@ -237,6 +269,15 @@ namespace iSukces.Mathematics
             r._x      = MakeVersor(r._y, z);
             r._z      = MakeVersor(r._x, r._y);
             r._origin = o;
+            return r;
+        }
+
+        public static Coordinates3D FromYZO(Vector3D y, Vector3D z)
+        {
+            var r = new Coordinates3D();
+            r._y = MakeVersor(y);
+            r._x = MakeVersor(r._y, z);
+            r._z = MakeVersor(r._x, r._y);
             return r;
         }
 
@@ -292,7 +333,10 @@ namespace iSukces.Mathematics
         /// </summary>
         /// <param name="src">obiekt źródłowy</param>
         /// <returns>wynik rzutowania</returns>
-        public static implicit operator Transform3D(Coordinates3D src) { return new MatrixTransform3D(src.Matrix); }
+        public static implicit operator Transform3D(Coordinates3D src)
+        {
+            return new MatrixTransform3D(src.Matrix);
+        }
 
         /// <summary>
         ///     Realizuje operator różności
@@ -300,7 +344,10 @@ namespace iSukces.Mathematics
         /// <param name="a">pierwszy obiekt do porównania</param>
         /// <param name="b">drugi obiekt do porównania</param>
         /// <returns></returns>
-        public static bool operator !=(Coordinates3D a, Coordinates3D b) { return !(a == b); }
+        public static bool operator !=(Coordinates3D a, Coordinates3D b)
+        {
+            return !(a == b);
+        }
 
         public static Coordinates3D operator *(Coordinates3D src, Coordinates3D c)
         {
@@ -484,14 +531,20 @@ namespace iSukces.Mathematics
         /// </summary>
         /// <param name="obj">obiekt do porównania</param>
         /// <returns><c>true</c> jeśli obiekty są równe; <c>false</c> w przeciwnym wypadku</returns>
-        public bool Equals(Coordinates3D obj) { return this == obj; }
+        public bool Equals(Coordinates3D obj)
+        {
+            return this == obj;
+        }
 
         /// <summary>
         ///     Porównuje wskazany obiekt z bieżącym
         /// </summary>
         /// <param name="obj">obiekt do porównania</param>
         /// <returns><c>true</c> jeśli obiekty są równe; <c>false</c> w przeciwnym wypadku</returns>
-        public override bool Equals(object obj) { return base.Equals(obj as Coordinates3D); }
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj as Coordinates3D);
+        }
 
         /// <summary>
         ///     Zwraca hash kod obiektu
@@ -502,7 +555,10 @@ namespace iSukces.Mathematics
             return _x.GetHashCode() ^ _y.GetHashCode() ^ _z.GetHashCode() ^ _origin.GetHashCode();
         }
 
-        public Point3D MapPoint23(ThePoint srcPoint) { return new Point3D(srcPoint.X, srcPoint.Y, 0) * this; }
+        public Point3D MapPoint23(ThePoint srcPoint)
+        {
+            return new Point3D(srcPoint.X, srcPoint.Y, 0) * this;
+        }
 
         public Coordinates3D RotateX(double angleDeg)
         {
@@ -528,7 +584,10 @@ namespace iSukces.Mathematics
             return this * tmp;
         }
 
-        public Coordinates3D RotateZ180() { return this * RotationZ180; }
+        public Coordinates3D RotateZ180()
+        {
+            return this * RotationZ180;
+        }
 
         public override string ToString()
         {
@@ -551,13 +610,19 @@ namespace iSukces.Mathematics
         /// <param name="x">przesunięcie w osi X lokalnego układu współrzędnych</param>
         /// <param name="y">przesunięcie w osi Y lokalnego układu współrzędnych</param>
         /// <param name="z">przesunięcie w osi Z lokalnego układu współrzędnych</param>
-        public void TranslateLocal(double x, double y, double z) { TranslateLocal(new Vector3D(x, y, z)); }
+        public void TranslateLocal(double x, double y, double z)
+        {
+            TranslateLocal(new Vector3D(x, y, z));
+        }
 
         /// <summary>
         ///     Przesuwa układ współrzędnych o wektor umiejscowiony w tym samym układzie współrzędnych
         /// </summary>
         /// <param name="v">wektor przesunięcia</param>
-        public void TranslateLocal(Vector3D v) { Origin += v * this; }
+        public void TranslateLocal(Vector3D v)
+        {
+            Origin += v * this;
+        }
 
         public Coordinates3D TranslateX(double dx)
         {
@@ -642,10 +707,10 @@ namespace iSukces.Mathematics
 #endif
 */
 
-        /// <summary>
-        ///     Zwraca układ odwrotny
-        /// </summary>
-        public Coordinates3D Reversed
+/// <summary>
+///     Zwraca układ odwrotny
+/// </summary>
+public Coordinates3D Reversed
         {
             get
             {
@@ -693,20 +758,20 @@ namespace iSukces.Mathematics
             }
         }
 
-        /// <summary>
-        ///     Wektor X
-        /// </summary>
-        public Vector3D X => _x;
+/// <summary>
+///     Wektor X
+/// </summary>
+public Vector3D X => _x;
 
-        /// <summary>
-        ///     Wektor Y
-        /// </summary>
-        public Vector3D Y => _y;
+/// <summary>
+///     Wektor Y
+/// </summary>
+public Vector3D Y => _y;
 
-        /// <summary>
-        ///     Wektor Z
-        /// </summary>
-        public Vector3D Z => _z;
+/// <summary>
+///     Wektor Z
+/// </summary>
+public Vector3D Z => _z;
 
         /*
         /// <summary>
@@ -781,7 +846,10 @@ namespace iSukces.Mathematics
                 return aa;
             }
 
-            public override string ToString() { return Coordinates.ToString(); }
+            public override string ToString()
+            {
+                return Coordinates.ToString();
+            }
 
             /// <summary>
             ///     Kąt w stopniach
@@ -865,10 +933,10 @@ namespace iSukces.Mathematics
             var v1a = v1 - c1 * ttt.RotateAxis;
             var v1b = v2 - c2 * ttt.RotateAxis;
 
-            var ac            = new Coordinates3D(v1a, ttt.RotateAxis);
+            var ac         = new Coordinates3D(v1a, ttt.RotateAxis);
             var acReversed = ac.Reversed;
-            var v2a           = v1a * acReversed;
-            var v2b           = v1b * acReversed;
+            var v2a        = v1a * acReversed;
+            var v2b        = v1b * acReversed;
             v2a.Normalize();
             v2b.Normalize();
 
@@ -897,11 +965,19 @@ namespace iSukces.Mathematics
             return result;
         }
 
-        public static Point3D operator /(Point3D point, Coordinates3D c) { return point * c.Reversed; }
+        public static Point3D operator /(Point3D point, Coordinates3D c)
+        {
+            return point * c.Reversed;
+        }
 
-        public static Coordinates3D operator /(Coordinates3D src, Coordinates3D c) { return src * c.Reversed; }
+        public static Coordinates3D operator /(Coordinates3D src, Coordinates3D c)
+        {
+            return src * c.Reversed;
+        }
 
-        public static Vector3D operator /(Vector3D src, Coordinates3D c) { return src * c.Reversed; }
- 
+        public static Vector3D operator /(Vector3D src, Coordinates3D c)
+        {
+            return src * c.Reversed;
+        }
     }
 }

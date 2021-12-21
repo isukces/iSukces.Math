@@ -4,6 +4,7 @@ using System.Text;
 using Xunit;
 #if COREFX
 using iSukces.Mathematics.Compatibility;
+
 #else
 using System;
 using System.Windows.Media.Media3D;
@@ -412,6 +413,40 @@ namespace iSukces.Mathematics.test
             Assert.Equal(-0.404725192608, mInv.Origin.X, 14);
             Assert.Equal(-4.72021826241771, mInv.Origin.Y, 14);
             Assert.Equal(0.528865019535982, mInv.Origin.Z, 14);
+        }
+
+
+        [Fact]
+        public void T21_Should_create_from_x_rot()
+        {
+            var a = Coordinates3D.FromXRotationDegrees(90);
+            Assert.Equal(Coordinates3D.XVersor, a.X);
+            var b = Coordinates3D.FromFreeRotate(Coordinates3D.XVersor, 90);
+            Assert.Equal(a.X, b.X);
+            Assert.Equal(a.Y, b.Y);
+            Assert.Equal(a.Z, b.Z);
+        }
+
+        [Fact]
+        public void T21_Should_create_from_y_rot()
+        {
+            var a = Coordinates3D.FromYRotationDegrees(90);
+            Assert.Equal(Coordinates3D.YVersor, a.Y);
+            var b = Coordinates3D.FromFreeRotate(Coordinates3D.YVersor, 90);
+            Assert.Equal(a.X, b.X);
+            Assert.Equal(a.Y, b.Y);
+            Assert.Equal(a.Z, b.Z);
+        }
+
+        [Fact]
+        public void T21_Should_create_from_z_rot()
+        {
+            var a = Coordinates3D.FromZRotationDegrees(90);
+            Assert.Equal(Coordinates3D.ZVersor, a.Z);
+            var b = Coordinates3D.FromFreeRotate(Coordinates3D.ZVersor, 90);
+            Assert.Equal(a.X, b.X);
+            Assert.Equal(a.Y, b.Y);
+            Assert.Equal(a.Z, b.Z);
         }
     }
 

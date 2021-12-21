@@ -7,6 +7,7 @@ using ThePoint=System.Windows.Point;
 using TheVector=System.Windows.Vector;
 #endif
 using System;
+using System.Runtime.CompilerServices;
 
 
 namespace iSukces.Mathematics
@@ -196,9 +197,17 @@ namespace iSukces.Mathematics
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double PitagorasC(double a, double b)
         {
             return Math.Sqrt(a * a + b * b);
+        }
+        
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double PitagorasCSquared(double a, double b)
+        {
+            return a * a + b * b;
         }
         public static double Sqr(double x)
         {
