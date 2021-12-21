@@ -419,7 +419,7 @@ namespace iSukces.Mathematics
         private static Vector3D MakeVersor(Vector3D c)
         {
             c.Normalize();
-            BeautyVersor(c);
+            c = BeautyVersor(c);
             return c;
         }
 
@@ -427,7 +427,7 @@ namespace iSukces.Mathematics
         {
             var c = Vector3D.CrossProduct(a, b);
             c.Normalize();
-            BeautyVersor(c);
+            c = BeautyVersor(c);
             return c;
         }
 
