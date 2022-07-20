@@ -241,6 +241,19 @@ namespace iSukces.Mathematics
             return new Coordinates3D(XVersor, YVersor, (Point3D)translateVector);
         }
 
+        
+        public static Coordinates3D FromYXO(Vector3D yVector, Vector3D xVector, Point3D o = new Point3D())
+        {
+            var r = new Coordinates3D
+            {
+                _y = MakeVersor(yVector)
+            };
+            r._z = MakeVersor(xVector, r._y);
+            r._x = MakeVersor(r._y, r._z);
+            r._origin = o;
+            return r;
+        }
+        
         public static Coordinates3D FromXZO(Vector3D xVector, Vector3D zVector, Point3D o = new Point3D())
         {
             var r = new Coordinates3D();
