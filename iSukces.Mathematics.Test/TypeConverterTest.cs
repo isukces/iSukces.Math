@@ -4,12 +4,12 @@ using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 using Xunit;
-using iSukces.Mathematics.TypeConverters;
 
 #if COREFX
 using iSukces.Mathematics.Compatibility;
 
 #else
+using iSukces.Mathematics.TypeConverters;
 using System.Windows;
 using System.Windows.Media.Media3D;
 #endif

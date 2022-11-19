@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\packages\xunit.core.2.4.1\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.4.1\build\xunit.core.props')" />
+  <Import Project="..\packages\xunit.core.2.4.2\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.4.2\build\xunit.core.props')" />
   <PropertyGroup>
     <Authors>Internet Sukces Piotr Stęclik</Authors>
     <Company>Internet Sukces Piotr Stęclik</Company>
-    <Copyright>Copyright by Internet Sukces Piotr Stęclik 2017-2021</Copyright>
+    <Copyright>Copyright by Internet Sukces Piotr Stęclik 2017-2022</Copyright>
     <IncludeSource>false</IncludeSource>
     <IncludeSymbols>true</IncludeSymbols>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -12,7 +12,7 @@
     <Version>1.0.0.0</Version>
     <FileVersion>1.0.0.0</FileVersion>
     <ApplicationIcon />
-   <TargetFrameworks>netstandard2.0;net461;net47;net48;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net48;netstandard2.0;netcoreapp3.1</TargetFrameworks>
     <AssemblyOriginatorKeyFile>..\iSukces.Mathematics\key.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
@@ -45,14 +45,14 @@
   <ItemGroup>
     <PackageReference Include="isukces.json" Version="1.0.21085.19" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.abstractions" Version="2.0.3" />
-    <PackageReference Include="xunit.assert" Version="2.4.1" />
-    <PackageReference Include="xunit.core" Version="2.4.1" />
-    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
-    <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.console" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+    <PackageReference Include="xunit.assert" Version="2.4.2" />
+    <PackageReference Include="xunit.core" Version="2.4.2" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.2" />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.console" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

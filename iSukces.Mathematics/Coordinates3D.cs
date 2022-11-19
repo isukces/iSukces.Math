@@ -156,13 +156,6 @@ namespace iSukces.Mathematics
         public static Coordinates3D From2Points(Point3D a, Point3D b, Vector3D vx)
         {
             return FromZXO(b - a, vx, a);
-            /*
-            var aa = new Coordinates3DBase();
-            aa.z = MakeVersor(b - a);
-            aa.y = MakeVersor(aa.z, vx);
-            aa.x = MakeVersor(aa.y, aa.z);
-            aa.origin = a;
-            return aa; */
         }
 
         public static Coordinates3D FromFreeRotate(Vector3D v, double angleDeg)
@@ -239,6 +232,11 @@ namespace iSukces.Mathematics
         public static Coordinates3D FromTranslate(Vector3D translateVector)
         {
             return new Coordinates3D(XVersor, YVersor, (Point3D)translateVector);
+        }
+        
+        public static Coordinates3D FromTranslate(Point3D translateVector)
+        {
+            return new Coordinates3D(XVersor, YVersor, translateVector);
         }
 
         
@@ -705,20 +703,7 @@ namespace iSukces.Mathematics
             }
         }
 
-/*
-#if ALLFEATURES
-       
-        public Coordinates3D Reversed
-        {
-            get
-            {
-                var m = Matrix;
-                m.Invert();
-                return FromMatrix(ref m);
-            }
-        }
-#endif
-*/
+ 
 
 /// <summary>
 ///     Zwraca układ odwrotny
