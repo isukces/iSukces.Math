@@ -15,35 +15,29 @@
     <IncludeSource>false</IncludeSource>
     <IncludeSymbols>true</IncludeSymbols>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <AssemblyVersion>1.0.22323.121</AssemblyVersion>
-    <Version>1.0.22323.121</Version>
-    <FileVersion>1.0.22323.121</FileVersion>
+    <AssemblyVersion>1.0.22324.122</AssemblyVersion>
+    <Version>1.0.22324.122</Version>
+    <FileVersion>1.0.22324.122</FileVersion>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
     <PackageProjectUrl>https://github.com/isukces/iSukces.Math</PackageProjectUrl>
     <NoWarn>1701;1702;CS1591;CS1572;CS1573;CS1591</NoWarn>
   </PropertyGroup>
-  
   <PropertyGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <DefineConstants>$(DefineConstants);WPFFEATURES</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' != 'net'">
     <DefineConstants>$(DefineConstants);COREFX</DefineConstants>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
     <UseWpf>true</UseWpf>
     <ImplicitUsings>true</ImplicitUsings>
     <DefineConstants>$(DefineConstants);WPFFEATURES</DefineConstants>
   </PropertyGroup>
-  
- 
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <Reference Include="System" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
   </ItemGroup>
-
-  
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
   </ItemGroup>

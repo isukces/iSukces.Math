@@ -15,6 +15,7 @@
     <TargetFrameworks>net48;netstandard2.0;netcoreapp3.1</TargetFrameworks>
     <AssemblyOriginatorKeyFile>..\iSukces.Mathematics\key.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
+    <NoWarn>1701;1702;CS1591;CS1572;CS1573;CS1591;xUnit2000</NoWarn>
   </PropertyGroup>
     <!--
     <OutputType>Exe</OutputType>
@@ -44,7 +45,7 @@
   </ItemGroup>-->
   <ItemGroup>
     <PackageReference Include="isukces.json" Version="1.0.21085.19" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.abstractions" Version="2.0.3" />
     <PackageReference Include="xunit.assert" Version="2.4.2" />
