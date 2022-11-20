@@ -1,6 +1,6 @@
 
 using System;
-#if COREFX
+#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 
 #else

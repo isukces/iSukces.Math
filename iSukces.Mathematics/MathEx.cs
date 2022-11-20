@@ -1,4 +1,4 @@
-﻿#if COREFX
+﻿#if !WPFFEATURES
 using ThePoint=iSukces.Mathematics.Compatibility.Point;
 using TheVector=iSukces.Mathematics.Compatibility.Vector;
 #else

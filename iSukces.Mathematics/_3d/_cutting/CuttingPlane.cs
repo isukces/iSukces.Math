@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using iSukces.Mathematics.Compatibility;
 
-#if COREFX
+#if !WPFFEATURES
 #else
 using System.Windows.Media.Media3D;
 #endif

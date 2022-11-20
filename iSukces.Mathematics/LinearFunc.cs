@@ -1,5 +1,5 @@
 ﻿using System;
-#if COREFX
+#if !WPFFEATURES
 using ThePoint=iSukces.Mathematics.Compatibility.Point;
 
 #else

@@ -1,15 +1,5 @@
-﻿/*
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-*/
-
+﻿#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
-
-namespace iSukces.Mathematics
-{
-#if COREFX
 #else
 using System.Windows;
 using System.Windows.Media;
@@ -17,6 +7,9 @@ using System.Windows.Media.Media3D;
 using ThePoint=System.Windows.Point;
 using TheVector=System.Windows.Vector;
 #endif
+
+namespace iSukces.Mathematics
+{
 
 
     public sealed class Line3D

@@ -1,4 +1,4 @@
-﻿#if COREFX
+﻿#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 #else
 using System.Windows.Media.Media3D;
@@ -10,10 +10,10 @@ namespace iSukces.Mathematics.test.CompatPresentationCore3D
 {
     public class Point3DTests
     {
-#if ALLFEATURES
+#if WPFFEATURES
         [Fact]
 #else
-        [Fact(Skip = "Tylko ALLFEATURES" )]
+        [Fact(Skip = "Tylko WPFFEATURES" )]
 #endif
         public void T01_Shoud_Serialize_Point3D()
         {
@@ -27,10 +27,10 @@ namespace iSukces.Mathematics.test.CompatPresentationCore3D
         }
         
         
-#if ALLFEATURES
+#if WPFFEATURES
         [Fact]
 #else
-        [Fact(Skip = "Tylko ALLFEATURES" )]
+        [Fact(Skip = "Tylko WPFFEATURES" )]
 #endif
         public void T02_Shoud_Serialize_Vector3D()
         {
@@ -44,10 +44,10 @@ namespace iSukces.Mathematics.test.CompatPresentationCore3D
         }
         
         
-#if ALLFEATURES
+#if WPFFEATURES
         [Fact]
 #else
-        [Fact(Skip = "Tylko ALLFEATURES" )]
+        [Fact(Skip = "Tylko WPFFEATURES" )]
 #endif
         public void T03_Should_Serialize_Complex_object()
         {

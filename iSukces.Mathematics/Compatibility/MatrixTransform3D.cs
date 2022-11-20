@@ -1,4 +1,4 @@
-#if !ALLFEATURES
+#if !WPFFEATURES
 namespace iSukces.Mathematics.Compatibility
 {
     public sealed class MatrixTransform3D : Transform3D

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
-
-#if COREFX
 #else
 using System.Windows;
 #endif

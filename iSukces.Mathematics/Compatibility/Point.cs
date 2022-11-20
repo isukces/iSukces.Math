@@ -1,4 +1,4 @@
-﻿#if !ALLFEATURES
+﻿#if !WPFFEATURES
 using System;
 
 namespace iSukces.Mathematics.Compatibility
@@ -50,7 +50,7 @@ namespace iSukces.Mathematics.Compatibility
             return hashCode1 ^ hashCode2;
         }
 
-#if ALLFEATURES
+#if WPFFEATURES
     public static Point Parse(string source)
     {
       IFormatProvider invariantEnglishUs = (IFormatProvider) TypeConverterHelper.InvariantEnglishUS;

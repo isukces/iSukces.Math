@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using iSukces.Mathematics.Compatibility;
 using JetBrains.Annotations;
-#if COREFX
+#if !WPFFEATURES
 using ThePoint=iSukces.Mathematics.Compatibility.Point;
-
 #else
 using System.Windows;
 using System.Windows.Media;

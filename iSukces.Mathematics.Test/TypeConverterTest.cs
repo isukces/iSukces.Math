@@ -1,11 +1,11 @@
-﻿#if ALLFEATURES
+﻿#if WPFFEATURES
 using System;
 using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 using Xunit;
 
-#if COREFX
+#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 
 #else

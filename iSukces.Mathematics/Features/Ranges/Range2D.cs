@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-#if COREFX
+#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 using ThePoint=iSukces.Mathematics.Compatibility.Point;
 using TheVector=iSukces.Mathematics.Compatibility.Vector;

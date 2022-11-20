@@ -1,4 +1,4 @@
-﻿#if ALLFEATURES
+﻿#if WPFFEATURES
 
 using System;
 using System.ComponentModel;

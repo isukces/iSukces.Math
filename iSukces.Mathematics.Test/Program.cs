@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using iSukces.Mathematics;
 using Xunit;
-#if COREFX
+#if !WPFFEATURES
 using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;
 #else
@@ -37,7 +37,7 @@ namespace iSukces.Mathematics.test
         /*
         static void Main(string[] args)
         {
-#if ALLFEATURES
+#if WPFFEATURES
             TypeConverterTest.All();
 #endif
 

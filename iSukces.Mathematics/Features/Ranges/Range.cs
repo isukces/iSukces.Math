@@ -1,4 +1,4 @@
-﻿#if COREFX
+﻿#if !WPFFEATURES
 using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;
 #else
@@ -7,7 +7,7 @@ using ThePoint = System.Windows.Point;
 using TheVector = System.Windows.Vector;
 #endif
 
-#if ALLFEATURES
+#if WPFFEATURES
 using iSukces.Mathematics.TypeConverters;
 #endif
 using System;
@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace iSukces.Mathematics
 {
-#if ALLFEATURES
+#if WPFFEATURES
     [TypeConverter(typeof(RangeTypeConverter))]
 #endif
 

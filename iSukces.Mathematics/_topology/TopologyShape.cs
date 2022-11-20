@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using iSukces.Mathematics.Compatibility;
-#if COREFX
+#if !WPFFEATURES
 #else
 using System.Windows;
 #endif

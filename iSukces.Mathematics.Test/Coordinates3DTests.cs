@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using Xunit;
-#if COREFX
+#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 
 #else
@@ -100,7 +100,7 @@ namespace iSukces.Mathematics.test
         [Fact]
         public void T05_Should_invert()
         {
-#if ALLFEATURES
+#if WPFFEATURES
             Coordinates3DGenerator.GetCodeMany();
 #endif
 
@@ -450,7 +450,7 @@ namespace iSukces.Mathematics.test
         }
     }
 
-#if ALLFEATURES
+#if WPFFEATURES
     internal class Coordinates3DGenerator
     {
         public static string GetCode(int nr)

@@ -21,7 +21,7 @@
     <StartupObject />
     -->
   <PropertyGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
-    <DefineConstants>$(DefineConstants);ALLFEATURES;FULLFRAMEWORK</DefineConstants>
+    <DefineConstants>$(DefineConstants);WPFFEATURES;FULLFRAMEWORK</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' != 'net'">
     <DefineConstants>$(DefineConstants);COREFX</DefineConstants>
