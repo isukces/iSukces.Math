@@ -11,16 +11,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-#if WPFFEATURES
+#if TYPECONVERTERS
+using iSukces.Mathematics.TypeConverters;
 #endif
-
 
 namespace iSukces.Mathematics
 {
     /// <summary>
     ///     Reprezentuje układ współrzędnych montażu elementu
     /// </summary>
-#if WPFFEATURESx
+#if TYPECONVERTERS
     [TypeConverter(typeof(Coord3DTypeConverter))]
 #endif
     [ImmutableObject((true))]
@@ -83,8 +83,7 @@ namespace iSukces.Mathematics
         }
 
 
-        public Coord3D(Vector3D x, Vector3D y, double x0, double y0,
-            double z0)
+        public Coord3D(Vector3D x, Vector3D y, double x0, double y0, double z0)
         {
             SetFromXY(x, y);
             _origin = new Point3D(x0, y0, z0);
@@ -406,6 +405,20 @@ namespace iSukces.Mathematics
                 c.Y.Y * v.Y + c._origin.Y,
                 c.X.Z * v.X +
                 c.Y.Z * v.Y + c._origin.Z);
+        }     
+        public static Coord3D operator +(Coord3D c, Vector3D v)
+        {
+            if (c is null)
+                return new Coord3D(XVersor, YVersor, ZVersor, (Point3D)v);
+            return new Coord3D(c._x, c._y, c._z, c._origin + v);
+            
+        }
+        public static Coord3D operator -(Coord3D c, Vector3D v)
+        {
+            if (c is null)
+                return new Coord3D(XVersor, YVersor, ZVersor, (Point3D)(-v));
+            return new Coord3D(c._x, c._y, c._z, c._origin - v);
+            
         }
 
         /// <summary>

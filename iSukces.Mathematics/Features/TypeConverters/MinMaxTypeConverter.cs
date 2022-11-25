@@ -1,4 +1,4 @@
-﻿#if WPFFEATURES
+﻿#if TYPECONVERTERS
 using System.ComponentModel;
 using System.Globalization;
 

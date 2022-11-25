@@ -20,19 +20,17 @@ using TheVector = System.Windows.Vector;
 
 namespace iSukces.Mathematics.TypeConverters
 {
-    public class Coordinates3DTypeConverter : GenericTypeConverter<Coordinates3D>
+    public class Coord3DTypeConverter : GenericTypeConverter<Coord3D>
     {
-        protected override Coordinates3D ConvertFromStringInternal(ITypeDescriptorContext context, CultureInfo culture,
+        protected override Coord3D ConvertFromStringInternal(ITypeDescriptorContext context, CultureInfo culture,
             string value)
         {
             if (string.Equals(value.Trim(), "identity", StringComparison.OrdinalIgnoreCase))
-                return Coordinates3D.NORMAL;
+                return Coord3D.Identity;
             var separatorChar = GetSeparator(culture);
             var items = value.Split(separatorChar).Select(a => a.Trim().ToLower()).ToArray();
             var doubles = new List<double>(9);
-
-          
-
+            
             for (var index = 0; index < items.Length; index++)
             {
                 var item = items[index];
@@ -41,7 +39,7 @@ namespace iSukces.Mathematics.TypeConverters
                     var dx = DeserializeDouble(item.Substring(1), culture);
                     var dy = DeserializeDouble(items[index + 1], culture);
                     var dz = DeserializeDouble(items[index + 2], culture);
-                    return Coordinates3D.FromTranslate(dx, dy, dz);
+                    return Coord3D.FromTranslate(dx, dy, dz);
                 }
                 if (TryAdd(item, out var vector))
                 {
@@ -52,20 +50,20 @@ namespace iSukces.Mathematics.TypeConverters
                 else
                     doubles.Add(DeserializeDouble(item, culture));
                 if (doubles.Count > 8)
-                    return Coordinates3D.FromDeserialized(
+                    return Coord3D.FromDeserialized(
                         new Vector3D(doubles[0], doubles[1], doubles[2]),
                         new Vector3D(doubles[3], doubles[4], doubles[5]),
                         new Point3D(doubles[6], doubles[7], doubles[8]));
             }
             if (doubles.Count > 5)
-                return Coordinates3D.FromDeserialized(
+                return Coord3D.FromDeserialized(
                     new Vector3D(doubles[0], doubles[1], doubles[2]),
                     new Vector3D(doubles[3], doubles[4], doubles[5]));
             throw PrepareArgumentException(value);
         }
 
         protected override string ConvertToStringInternal(ITypeDescriptorContext context, CultureInfo culture,
-            Coordinates3D value)
+            Coord3D value)
         {
             var separator = GetSeparator(culture);
             var x = ConvertToString(value.X, culture);
@@ -79,7 +77,6 @@ namespace iSukces.Mathematics.TypeConverters
             if (data == ortogonal) return Identity;
             return data;
         }
-        
     }
 }
 #endif

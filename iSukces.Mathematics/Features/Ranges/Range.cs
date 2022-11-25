@@ -1,4 +1,7 @@
-﻿#if !WPFFEATURES
+﻿using System;
+using System.Collections.Generic;
+
+#if !WPFFEATURES
 using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;
 #else
@@ -6,17 +9,14 @@ using System.ComponentModel;
 using ThePoint = System.Windows.Point;
 using TheVector = System.Windows.Vector;
 #endif
-
-#if WPFFEATURES
+#if TYPECONVERTERS
 using iSukces.Mathematics.TypeConverters;
+using System.ComponentModel;
 #endif
-using System;
-using System.Collections.Generic;
-
 
 namespace iSukces.Mathematics
 {
-#if WPFFEATURES
+#if TYPECONVERTERS
     [TypeConverter(typeof(RangeTypeConverter))]
 #endif
 

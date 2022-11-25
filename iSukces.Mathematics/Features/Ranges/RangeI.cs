@@ -14,14 +14,14 @@ using ThePoint = System.Windows.Point;
 using TheVector = System.Windows.Vector;
 #endif
 
-#if WPFFEATURES
+#if TYPECONVERTERS
 using iSukces.Mathematics.TypeConverters;
 #endif
 
 
 namespace iSukces.Mathematics
 {
-#if WPFFEATURES
+#if TYPECONVERTERS
     [TypeConverter(typeof(RangeITypeConverter))]
 #endif
     public struct RangeI : IEquatable<RangeI>

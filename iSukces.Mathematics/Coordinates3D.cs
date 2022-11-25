@@ -1,4 +1,9 @@
-﻿#if !WPFFEATURES
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+#if !WPFFEATURES
 using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;
 using iSukces.Mathematics.Compatibility;
@@ -7,13 +12,10 @@ using System.Windows.Media.Media3D;
 using ThePoint = System.Windows.Point;
 using TheVector = System.Windows.Vector;
 #endif
-#if WPFFEATURES
+#if TYPECONVERTERS
 using iSukces.Mathematics.TypeConverters;
 #endif
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+
 
 
 namespace iSukces.Mathematics
@@ -21,7 +23,7 @@ namespace iSukces.Mathematics
     /// <summary>
     ///     Reprezentuje układ współrzędnych montażu elementu
     /// </summary>
-#if WPFFEATURES
+#if TYPECONVERTERS
     [TypeConverter(typeof(Coordinates3DTypeConverter))]
 #endif
     public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatable<Coordinates3D>

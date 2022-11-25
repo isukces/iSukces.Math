@@ -1,21 +1,16 @@
-﻿#if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
-#else
-using System.Windows;
-#endif
-
-#if WPFFEATURES
-using iSukces.Mathematics.TypeConverters;
-#endif
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
+#if TYPECONVERTERS
+using iSukces.Mathematics.TypeConverters;
+#endif
+
 
 namespace iSukces.Mathematics
 {
-#if WPFFEATURES
+#if TYPECONVERTERS
     [TypeConverter(typeof(MinMaxTypeConverter))]
 #endif
     public sealed class MinMax : MinMaxGeneric<double>, ICloneable
