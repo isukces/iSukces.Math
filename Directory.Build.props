@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Company>Internet Sukces Piotr Stęclik</Company>
+    <Authors>Internet Sukces Piotr Stęclik</Authors>
+  </PropertyGroup>
+
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'net6.0-windows' or '$(TargetFramework)' == 'net7.0-windows'">
+      <PropertyGroup>
+        <UseWpf>true</UseWpf>
+        <ImplicitUsings>true</ImplicitUsings>
+        <DefineConstants>$(DefineConstants);WPFFEATURES;TYPECONVERTERS</DefineConstants>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+      <ItemGroup>
+        <Reference Include="System" />
+        <Reference Include="WindowsBase" />
+        <Reference Include="PresentationCore" />
+      </ItemGroup>
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);WPFFEATURES;TYPECONVERTERS</DefineConstants>
+      </PropertyGroup>
+
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);COREFX;TYPECONVERTERS</DefineConstants>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  
+</Project>
