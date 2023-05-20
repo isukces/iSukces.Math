@@ -15,9 +15,9 @@
     <IncludeSource>false</IncludeSource>
     <IncludeSymbols>true</IncludeSymbols>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <AssemblyVersion>1.0.23077.123</AssemblyVersion>
-    <Version>1.0.23077.123</Version>
-    <FileVersion>1.0.23077.123</FileVersion>
+    <AssemblyVersion>1.0.23140.124</AssemblyVersion>
+    <Version>1.0.23140.124</Version>
+    <FileVersion>1.0.23140.124</FileVersion>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
     <PackageProjectUrl>https://github.com/isukces/iSukces.Math</PackageProjectUrl>
     <NoWarn>1701;1702;CS1591;CS1572;CS1573;CS1591</NoWarn>
