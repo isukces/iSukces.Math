@@ -1,16 +1,14 @@
-﻿using System;
-#if !WPFFEATURES
+﻿#if !WPFFEATURES
 using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;
 using iSukces.Mathematics.Compatibility;
-
 #else
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using ThePoint = System.Windows.Point;
 using TheVector = System.Windows.Vector;
 #endif
+using System;
 
 
 namespace iSukces.Mathematics
@@ -246,6 +244,40 @@ namespace iSukces.Mathematics
             return new Vector(x, y);
         }
 
+        public static Vector3D ToNormalized(this Vector3D v)
+        {
+            v.Normalize();
+            switch (v.Y)
+            {
+                case 1d:
+                    return new Vector3D(0, 1, 0);
+                case -1d:
+                    return new Vector3D(0, -1, 0);
+            }
+
+            switch (v.X)
+            {
+                case 1d:
+                    return new Vector3D(1, 0, 0);
+                case -1d:
+                    return new Vector3D(-1, 0, 0);
+            }
+
+            switch (v.Z)
+            {
+                case 1d:
+                    return new Vector3D(0, 0, 1);
+                case -1d:
+                    return new Vector3D(0, 0, -1);
+                default:
+                    return v;
+            }
+        }
+
+        #region Fields
+
         const double minusOne = -1d;
+
+        #endregion
     }
 }

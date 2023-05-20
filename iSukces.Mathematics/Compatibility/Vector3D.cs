@@ -101,7 +101,8 @@ namespace iSukces.Mathematics.Compatibility
         public double Y { get; private set; }
         public double Z { get; private set; }
 
-        public double Length => Math.Sqrt(X * X + Y * Y + Z * Z);
+        public double Length        => Math.Sqrt(X * X + Y * Y + Z * Z);
+        public double LengthSquared => X * X + Y * Y + Z * Z;
 
         public static double DotProduct(Vector3D a, Vector3D b)
         {
