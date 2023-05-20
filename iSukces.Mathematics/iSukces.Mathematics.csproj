@@ -21,6 +21,7 @@
     <RootNamespace>iSukces.Mathematics</RootNamespace>
     <PackageProjectUrl>https://github.com/isukces/iSukces.Math</PackageProjectUrl>
     <NoWarn>1701;1702;CS1591;CS1572;CS1573;CS1591</NoWarn>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />

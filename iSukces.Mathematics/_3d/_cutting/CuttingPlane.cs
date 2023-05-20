@@ -72,7 +72,7 @@ namespace iSukces.Mathematics
             return !(left == right);
         }
 
-        // Public Methods 
+        // Public Methods 
 
         /// <summary>
         ///     Oblicza wektor normalny we wskazanym punkcie
@@ -194,7 +194,7 @@ namespace iSukces.Mathematics
         {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property));
         }
-        // Private Methods 
+        // Private Methods 
 
         private void UpdateNormal()
         {
