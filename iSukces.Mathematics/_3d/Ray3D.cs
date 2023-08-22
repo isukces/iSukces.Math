@@ -1,3 +1,5 @@
+
+using System;
 #if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 #else
@@ -84,6 +86,18 @@ public readonly struct Ray3D : IRay3D
         return new Ray3D(origin, direction);
     }
 
+    public Point3D? TryCross(Plane3D plane3D)
+    {
+        var line  = new Line3D(Origin, Direction);
+        var    point = plane3D.Cross(line);
+        return point;
+    }
+    
+    public Point3D Cross(Plane3D plane3D)
+    {
+        return TryCross(plane3D) ?? throw new InvalidOperationException();
+    }
+    
 
     /// <summary>
     ///     Gets or sets the direction.
