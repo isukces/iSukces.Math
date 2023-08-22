@@ -54,7 +54,35 @@ public readonly struct Ray3D : IRay3D
         return new Ray3D(newOrigin, Direction);
     }
 
-    #region Properties
+    public static Ray3D operator *(Ray3D a, Coordinates3D b)
+    {
+        var origin    = a.Origin * b;
+        var direction = a.Direction * b;
+        return new Ray3D(origin, direction);
+    }
+
+    public static Ray3D operator *(Ray3D a, Coord3D b)
+    {
+        var origin    = a.Origin * b;
+        var direction = a.Direction * b;
+        return new Ray3D(origin, direction);
+    }
+
+    public static Ray3D operator /(Ray3D a, Coordinates3D b)
+    {
+        b = b.Reversed;
+        var origin    = a.Origin * b;
+        var direction = a.Direction * b;
+        return new Ray3D(origin, direction);
+    }
+
+    public static Ray3D operator /(Ray3D a, Coord3D b)
+    {
+        b = b.Reversed;
+        var origin    = a.Origin * b;
+        var direction = a.Direction * b;
+        return new Ray3D(origin, direction);
+    }
 
 
     /// <summary>
@@ -68,6 +96,4 @@ public readonly struct Ray3D : IRay3D
     /// </summary>
     /// <value>The origin.</value>
     public Point3D Origin { get; }
-
-    #endregion
 }
