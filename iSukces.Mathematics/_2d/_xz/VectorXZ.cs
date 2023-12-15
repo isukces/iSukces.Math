@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 #if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
@@ -67,8 +68,7 @@ public struct VectorXZ : IEquatable<VectorXZ>
     {
         return new VectorXZ(-left.X, -left.Z);
     }
-
-
+    
     public double DotProduct(VectorXZ other)
     {
         return DotProduct(this, other);
@@ -79,7 +79,7 @@ public struct VectorXZ : IEquatable<VectorXZ>
         return X.Equals(other.X) && Z.Equals(other.Z);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return obj is VectorXZ xz && Equals(xz);
@@ -114,16 +114,17 @@ public struct VectorXZ : IEquatable<VectorXZ>
         return new Vector3D(X, 0, Z);
     }
 
+    public Vector3D ToVector3D(double y)
+    {
+        return new Vector3D(X, y, Z);
+    }
+
     public VectorXZ WithMinusX()
     {
         return new VectorXZ(-X, Z);
     }
 
-    #region Properties
-
     public double X      { get; }
     public double Z      { get; }
     public double Length => Math.Sqrt(X * X + Z * Z);
-
-    #endregion
 }

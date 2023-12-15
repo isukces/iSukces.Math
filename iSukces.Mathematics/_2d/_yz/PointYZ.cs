@@ -1,4 +1,5 @@
-﻿#if !WPFFEATURES
+﻿#nullable enable
+#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 #else
 using System.Windows;
@@ -67,7 +68,7 @@ public struct PointYZ : IEquatable<PointYZ>
         return Y.Equals(other.Y) && Z.Equals(other.Z);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return obj is PointYZ point && Equals(point);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 #if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 #else
@@ -35,7 +36,7 @@ public readonly struct RayXz : IEquatable<RayXz>
         return Origin.Equals(other.Origin) && Direction.Equals(other.Direction);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return obj.GetType() == GetType() && Equals((RayXz)obj);

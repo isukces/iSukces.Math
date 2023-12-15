@@ -1,10 +1,11 @@
-﻿#if !WPFFEATURES
+﻿#nullable enable
+using System;
+#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 #else
+using System.Windows.Media.Media3D;
 using System.Windows;
 #endif
-using System;
-
 
 namespace iSukces.Mathematics;
 
@@ -46,10 +47,10 @@ public struct VectorYZ : IEquatable<VectorYZ>
         return Y.Equals(other.Y) && Z.Equals(other.Z);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        return obj is VectorYZ && Equals((VectorYZ)obj);
+        return obj is VectorYZ yz && Equals(yz);
     }
 
     public override int GetHashCode()
@@ -71,11 +72,32 @@ public struct VectorYZ : IEquatable<VectorYZ>
         return $"<*, {Y}, {Z}>";
     }
 
-    #region Properties
+    public static VectorYZ operator -(VectorYZ left, VectorYZ right)
+    {
+        return new VectorYZ(left.Y - right.Y, left.Z - right.Z);
+    }
+
+    public static VectorYZ operator -(VectorYZ left)
+    {
+        return new VectorYZ(-left.Y, -left.Z);
+    }
+
+    public static VectorYZ operator +(VectorYZ left, VectorYZ right)
+    {
+        return new VectorYZ(left.Y + right.Y, left.Z + right.Z);
+    }
+
+    public Vector3D ToVector3D()
+    {
+        return new Vector3D(0, Y, Z);
+    }
+
+    public Vector3D ToVector3D(double x)
+    {
+        return new Vector3D(x, Y, Z);
+    }
 
     public double Y      { get; set; }
     public double Z      { get; set; }
     public double Length => Math.Sqrt(Y * Y + Z * Z);
-
-    #endregion
 }
