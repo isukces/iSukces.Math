@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 #if !WPFFEATURES
 using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;

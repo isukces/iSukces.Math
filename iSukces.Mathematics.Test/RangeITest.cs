@@ -13,14 +13,14 @@ namespace iSukces.Mathematics.test
             var invalid = new RangeI(10, 0);
             var empty = RangeI.Empty;
             var result = empty.Cut(empty);
-            Assert.Equal(0, result.Count);
+            Assert.Empty(result);
 
             result = r010.Cut(invalid);
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
             Assert.Equal(r010, result[0]);
 
             result = r010.Cut(empty);
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
             Assert.Equal(r010, result[0]);
 
             // wycięcie w środku
@@ -31,29 +31,29 @@ namespace iSukces.Mathematics.test
 
             // obcięcie od dołu 2 przypadki
             result = r010.Cut(new RangeI(0, 5));
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
             Assert.Equal(new RangeI(5, 10), result[0]);
             result = r010.Cut(new RangeI(-100, 5));
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
             Assert.Equal(new RangeI(5, 10), result[0]);
 
             // obcięcie od góry 2 przypadki
             result = r010.Cut(new RangeI(5, 10));
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
             Assert.Equal(new RangeI(0, 5), result[0]);
             result = r010.Cut(new RangeI(5, 99));
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
             Assert.Equal(new RangeI(0, 5), result[0]);
 
             // całkowite wycięcie - 4 przypadki
             result = r010.Cut(new RangeI(0, 10));
-            Assert.Equal(0, result.Count);
+            Assert.Empty(result);
             result = r010.Cut(new RangeI(-99, 10));
-            Assert.Equal(0, result.Count);
+            Assert.Empty(result);
             result = r010.Cut(new RangeI(-99, 99));
-            Assert.Equal(0, result.Count);
+            Assert.Empty(result);
             result = r010.Cut(new RangeI(0, 99));
-            Assert.Equal(0, result.Count);
+            Assert.Empty(result);
         }
 
         [Fact]

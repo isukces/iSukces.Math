@@ -48,7 +48,7 @@ namespace iSukces.Mathematics
             if (dcp.Length < 2)
             {
                 // brak przecięć albo cały albo pusty
-                if (line.IsOnDarkSide(src.Center)) return new TopologyTriangle[0];
+                if (line.IsOnDarkSide(src.Center)) return Array.Empty<TopologyTriangle>();
                 return new[] {src}; // cały
             }
 
@@ -74,7 +74,7 @@ namespace iSukces.Mathematics
                     if (up.Length == 3)
                         return TopologyShape.FromPoints(up[0], up[1], up[2]).Triangles.ToArray();
                     if (up.Length < 3)
-                        return new TopologyTriangle[0];
+                        return Array.Empty<TopologyTriangle>();
                 }
                 var i1 = Vector.CrossProduct(v2 - v1, t2 - v2);
                 var i2 = Vector.CrossProduct(t2 - v1, t1 - t2);
