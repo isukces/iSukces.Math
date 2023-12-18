@@ -4,7 +4,7 @@
     <Company>Internet Sukces Piotr Stęclik</Company>
     <Copyright>Copyright © Internet Sukces Piotr Stęclik 2017-2023</Copyright>
     <Product>iSukces.Math</Product>
-    <TargetFrameworks>net48;netstandard2.0;netcoreapp3.1;net6.0;net6.0-windows;net7.0;net7.0-windows</TargetFrameworks>
+    <TargetFrameworks>net48;netstandard2.0;netcoreapp3.1;net6.0;net6.0-windows;net7.0;net7.0-windows;net8.0;net8.0-windows</TargetFrameworks>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
     <AssemblyVersion>1.23.1215.125</AssemblyVersion>
     <FileVersion>1.23.1215.125</FileVersion>
