@@ -2,14 +2,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Company>Internet Sukces Piotr Stęclik</Company>
-    <Copyright>Copyright © Internet Sukces Piotr Stęclik 2017-2023</Copyright>
+    <Copyright>Copyright © Internet Sukces Piotr Stęclik 2017-2024</Copyright>
     <Product>iSukces.Math</Product>
     <TargetFrameworks>net48;netstandard2.0;netcoreapp3.1;net6.0;net6.0-windows;net7.0;net7.0-windows;net8.0;net8.0-windows</TargetFrameworks>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
-    <AssemblyVersion>1.23.1218.126</AssemblyVersion>
-    <FileVersion>1.23.1218.126</FileVersion>
-    <Version>1.23.1218.126</Version>
-    <LangVersion>11</LangVersion>
+    <AssemblyVersion>1.24.1016.127</AssemblyVersion>
+    <FileVersion>1.24.1016.127</FileVersion>
+    <Version>1.24.1016.127</Version>
+    <LangVersion>12</LangVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>c:\programs\narzedzia\sign\iSukcesCodeSign.snk</AssemblyOriginatorKeyFile>
     <NoWarn>1701;1702;CS1591;CS1572;CS1573;CS1591</NoWarn>
@@ -29,7 +29,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Features\TypeConverters\GenericTypeConverter.cs">
