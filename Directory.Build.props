@@ -5,7 +5,7 @@
     <Authors>Internet Sukces Piotr Stęclik</Authors>
   </PropertyGroup>
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'net6.0-windows' or '$(TargetFramework)' == 'net7.0-windows' or '$(TargetFramework)' == 'net8.0-windows'">
+    <When Condition="$(TargetFramework.EndsWith('windows'))">
       <PropertyGroup>
         <UseWpf>true</UseWpf>
         <ImplicitUsings>true</ImplicitUsings>

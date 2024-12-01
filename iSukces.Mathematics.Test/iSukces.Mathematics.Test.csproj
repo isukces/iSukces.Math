@@ -4,19 +4,21 @@
     <ApplicationIcon />
     <Company>Internet Sukces Piotr Stęclik</Company>
     <Copyright>Copyright © Internet Sukces Piotr Stęclik 2017-2024</Copyright>
-    <TargetFrameworks>net48;netstandard2.0;net8.0</TargetFrameworks>
+    <ProjectGuid>{B224CDA7-2BBA-4BB0-8426-3926A62876C6}</ProjectGuid>
+    <TargetFrameworks>net48;net8.0;net9.0;netstandard2.0</TargetFrameworks>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <Version>1.0.0.0</Version>
+    <LangVersion>13</LangVersion>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>c:\programs\narzedzia\sign\iSukcesCodeSign.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(SignKey)</AssemblyOriginatorKeyFile>
     <NoWarn>1701;1702;CS1591;CS1572;CS1573;CS1591;xUnit2000</NoWarn>
     <Authors>Internet Sukces Piotr Stęclik</Authors>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IncludeSource>false</IncludeSource>
     <IncludeSymbols>true</IncludeSymbols>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <DefineConstants>$(DefineConstants);WPFFEATURES;FULLFRAMEWORK</DefineConstants>
@@ -31,8 +33,8 @@
     <ProjectReference Include="..\iSukces.Mathematics\iSukces.Mathematics.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="isukces.json" Version="1.0.21085.19" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="iSukces.Json" Version="1.24.1201.21" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.abstractions" Version="2.0.3" />
     <PackageReference Include="xunit.assert" Version="2.9.2" />

@@ -11,32 +11,21 @@ var builder = new ProjectBuilder()
 
     SolutionName = "iSukces.Math",
     ProjectName  = "iSukces.Mathematics",
-    SolutionDir  = ConfigDir,
-    UseProjectsVersionsFile = false
+    SolutionDir  = ConfigDir
 };
 WorkingDir = builder.SolutionDir;
 
-// Execute( builder.VisualStudioExe, sln, "/clean");
-// task: Clean
-DeleteDir(builder.ProjectDir + "\\bin", builder.ProjectDir + "\\obj");
-
-// task: Nuget restore
-Execute(builder.Nuget.Exe, "restore " + builder.SolutionName + ".sln");
-
-// task: Update version
-var version = builder.UpdateVersionCore(VersionNumberStyles.YearMonthDay);
-
-// task: Build
-builder.MsBuild();
-
-// task: Copy nuget
-foreach (var options in new[] { PackageNameOptions.Normal, PackageNameOptions.SNupkg })
-{
-	var srcNupkg      = builder.Nuget.GetNugetPackageShortFile(version, options);
-	var nugetCopyFrom = CombinePath(builder.Nuget.CompiledNugetOutputDir, srcNupkg);
-	var nugetCopyTo   = CombinePath(builder.Nuget.RepositoryDir, srcNupkg);
-	Console.WriteLine("Copy {0} to {1}", srcNupkg, nugetCopyTo);
-	File.Copy(nugetCopyFrom, nugetCopyTo, true);
-}
-
+builder.DeleteBinObj();  
+builder.Nuget.Restore();  
+var version = builder.UpdateVersionCore(VersionNumberStyles.DoNotChange);  
+builder.MsBuild();  
+foreach (var options in new[] { PackageNameOptions.Normal, PackageNameOptions.SNupkg })  
+{  
+    var srcNupkg      = builder.Nuget.GetNugetPackageShortFile(version, options);  
+    var nugetCopyFrom = CombinePath(builder.Nuget.CompiledNugetOutputDir, srcNupkg);  
+    var nugetCopyTo   = CombinePath(builder.Nuget.RepositoryDir, srcNupkg);  
+    Console.WriteLine("Copy {0} to {1}", srcNupkg, nugetCopyTo);  
+    File.Copy(nugetCopyFrom, nugetCopyTo, true);  
+}  
+  
 Console.WriteLine("--FINISHED--");

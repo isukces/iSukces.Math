@@ -4,32 +4,33 @@
     <Company>Internet Sukces Piotr Stęclik</Company>
     <Copyright>Copyright © Internet Sukces Piotr Stęclik 2017-2024</Copyright>
     <Product>iSukces.Math</Product>
-    <TargetFrameworks>net48;netstandard2.0;netcoreapp3.1;net6.0;net6.0-windows;net7.0;net7.0-windows;net8.0;net8.0-windows</TargetFrameworks>
+    <ProjectGuid>{F65D90E2-7284-40AD-8D61-A27A027B835E}</ProjectGuid>
+    <TargetFrameworks>net48;net6.0;net6.0-windows;net8.0;net8.0-windows;net9.0;net9.0-windows;netcoreapp3.1;netstandard2.0</TargetFrameworks>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
-    <AssemblyVersion>1.24.1016.127</AssemblyVersion>
-    <FileVersion>1.24.1016.127</FileVersion>
-    <Version>1.24.1016.127</Version>
-    <LangVersion>12</LangVersion>
+    <AssemblyVersion>1.24.1201.128</AssemblyVersion>
+    <FileVersion>1.24.1201.128</FileVersion>
+    <Version>1.24.1201.128</Version>
+    <LangVersion>13</LangVersion>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>c:\programs\narzedzia\sign\iSukcesCodeSign.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(SignKey)</AssemblyOriginatorKeyFile>
     <NoWarn>1701;1702;CS1591;CS1572;CS1573;CS1591</NoWarn>
     <Authors>Internet Sukces Piotr Stęclik</Authors>
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <Description>Użyteczne klasy i metody do nieco bardziej zaawansowanej matematyki</Description>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PackageId>iSukces.Math</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSource>false</IncludeSource>
     <IncludeSymbols>true</IncludeSymbols>
-    <PackageId>iSukces.Math</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/isukces/iSukces.Math</PackageProjectUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/isukces/iSukces.Math</RepositoryUrl>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Features\TypeConverters\GenericTypeConverter.cs">
