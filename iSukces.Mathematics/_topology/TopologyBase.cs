@@ -1,6 +1,6 @@
-namespace iSukces.Mathematics
+#nullable disable
+namespace iSukces.Mathematics;
+
+public class TopologyBase
 {
-    public class TopologyBase
-    {
-    }
 }

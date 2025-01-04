@@ -1,4 +1,5 @@
-﻿#if WPFFEATURES
+#nullable disable
+#if WPFFEATURES
 using System;
 using System.Globalization;
 using System.Linq;
@@ -143,3 +144,4 @@ namespace iSukces.Mathematics.test
     }
 }
 #endif
+

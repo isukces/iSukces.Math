@@ -1,4 +1,4 @@
-﻿#if !WPFFEATURES
+#if !WPFFEATURES
 using System;
 
 namespace iSukces.Mathematics.Compatibility

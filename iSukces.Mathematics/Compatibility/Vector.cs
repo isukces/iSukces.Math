@@ -1,4 +1,5 @@
-﻿#if !WPFFEATURES
+#nullable disable
+#if !WPFFEATURES
 
 using System;
 
@@ -139,7 +140,7 @@ namespace iSukces.Mathematics.Compatibility
             return new Vector(-vector.X, -vector.Y);
         }
 
-        public override bool Equals(object o)
+        public override bool Equals(object? o)
         {
             if (!(o is Vector _))
                 return false;

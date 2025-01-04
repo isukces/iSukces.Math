@@ -1,4 +1,5 @@
-﻿#if !WPFFEATURES
+#nullable disable
+#if !WPFFEATURES
 namespace iSukces.Mathematics.Compatibility
 {
     public struct Matrix
@@ -42,7 +43,7 @@ namespace iSukces.Mathematics.Compatibility
             return !(matrix1 == matrix2);
         }
 
-        public override bool Equals(object o)
+        public override bool Equals(object? o)
         {
             if (!(o is Matrix _))
                 return false;

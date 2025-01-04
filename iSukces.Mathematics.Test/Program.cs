@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,35 +17,34 @@ using TheVector=System.Windows.Vector;
 #endif
 
 
-namespace iSukces.Mathematics.test
+namespace iSukces.Mathematics.test;
+
+public class Program
 {
-    public class Program
+    [Fact(DisplayName = "COO")]
+    public static void test1()
     {
-        [Fact(DisplayName = "COO")]
-        public static void test1()
-        {
-            CircleOnPlane c = new CircleOnPlane(100, new ThePoint(100, 10));
-            var p1 = new ThePoint(0, 50);
-            var p2 = new ThePoint(10, 50);
-            var g = c.CrossLine(p1, p2);
-            Assert.Equal(g.Length, 2);
-            Assert.Equal((g[0] - c.Center).Length, c.Radius, 10);
-            Assert.Equal((g[1] - c.Center).Length, c.Radius, 10);
-        }
+        CircleOnPlane c  = new CircleOnPlane(100, new ThePoint(100, 10));
+        var           p1 = new ThePoint(0, 50);
+        var           p2 = new ThePoint(10, 50);
+        var           g  = c.CrossLine(p1, p2);
+        Assert.Equal(g.Length, 2);
+        Assert.Equal((g[0] - c.Center).Length, c.Radius, 10);
+        Assert.Equal((g[1] - c.Center).Length, c.Radius, 10);
+    }
 
         
-        /*
-        static void Main(string[] args)
-        {
+    /*
+    static void Main(string[] args)
+    {
 #if WPFFEATURES
-            TypeConverterTest.All();
+        TypeConverterTest.All();
 #endif
 
-            IsometricTransformTest.ShouldEqual();
-            IsometricTransformTest.ShouldMakeValidMatrix();
-            test1();
-            Console.ReadLine();
-        } 
-        */ 
+        IsometricTransformTest.ShouldEqual();
+        IsometricTransformTest.ShouldMakeValidMatrix();
+        test1();
+        Console.ReadLine();
     }
+    */ 
 }

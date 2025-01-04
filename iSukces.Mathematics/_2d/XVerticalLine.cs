@@ -17,7 +17,7 @@ public readonly struct XVerticalLine : IEquatable<XVerticalLine>
         return X.ToString();
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is XVerticalLine other && Equals(other);
     }
@@ -44,3 +44,4 @@ public readonly struct XVerticalLine : IEquatable<XVerticalLine>
 
     public double X { get;  }
 }
+

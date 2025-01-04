@@ -1,4 +1,3 @@
-
 using System;
 #if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
@@ -111,3 +110,4 @@ public readonly struct Ray3D : IRay3D
     /// <value>The origin.</value>
     public Point3D Origin { get; }
 }
+

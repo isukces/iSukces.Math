@@ -1,4 +1,5 @@
-﻿#if !WPFFEATURES
+#nullable disable
+#if !WPFFEATURES
 
 namespace iSukces.Mathematics.Compatibility
 {
@@ -45,7 +46,7 @@ namespace iSukces.Mathematics.Compatibility
             return false;
         }
 
-        public override bool Equals(object o) { return o is Rect rect && Equals(this, rect); }
+        public override bool Equals(object? o) { return o is Rect rect && Equals(this, rect); }
 
 
         public bool Equals(Rect value) { return Equals(this, value); }
@@ -118,3 +119,4 @@ namespace iSukces.Mathematics.Compatibility
     }
 }
 #endif
+

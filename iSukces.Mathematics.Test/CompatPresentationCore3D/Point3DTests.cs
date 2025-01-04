@@ -1,4 +1,5 @@
-﻿#if WPFFEATURES
+#nullable disable
+#if WPFFEATURES
 
 
 #if !WPFFEATURES

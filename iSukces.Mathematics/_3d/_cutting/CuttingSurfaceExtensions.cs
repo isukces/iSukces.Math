@@ -1,15 +1,15 @@
-namespace iSukces.Mathematics
-{
-    public static class CuttingSurfaceExtensions
-    {
-        public static ICuttingSurface Coalesce(this ICuttingSurface value)
-        {
-            return value ?? NullCuttingSurface.Instance;
-        }
+#nullable disable
+namespace iSukces.Mathematics;
 
-        public static bool IsNullOrEmpty(this ICuttingSurface x)
-        {
-            return x == null || x is NullCuttingSurface;
-        }
+public static class CuttingSurfaceExtensions
+{
+    public static ICuttingSurface Coalesce(this ICuttingSurface? value)
+    {
+        return value ?? NullCuttingSurface.Instance;
+    }
+
+    public static bool IsNullOrEmpty(this ICuttingSurface? x)
+    {
+        return x is null || x is NullCuttingSurface;
     }
 }

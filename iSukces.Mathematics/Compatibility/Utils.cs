@@ -1,21 +1,20 @@
-﻿using System;
+using System;
 using System.Globalization;
 
 
-namespace iSukces.Mathematics.Compatibility
+namespace iSukces.Mathematics.Compatibility;
+
+internal static class Utils
 {
-    internal static class Utils
+    private const char Comma = ',';
+
+    internal static char GetNumericListSeparator(IFormatProvider? provider)
     {
-        private const char Comma       = ',';
-        internal static char GetNumericListSeparator(IFormatProvider provider)
-        {
-            var        instance = NumberFormatInfo.GetInstance(provider);
-            if (instance.NumberDecimalSeparator.Length > 0
-                && Comma == instance.NumberDecimalSeparator[0])
-                return ';';
-            return Comma;
-        }
- 
- 
+        var instance = NumberFormatInfo.GetInstance(provider);
+        if (instance.NumberDecimalSeparator.Length > 0
+            && Comma == instance.NumberDecimalSeparator[0])
+            return ';';
+        return Comma;
     }
+    
 }

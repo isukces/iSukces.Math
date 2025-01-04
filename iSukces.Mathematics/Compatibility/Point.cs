@@ -1,4 +1,4 @@
-﻿#if !WPFFEATURES
+#if !WPFFEATURES
 using System;
 
 namespace iSukces.Mathematics.Compatibility
@@ -27,7 +27,7 @@ namespace iSukces.Mathematics.Compatibility
         }
 
 
-        public override bool Equals(object o)
+        public override bool Equals(object? o)
         {
             if (!(o is Point _))
                 return false;

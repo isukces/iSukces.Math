@@ -1,10 +1,10 @@
 using System;
 
 
-namespace iSukces.Mathematics
+namespace iSukces.Mathematics;
+
+public class Iterator
 {
-    public class Iterator
-    {
 #if NOTREADY
         public static double FindMax(Func<double, double> func, double min, double max, int iterations)
         {
@@ -47,56 +47,55 @@ namespace iSukces.Mathematics
             return bestX;
         }
 #endif
-        public static double? Solve(Func<double, double> func, double min, double max, Func<int, double, bool> end)
+    public static double? Solve(Func<double, double> func, double min, double max, Func<int, double, bool> end)
+    {
+        if (max < min)
         {
-            if (max < min)
+            var tmp = max;
+            max = min;
+            min = tmp;
+        }
+
+        if (max == min) return min;
+        var y1 = func(min);
+        var s1 = Math.Sign(y1);
+        if (s1 == 0)
+            return min;
+
+        var y2 = func(max);
+        var s2 = Math.Sign(y2);
+        if (s2 == 0)
+            return max;
+        if (s1 == s2)
+            return null;
+
+        var iteration = 0;
+        while (true)
+        {
+            iteration++;
+
+            var dx = max - min;
+            var dy = y2 - y1;
+            var m  = dx / dy;
+
+            var x = min + m * (0 - y1);
+            var y = func(x);
+            var s = Math.Sign(y);
+            if (s == 0)
+                return x;
+            if (s == s1)
             {
-                var tmp = max;
-                max = min;
-                min = tmp;
+                min = x;
+                y1  = y;
+            }
+            else
+            {
+                max = x;
+                y2  = y;
             }
 
-            if (max == min) return min;
-            var y1 = func(min);
-            var s1 = Math.Sign(y1);
-            if (s1 == 0)
-                return min;
-
-            var y2 = func(max);
-            var s2 = Math.Sign(y2);
-            if (s2 == 0)
-                return max;
-            if (s1 == s2)
-                return null;
-
-            var iteration = 0;
-            while (true)
-            {
-                iteration++;
-
-                var dx = max - min;
-                var dy = y2 - y1;
-                var m  = dx / dy;
-
-                var x = min + m * (0 - y1);
-                var y = func(x);
-                var s = Math.Sign(y);
-                if (s == 0)
-                    return x;
-                if (s == s1)
-                {
-                    min = x;
-                    y1  = y;
-                }
-                else
-                {
-                    max = x;
-                    y2  = y;
-                }
-
-                if (end(iteration, y))
-                    return x;
-            }
+            if (end(iteration, y))
+                return x;
         }
     }
 }

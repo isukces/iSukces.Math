@@ -1,4 +1,3 @@
-﻿#nullable enable
 #if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 #else
@@ -99,3 +98,4 @@ public struct PointYZ : IEquatable<PointYZ>
 
     #endregion
 }
+

@@ -1,4 +1,3 @@
-﻿#nullable enable
 using System;
 #if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
@@ -102,3 +101,4 @@ public readonly struct RayXz : IEquatable<RayXz>
 
     #endregion
 }
+

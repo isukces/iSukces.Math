@@ -1,4 +1,3 @@
-#nullable enable
 using System;
 #if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
@@ -128,3 +127,4 @@ public struct VectorXZ : IEquatable<VectorXZ>
     public double Z      { get; }
     public double Length => Math.Sqrt(X * X + Z * Z);
 }
+

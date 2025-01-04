@@ -14,3 +14,4 @@ public interface IRay3D
 
     Vector3D Direction { get; }
 }
+

@@ -29,7 +29,7 @@ namespace iSukces.Mathematics.Compatibility
             return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Size3D other && Equals(other);
         }

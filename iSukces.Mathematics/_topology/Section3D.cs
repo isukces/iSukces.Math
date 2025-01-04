@@ -1,62 +1,61 @@
-﻿#if !WPFFEATURES
+#if !WPFFEATURES
 using iSukces.Mathematics.Compatibility;
 #else
 using System.Windows.Media.Media3D;
 #endif
 
-namespace iSukces.Mathematics
+namespace iSukces.Mathematics;
+
+public struct Section3D
 {
-    public struct Section3D
+    public Section3D(Point3D begin, Point3D end)
+        : this()
     {
-        public Section3D(Point3D begin, Point3D end)
-            : this()
+        _begin  = begin;
+        _end    = end;
+        _length = double.NaN;
+    }
+
+    public override string ToString()
+    {
+        return string.Format("section {0} - {1}", _begin, _end);
+    }
+
+    private Point3D _begin;
+    private Point3D _end;
+    private double _length;
+
+    /// <summary>
+    /// </summary>
+    public Point3D Begin
+    {
+        get { return _begin; }
+        set
         {
-            _begin = begin;
-            _end   = end;
-            _length     = double.NaN;
+            _length = double.NaN;
+            _begin  = value;
         }
+    }
 
-        public override string ToString()
+    /// <summary>
+    /// </summary>
+    public Point3D End
+    {
+        get { return _end; }
+        set
         {
-            return string.Format("section {0} - {1}", _begin, _end);
+            _length = double.NaN;
+            _end    = value;
         }
+    }
 
-        private Point3D _begin;
-        private Point3D _end;
-        private double _length;
-
-        /// <summary>
-        /// </summary>
-        public Point3D Begin
+    public double Length
+    {
+        get
         {
-            get { return _begin; }
-            set
-            {
-                _length = double.NaN;
-                _begin  = value;
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        public Point3D End
-        {
-            get { return _end; }
-            set
-            {
-                _length = double.NaN;
-                _end    = value;
-            }
-        }
-
-        public double Length
-        {
-            get
-            {
-                if (double.IsNaN(_length))
-                    _length = (_begin - _end).Length;
-                return _length;
-            }
+            if (double.IsNaN(_length))
+                _length = (_begin - _end).Length;
+            return _length;
         }
     }
 }

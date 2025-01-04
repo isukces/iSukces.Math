@@ -1,4 +1,4 @@
-﻿#if !WPFFEATURES
+#if !WPFFEATURES
 using System;
 
 namespace iSukces.Mathematics.Compatibility
@@ -49,7 +49,7 @@ namespace iSukces.Mathematics.Compatibility
             return new Size(double.NegativeInfinity, double.NegativeInfinity);
         }
 
-        public override bool Equals(object o)
+        public override bool Equals(object? o)
         {
             return o is Size size && Equals(this, size);
         }

@@ -6,240 +6,234 @@ using System.Windows;
 #endif
 
 
-namespace iSukces.Mathematics
+namespace iSukces.Mathematics;
+
+public struct SimpleLine
 {
-    public struct SimpleLine
+    public Point A;
+    public Point B;
+
+    public override string ToString()
     {
-        public Point A;
-        public Point B;
-
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", A, B);
-        }
-
-        public static explicit operator SimpleLine(TopologyTriangleLine src)
-        {
-            var i = src.PointA.X.CompareTo(src.PointB.X);
-            if (i == 0)
-                i = src.PointA.Y.CompareTo(src.PointB.Y);
-            if (i < 0)
-                return new SimpleLine {A = src.PointA, B = src.PointB};
-            return new SimpleLine {B = src.PointA, A = src.PointB};
-        }
+        return string.Format("{0} {1}", A, B);
     }
 
-    public sealed class TopologyTriangleLine : TopologyBase
+    public static explicit operator SimpleLine(TopologyTriangleLine src)
     {
-        public TopologyTriangleLine(Point pa, Point pb) : this(pa, pb, true)
-        {
-        }
+        var i = src.PointA.X.CompareTo(src.PointB.X);
+        if (i == 0)
+            i = src.PointA.Y.CompareTo(src.PointB.Y);
+        if (i < 0)
+            return new SimpleLine {A = src.PointA, B = src.PointB};
+        return new SimpleLine {B = src.PointA, A = src.PointB};
+    }
+}
 
-        public TopologyTriangleLine(Point pa, Point pb, bool doOrganize)
+public sealed class TopologyTriangleLine : TopologyBase
+{
+    public TopologyTriangleLine(Point pa, Point pb) : this(pa, pb, true)
+    {
+    }
+
+    public TopologyTriangleLine(Point pa, Point pb, bool doOrganize)
+    {
+        pointA   = pa;
+        pointB   = pb;
+        VectorAB = pointB - pointA;
+        Length   = VectorAB.Length;
+        if (doOrganize)
         {
-            pointA   = pa;
-            pointB   = pb;
-            VectorAB = pointB - pointA;
-            Length   = VectorAB.Length;
-            if (doOrganize)
-            {
-                var i = pa.X.CompareTo(pb.X);
-                if (i == 0)
-                    i = pa.Y.CompareTo(pb.Y);
-                if (i <= 0)
-                    prepVector = new Vector(-VectorAB.Y, VectorAB.X);
-                else
-                    prepVector = new Vector(VectorAB.Y, -VectorAB.X);
-            }
-            else
-            {
+            var i = pa.X.CompareTo(pb.X);
+            if (i == 0)
+                i = pa.Y.CompareTo(pb.Y);
+            if (i <= 0)
                 prepVector = new Vector(-VectorAB.Y, VectorAB.X);
-            }
-
-            c = -RelativeDistance(pointA);
+            else
+                prepVector = new Vector(VectorAB.Y, -VectorAB.X);
         }
-
-        /// <summary>
-        ///     Czy jest to ukryta krawędź trójkąta (np. wynikająca z podziału wieloboku na trójkąty)
-        /// </summary>
-        public bool IsHiddenTriangleEdge { get; set; }
-
-        public double Length { get; }
-
-        public Point PointA
+        else
         {
-            get { return pointA; }
+            prepVector = new Vector(-VectorAB.Y, VectorAB.X);
         }
 
-        private Point pointA;
+        c = -RelativeDistance(pointA);
+    }
 
-        public Point PointB
-        {
-            get { return pointB; }
-        }
+    /// <summary>
+    ///     Czy jest to ukryta krawędź trójkąta (np. wynikająca z podziału wieloboku na trójkąty)
+    /// </summary>
+    public bool IsHiddenTriangleEdge { get; set; }
 
-        private Point pointB;
+    public double Length { get; }
 
-        /// <summary>
-        ///     czy odwracać znak pomiaru odległości
-        /// </summary>
-        public bool ReverseDistanceMeasure { get; set; }
+    public Point PointA
+    {
+        get { return pointA; }
+    }
 
-        public Vector VectorAB { get; private set; }
+    private Point pointA;
 
-        /// <summary>
-        ///     Realizuje operator !=
-        /// </summary>
-        /// <param name="left">lewa strona porównania</param>
-        /// <param name="right">prawa strona porównania</param>
-        /// <returns><c>true</c> jeśli obiekty są różne</returns>
-        public static bool operator !=(TopologyTriangleLine left, TopologyTriangleLine right)
-        {
-            if (left != (object)null && right != (object)null) return false;
-            if (left != (object)null || right != (object)null) return true;
-            return left.PointA == right.PointA || left.PointB == right.PointB;
-        }
+    public Point PointB
+    {
+        get { return pointB; }
+    }
 
-        /// <summary>
-        ///     Realizuje operator ==
-        /// </summary>
-        /// <param name="left">lewa strona porównania</param>
-        /// <param name="right">prawa strona porównania</param>
-        /// <returns><c>true</c> jeśli obiekty są równe</returns>
-        public static bool operator ==(TopologyTriangleLine left, TopologyTriangleLine right)
-        {
-            if (left == (object)null && right == (object)null) return true;
-            if (left == (object)null || right == (object)null) return false;
-            return left.PointA == right.PointA && left.PointB == right.PointB;
-        }
+    private Point pointB;
 
-        public double Distance(Point p)
-        {
-            return RelativeDistance(p) / Length;
-        }
+    /// <summary>
+    ///     czy odwracać znak pomiaru odległości
+    /// </summary>
+    public bool ReverseDistanceMeasure { get; set; }
 
-        /// <summary>
-        ///     Sprawdza, czy wskazany obiekt jest równy bieżącemu
-        /// </summary>
-        /// <param name="obj">obiekt do porównania z obiektem bieżącym</param>
-        /// <returns><c>true</c> jeśli wskazany obiekt jest równy bieżącemu; w przeciwnym wypadku<c>false</c></returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is TopologyTriangleLine)
-            {
-                var s = (TopologyTriangleLine)obj;
-                if (pointA.Equals(s.pointA) && pointB.Equals(s.pointB)) return true;
-                if (pointA.Equals(s.pointB) && pointB.Equals(s.pointA)) return true;
-            }
+    public Vector VectorAB { get; private set; }
 
-            return false;
-        }
+    /// <summary>
+    ///     Realizuje operator !=
+    /// </summary>
+    /// <param name="left">lewa strona porównania</param>
+    /// <param name="right">prawa strona porównania</param>
+    /// <returns><c>true</c> jeśli obiekty są różne</returns>
+    public static bool operator !=(TopologyTriangleLine? left, TopologyTriangleLine? right)
+    {
+        var eq = left == right;
+        return !eq;
+    }
 
-        /// <summary>
-        ///     Zwraca kod HASH obiektu
-        /// </summary>
-        /// <returns>kod HASH obiektu</returns>
-        public override int GetHashCode()
-        {
-            return pointA.GetHashCode() ^ pointB.GetHashCode();
-        }
+    /// <summary>
+    ///     Realizuje operator ==
+    /// </summary>
+    /// <param name="left">lewa strona porównania</param>
+    /// <param name="right">prawa strona porównania</param>
+    /// <returns><c>true</c> jeśli obiekty są równe</returns>
+    public static bool operator ==(TopologyTriangleLine? left, TopologyTriangleLine? right)
+    {
+        if (left == (object?)null && right == (object?)null) return true;
+        if (left == (object?)null || right == (object?)null) return false;
+        return left.PointA == right.PointA && left.PointB == right.PointB;
+    }
 
-        public Point GetOtherVertex(Point a)
-        {
-            if (a.Equals(pointA)) return pointB;
-            if (a.Equals(pointB)) return pointA;
-            throw new ArgumentException("Błędny punkt " + a);
-        }
+    public double Distance(Point p)
+    {
+        return RelativeDistance(p) / Length;
+    }
 
-        public bool HasThisTwoPoints(Point a, Point b)
-        {
-            return a.Equals(pointA) && b.Equals(pointB) || b.Equals(pointA) && a.Equals(pointB);
-        }
+    /// <summary>
+    ///     Sprawdza, czy wskazany obiekt jest równy bieżącemu
+    /// </summary>
+    /// <param name="obj">obiekt do porównania z obiektem bieżącym</param>
+    /// <returns><c>true</c> jeśli wskazany obiekt jest równy bieżącemu; w przeciwnym wypadku<c>false</c></returns>
+    public override bool Equals(object? obj)
+    {
+        if (obj is not TopologyTriangleLine line) return false;
+        if (pointA.Equals(line.pointA) && pointB.Equals(line.pointB)) return true;
+        if (pointA.Equals(line.pointB) && pointB.Equals(line.pointA)) return true;
+        return false;
+    }
 
-        public bool IsOnDarkSide(Point p)
-        {
-            return RelativeDistance(p) < 0;
-        }
+    /// <summary>
+    ///     Zwraca kod HASH obiektu
+    /// </summary>
+    /// <returns>kod HASH obiektu</returns>
+    public override int GetHashCode()
+    {
+        return pointA.GetHashCode() ^ pointB.GetHashCode();
+    }
 
-        /// <summary>
-        ///     Czy wskazany punkt jest końcem odcinka
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public bool IsVertex(Point p)
-        {
-            return p.Equals(pointA) || p.Equals(pointB);
-        }
+    public Point GetOtherVertex(Point a)
+    {
+        if (a.Equals(pointA)) return pointB;
+        if (a.Equals(pointB)) return pointA;
+        throw new ArgumentException("Błędny punkt " + a);
+    }
 
-        public double RelativeDistance(Point p)
-        {
-            var tmp = p.X * prepVector.X + p.Y * prepVector.Y + c;
-            return ReverseDistanceMeasure ? -tmp : tmp;
-        }
+    public bool HasThisTwoPoints(Point a, Point b)
+    {
+        return a.Equals(pointA) && b.Equals(pointB) || b.Equals(pointA) && a.Equals(pointB);
+    }
 
-        public void Reverse()
-        {
-            VectorAB = -VectorAB;
-            c        = -c;
-        }
+    public bool IsOnDarkSide(Point p)
+    {
+        return RelativeDistance(p) < 0;
+    }
 
-        public override string ToString()
-        {
-            if (pointA.Equals(pointB))
-                return string.Format("{0} ?????", pointA);
-            return string.Format("{0} -> {1}", pointA, pointB);
-        }
+    /// <summary>
+    ///     Czy wskazany punkt jest końcem odcinka
+    /// </summary>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    public bool IsVertex(Point p)
+    {
+        return p.Equals(pointA) || p.Equals(pointB);
+    }
 
-        public bool TriangleOnMinusOrZeroSide(TopologyTriangle t)
-        {
-            if (RelativeDistance(t.PA) > 0) return false;
-            if (RelativeDistance(t.PB) > 0) return false;
-            if (RelativeDistance(t.PC) > 0) return false;
-            return true;
-        }
+    public double RelativeDistance(Point p)
+    {
+        var tmp = p.X * prepVector.X + p.Y * prepVector.Y + c;
+        return ReverseDistanceMeasure ? -tmp : tmp;
+    }
 
-        private double c;
-        private Vector prepVector;
+    public void Reverse()
+    {
+        VectorAB = -VectorAB;
+        c        = -c;
+    }
 
-        public static TopologySideCross Cross(TopologyTriangleLine a, TopologyTriangleLine b)
-        {
-            var d1 = a.RelativeDistance(b.pointA);
-            // if (d1 == 0) return new TopologySideCross() { First = a, Second = b, CrossPoint = b.pointA };
-            var d2 = a.RelativeDistance(b.pointB);
-            // if (d2 == 0) return new TopologySideCross() { First = a, Second = b, CrossPoint = b.pointB };
-            if (d1 < 0 && d2 < 0 || d1 > 0 && d2 > 0) return null;
+    public override string ToString()
+    {
+        if (pointA.Equals(pointB))
+            return string.Format("{0} ?????", pointA);
+        return string.Format("{0} -> {1}", pointA, pointB);
+    }
 
-            d1 = b.RelativeDistance(a.pointA);
-            if (d1 == 0) return new TopologySideCross {First = a, Second = b, CrossPoint = a.pointA};
-            d2 = b.RelativeDistance(a.pointB);
-            if (d2 == 0) return new TopologySideCross {First = a, Second = b, CrossPoint = a.pointB};
-            if (d1 < 0 && d2 < 0 || d1 > 0 && d2 > 0) return null;
+    public bool TriangleOnMinusOrZeroSide(TopologyTriangle t)
+    {
+        if (RelativeDistance(t.PA) > 0) return false;
+        if (RelativeDistance(t.PB) > 0) return false;
+        if (RelativeDistance(t.PC) > 0) return false;
+        return true;
+    }
 
-            var fragment = (0 - d1) / (d2 - d1);
-            var realAB   = a.pointB - a.pointA;
-            return new TopologySideCross {First = a, Second = b, CrossPoint = a.pointA + realAB * fragment};
-        }
+    private double c;
+    private readonly Vector prepVector;
 
-        /// <summary>
-        ///     znajduje punkt przecięcia odcinka a z linią nieskończoną opartą na odcinku ll
-        /// </summary>
-        /// <param name="segment"></param>
-        /// <param name="longLine"></param>
-        /// <returns></returns>
-        public static TopologySideCross CrossByLL(TopologyTriangleLine segment, TopologyTriangleLine longLine)
-        {
-            if (segment.pointA == segment.pointB || longLine.pointA == longLine.pointB) return null;
-            var d1 = longLine.RelativeDistance(segment.PointA);
-            var d2 = longLine.RelativeDistance(segment.PointB);
-            if (d1 < 0 && d2 < 0 || d1 > 0 && d2 > 0) return null;
-            if (d1 == 0)
-                return new TopologySideCross {First = segment, Second = longLine, CrossPoint = segment.PointA};
-            if (d2 == 0)
-                return new TopologySideCross {First = segment, Second = longLine, CrossPoint = segment.PointB};
-            var fragment = (0 - d1) / (d2 - d1);
-            var vAB      = segment.pointB - segment.pointA;
-            var cp       = segment.pointA + vAB * fragment;
-            return new TopologySideCross {First = segment, Second = longLine, CrossPoint = cp};
-        }
+    public static TopologySideCross? Cross(TopologyTriangleLine? a, TopologyTriangleLine? b)
+    {
+        var d1 = a.RelativeDistance(b.pointA);
+        // if (d1 == 0) return new TopologySideCross() { First = a, Second = b, CrossPoint = b.pointA };
+        var d2 = a.RelativeDistance(b.pointB);
+        // if (d2 == 0) return new TopologySideCross() { First = a, Second = b, CrossPoint = b.pointB };
+        if (d1 < 0 && d2 < 0 || d1 > 0 && d2 > 0) return null;
+
+        d1 = b.RelativeDistance(a.pointA);
+        if (d1 == 0) return new TopologySideCross {First = a, Second = b, CrossPoint = a.pointA};
+        d2 = b.RelativeDistance(a.pointB);
+        if (d2 == 0) return new TopologySideCross {First = a, Second = b, CrossPoint = a.pointB};
+        if (d1 < 0 && d2 < 0 || d1 > 0 && d2 > 0) return null;
+
+        var fragment = (0 - d1) / (d2 - d1);
+        var realAB   = a.pointB - a.pointA;
+        return new TopologySideCross {First = a, Second = b, CrossPoint = a.pointA + realAB * fragment};
+    }
+
+    /// <summary>
+    ///     znajduje punkt przecięcia odcinka a z linią nieskończoną opartą na odcinku ll
+    /// </summary>
+    /// <param name="segment"></param>
+    /// <param name="longLine"></param>
+    /// <returns></returns>
+    public static TopologySideCross? CrossByLL(TopologyTriangleLine? segment, TopologyTriangleLine longLine)
+    {
+        if (segment.pointA == segment.pointB || longLine.pointA == longLine.pointB) return null;
+        var d1 = longLine.RelativeDistance(segment.PointA);
+        var d2 = longLine.RelativeDistance(segment.PointB);
+        if (d1 < 0 && d2 < 0 || d1 > 0 && d2 > 0) return null;
+        if (d1 == 0)
+            return new TopologySideCross {First = segment, Second = longLine, CrossPoint = segment.PointA};
+        if (d2 == 0)
+            return new TopologySideCross {First = segment, Second = longLine, CrossPoint = segment.PointB};
+        var fragment = (0 - d1) / (d2 - d1);
+        var vAB      = segment.pointB - segment.pointA;
+        var cp       = segment.pointA + vAB * fragment;
+        return new TopologySideCross {First = segment, Second = longLine, CrossPoint = cp};
     }
 }

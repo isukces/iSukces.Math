@@ -570,3 +570,4 @@ namespace iSukces.Mathematics.test
     }
 #endif
 }
+
