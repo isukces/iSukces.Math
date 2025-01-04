@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Company>Internet Sukces Piotr Stęclik</Company>
-    <Copyright>Copyright © Internet Sukces Piotr Stęclik 2017-2024</Copyright>
     <Product>iSukces.Math</Product>
     <ProjectGuid>{F65D90E2-7284-40AD-8D61-A27A027B835E}</ProjectGuid>
     <TargetFrameworks>net6.0;net6.0-windows;net8.0;net8.0-windows;net9.0;net9.0-windows</TargetFrameworks>
@@ -14,7 +12,6 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SignKey)</AssemblyOriginatorKeyFile>
     <NoWarn>1701;1702;CS1591;CS1572;CS1573;CS1591</NoWarn>
-    <Authors>Internet Sukces Piotr Stęclik</Authors>
     <Description>Użyteczne klasy i metody do nieco bardziej zaawansowanej matematyki</Description>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <PackageId>iSukces.Math</PackageId>
