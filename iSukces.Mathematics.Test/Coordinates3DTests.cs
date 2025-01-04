@@ -170,10 +170,24 @@ namespace iSukces.Mathematics.test
             Assert.Equal(0.0084381139884076, mInv.Y.Z, 14);
             Assert.Equal(-1.62442929130372, mInv.Origin.X, 14);
 #if FULLFRAMEWORK
-            Assert.Equal(-5.87891947280388, mInv.Origin.Y, 14);
+            const double originY = -5.87891947280388;
+#error Not supported            
+#elif NET9_0_OR_GREATER
+            #if WINDOWS
+            const double originY = -5.8789194728038803;
+            #else
+            const double originY = -5.8789194728038696;
+            #endif
+#elif NET6_0_OR_GREATER
+            #if WINDOWS
+            const double originY = -5.8789194728038803;
+            #else
+            const double originY = -5.8789194728038696;
+            #endif
 #else
-            Assert.Equal(-5.87891947280387, mInv.Origin.Y, 14);
+            const double originY = -5.8789194728038803;
 #endif
+            Assert.Equal(originY, mInv.Origin.Y, 14);
             Assert.Equal(2.50924481358202, mInv.Origin.Z, 14);
         }
 
@@ -316,11 +330,29 @@ namespace iSukces.Mathematics.test
             Assert.Equal(-0.6467093644797, mInv.Y.X, 14);
             Assert.Equal(-0.242100993105561, mInv.Y.Y, 14);
             Assert.Equal(-0.723293928518388, mInv.Y.Z, 14);
+            
 #if FULLFRAMEWORK
-            Assert.Equal(4.84833691152391, mInv.Origin.X, 14);
+            // const double originX = 4.8483369115239_1;
+#error Not supported            
+#elif NET9_0_OR_GREATER
+#if WINDOWS
+            const double originX = 4.8483369115239_1;
 #else
-            Assert.Equal(4.84833691152392, mInv.Origin.X, 14);
+            const double originX = 4.8483369115239_201;
 #endif
+            
+#elif NET6_0_OR_GREATER
+#if WINDOWS
+            const double originX = 4.8483369115239_103;
+#else
+            const double originX = 4.8483369115239_201;
+#endif            
+#else
+            // const double originX = 4.8483369115239_1;
+#error Not supported            
+#endif
+            
+            Assert.Equal(originX, mInv.Origin.X, 14);
             Assert.Equal(0.232961446337172, mInv.Origin.Y, 14);
             Assert.Equal(-3.47791974809742, mInv.Origin.Z, 14);
         }

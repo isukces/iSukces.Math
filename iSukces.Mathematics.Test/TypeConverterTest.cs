@@ -105,10 +105,10 @@ namespace iSukces.Mathematics.test
             test(Coordinates3D.NORMAL, "Identity");
             test(new Coordinates3D(Coordinates3D.XVersor, Coordinates3D.ZVersor), "X,Z");
             test(new Coordinates3D(Coordinates3D.ZVersor, Coordinates3D.XVersor, new Point3D(1, 0, 0)), "Z,X,1,0,0");
-            test(new Coordinates3D(new Vector3D(1, 1, 0), new Vector3D(2, 3, 4)),
-                "0.707106781186547,0.707106781186547,0,-0.123091490979333,0.123091490979333,0.984731927834662");
-            test(new Coordinates3D(new Vector3D(1, 1, 0), new Vector3D(2, 3, 4), new Point3D(1, 0, 0)),
-                "0.707106781186547,0.707106781186547,0,-0.123091490979333,0.123091490979333,0.984731927834662,1,0,0");
+            var expected1 = "0.7071067811865475,0.7071067811865475,0,-0.12309149097933272,0.12309149097933272,0.9847319278346618";
+            test(new Coordinates3D(new Vector3D(1, 1, 0), new Vector3D(2, 3, 4)), expected1);
+            var expected2 = "0.7071067811865475,0.7071067811865475,0,-0.12309149097933272,0.12309149097933272,0.9847319278346618,1,0,0";
+            test(new Coordinates3D(new Vector3D(1, 1, 0), new Vector3D(2, 3, 4), new Point3D(1, 0, 0)), expected2);
         }
 
         [Fact]

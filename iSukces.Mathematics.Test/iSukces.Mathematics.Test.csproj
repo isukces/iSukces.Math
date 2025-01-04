@@ -5,7 +5,7 @@
     <Company>Internet Sukces Piotr Stęclik</Company>
     <Copyright>Copyright © Internet Sukces Piotr Stęclik 2017-2024</Copyright>
     <ProjectGuid>{B224CDA7-2BBA-4BB0-8426-3926A62876C6}</ProjectGuid>
-    <TargetFrameworks>net48;net8.0;net9.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net6.0-windows;net8.0;net8.0-windows;net9.0;net9.0-windows</TargetFrameworks>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <Version>1.0.0.0</Version>
@@ -19,15 +19,6 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IncludeSource>false</IncludeSource>
     <IncludeSymbols>true</IncludeSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
-    <DefineConstants>$(DefineConstants);WPFFEATURES;FULLFRAMEWORK</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-    <DefineConstants>$(DefineConstants);NETCOREAPP31</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' != 'net'">
-    <DefineConstants>$(DefineConstants);COREFX</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\iSukces.Mathematics\iSukces.Mathematics.csproj" />
@@ -53,10 +44,6 @@
   <Import Project="..\packages\xunit.core.2.4.2\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.4.2\build\xunit.core.props')" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <!--
-    <Error Condition="!Exists('..\packages\xunit.core.2.4.1\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.4.1\build\xunit.core.props'))" />
-    <Error Condition="!Exists('..\packages\xunit.core.2.4.1\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.4.1\build\xunit.core.targets'))" />
--->
   </Target>
   <Import Project="..\packages\xunit.core.2.4.1\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.4.1\build\xunit.core.targets')" />
 </Project>

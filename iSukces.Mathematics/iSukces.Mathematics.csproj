@@ -5,7 +5,7 @@
     <Copyright>Copyright © Internet Sukces Piotr Stęclik 2017-2024</Copyright>
     <Product>iSukces.Math</Product>
     <ProjectGuid>{F65D90E2-7284-40AD-8D61-A27A027B835E}</ProjectGuid>
-    <TargetFrameworks>net48;net6.0;net6.0-windows;net8.0;net8.0-windows;net9.0;net9.0-windows;netcoreapp3.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net6.0-windows;net8.0;net8.0-windows;net9.0;net9.0-windows</TargetFrameworks>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
     <AssemblyVersion>1.24.1201.128</AssemblyVersion>
     <FileVersion>1.24.1201.128</FileVersion>
