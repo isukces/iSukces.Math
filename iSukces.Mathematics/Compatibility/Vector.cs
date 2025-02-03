@@ -1,4 +1,3 @@
-#nullable disable
 #if !WPFFEATURES
 
 using System;
@@ -181,3 +180,4 @@ namespace iSukces.Mathematics.Compatibility
 }
 
 #endif
+

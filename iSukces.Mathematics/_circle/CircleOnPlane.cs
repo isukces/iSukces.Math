@@ -8,6 +8,8 @@ using ThePoint=System.Windows.Point;
 using TheVector=System.Windows.Vector;
 #endif
 using System;
+using System.Linq;
+using iSukces.Helix;
 
 
 namespace iSukces.Mathematics;
@@ -159,5 +161,95 @@ public class CircleOnPlane : Circle, ICloneable
     /// Środek koła
     /// </summary>
     public ThePoint Center { get; protected set; }
+    
+    
+    public CircleCrossInfo GetCrossPoints(CircleOnPlane c)
+    {
+        if (this == c)
+            return new CircleCrossInfo(CircleLocations.Full);
+
+        var rSum = _radius + c._radius;
+        var v    = c.Center - Center;
+        var odl  = v.Length;
+
+        if (odl > rSum)
+            return new CircleCrossInfo(CircleLocations.NoCommonPoints);
+
+        if (odl < Math.Abs(_radius - c._radius))
+        {
+            if (_radius > c._radius)
+                return new CircleCrossInfo(CircleLocations.OtherCircleInside);
+            return new CircleCrossInfo(CircleLocations.InsideOtherCircle);
+        }
+
+        if (odl == rSum)
+        {
+            var p = Center + v * (_radius / rSum);
+            return new CircleCrossInfo(CircleLocations.Outside1Point, p);
+        }
+
+        if (odl == _radius - c._radius)
+        {
+            v.Normalize();
+            var p = Center + v * _radius;
+            return new CircleCrossInfo(CircleLocations.OtherCircleInside1Point, p);
+        }
+
+        if (odl == c._radius - _radius)
+        {
+            v.Normalize();
+            var p = Center - v * _radius;
+            return new CircleCrossInfo(CircleLocations.InsideOtherCircle, p);
+        }
+
+        var triangle = new Triangle
+        {
+            A = _radius,
+            B = c._radius,
+            C = odl
+        };
+        var hc            = triangle.HC;
+        var d1_length     = Triangle.ComputeSide(_radius, hc);
+        var v_d1          = v.SetLength(d1_length);
+        var v_hc          = v_d1.GetPrependicular().SetLength(hc);
+        var segmentVector = v_d1 + v_hc;
+
+        var info = new CircleCrossInfo(CircleLocations.Other)
+        {
+            Points =
+            [
+                Center + v_d1 + v_hc,
+                Center + v_d1 - v_hc
+            ]
+        };
+        return info;
+    }
+
+    /// <summary>
+    ///     Zwraca tablicę punktów przecięcia półprostej z okręgiem
+    /// </summary>
+    /// <param name="ray">promień (półprosta)</param>
+    /// <returns>tablica punktów przecięcia</returns>
+    public ThePoint[] GetCrossPoints(Ray2D ray)
+    {
+        var ray_StartPoint = ray.BeginPoint;
+        var ray_Versor     = ray.Axis;
+        var dx             = Center.X - ray_StartPoint.X;
+        var dy             = Center.Y - ray_StartPoint.Y;
+
+        var e = new SquareEquation
+        {
+            A = 1, // ray.Versor.Length ^ 2
+            B = -2 * (ray_Versor.X * dx + ray_Versor.Y * dy),
+            C = dx * dx + dy * dy - _radius * _radius
+        };
+        return
+        (
+            from x in e.Solutions
+            where x >= 0
+            select ray.GetPoint(x)
+        ).ToArray();
+    }
         
 }
+

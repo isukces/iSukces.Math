@@ -39,7 +39,7 @@ public abstract class GenericTypeConverter<T> : MathTypeConverter
             : base.ConvertTo(context, culture, value, destinationType);
     }
 
-    protected abstract string ConvertToStringInternal(ITypeDescriptorContext context, CultureInfo culture, T value);
+    protected abstract string ConvertToStringInternal(ITypeDescriptorContext? context, CultureInfo? culture, T? value);
 
     protected double DeserializeDouble(string x, CultureInfo culture)
     {

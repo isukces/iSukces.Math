@@ -37,9 +37,9 @@ public sealed class TopologyTriangleLine : TopologyBase
 
     public TopologyTriangleLine(Point pa, Point pb, bool doOrganize)
     {
-        pointA   = pa;
-        pointB   = pb;
-        VectorAB = pointB - pointA;
+        _pointA   = pa;
+        _pointB   = pb;
+        VectorAB = _pointB - _pointA;
         Length   = VectorAB.Length;
         if (doOrganize)
         {
@@ -56,7 +56,7 @@ public sealed class TopologyTriangleLine : TopologyBase
             prepVector = new Vector(-VectorAB.Y, VectorAB.X);
         }
 
-        c = -RelativeDistance(pointA);
+        c = -RelativeDistance(_pointA);
     }
 
     /// <summary>
@@ -66,19 +66,13 @@ public sealed class TopologyTriangleLine : TopologyBase
 
     public double Length { get; }
 
-    public Point PointA
-    {
-        get { return pointA; }
-    }
+    public Point PointA => _pointA;
 
-    private Point pointA;
+    private Point _pointA;
 
-    public Point PointB
-    {
-        get { return pointB; }
-    }
+    public Point PointB => _pointB;
 
-    private Point pointB;
+    private Point _pointB;
 
     /// <summary>
     ///     czy odwracać znak pomiaru odległości
@@ -125,8 +119,8 @@ public sealed class TopologyTriangleLine : TopologyBase
     public override bool Equals(object? obj)
     {
         if (obj is not TopologyTriangleLine line) return false;
-        if (pointA.Equals(line.pointA) && pointB.Equals(line.pointB)) return true;
-        if (pointA.Equals(line.pointB) && pointB.Equals(line.pointA)) return true;
+        if (_pointA.Equals(line._pointA) && _pointB.Equals(line._pointB)) return true;
+        if (_pointA.Equals(line._pointB) && _pointB.Equals(line._pointA)) return true;
         return false;
     }
 
@@ -136,19 +130,19 @@ public sealed class TopologyTriangleLine : TopologyBase
     /// <returns>kod HASH obiektu</returns>
     public override int GetHashCode()
     {
-        return pointA.GetHashCode() ^ pointB.GetHashCode();
+        return _pointA.GetHashCode() ^ _pointB.GetHashCode();
     }
 
     public Point GetOtherVertex(Point a)
     {
-        if (a.Equals(pointA)) return pointB;
-        if (a.Equals(pointB)) return pointA;
+        if (a.Equals(_pointA)) return _pointB;
+        if (a.Equals(_pointB)) return _pointA;
         throw new ArgumentException("Błędny punkt " + a);
     }
 
     public bool HasThisTwoPoints(Point a, Point b)
     {
-        return a.Equals(pointA) && b.Equals(pointB) || b.Equals(pointA) && a.Equals(pointB);
+        return a.Equals(_pointA) && b.Equals(_pointB) || b.Equals(_pointA) && a.Equals(_pointB);
     }
 
     public bool IsOnDarkSide(Point p)
@@ -163,7 +157,7 @@ public sealed class TopologyTriangleLine : TopologyBase
     /// <returns></returns>
     public bool IsVertex(Point p)
     {
-        return p.Equals(pointA) || p.Equals(pointB);
+        return p.Equals(_pointA) || p.Equals(_pointB);
     }
 
     public double RelativeDistance(Point p)
@@ -180,9 +174,9 @@ public sealed class TopologyTriangleLine : TopologyBase
 
     public override string ToString()
     {
-        if (pointA.Equals(pointB))
-            return string.Format("{0} ?????", pointA);
-        return string.Format("{0} -> {1}", pointA, pointB);
+        if (_pointA.Equals(_pointB))
+            return string.Format("{0} ?????", _pointA);
+        return string.Format("{0} -> {1}", _pointA, _pointB);
     }
 
     public bool TriangleOnMinusOrZeroSide(TopologyTriangle t)
@@ -198,21 +192,21 @@ public sealed class TopologyTriangleLine : TopologyBase
 
     public static TopologySideCross? Cross(TopologyTriangleLine? a, TopologyTriangleLine? b)
     {
-        var d1 = a.RelativeDistance(b.pointA);
+        var d1 = a.RelativeDistance(b._pointA);
         // if (d1 == 0) return new TopologySideCross() { First = a, Second = b, CrossPoint = b.pointA };
-        var d2 = a.RelativeDistance(b.pointB);
+        var d2 = a.RelativeDistance(b._pointB);
         // if (d2 == 0) return new TopologySideCross() { First = a, Second = b, CrossPoint = b.pointB };
         if (d1 < 0 && d2 < 0 || d1 > 0 && d2 > 0) return null;
 
-        d1 = b.RelativeDistance(a.pointA);
-        if (d1 == 0) return new TopologySideCross {First = a, Second = b, CrossPoint = a.pointA};
-        d2 = b.RelativeDistance(a.pointB);
-        if (d2 == 0) return new TopologySideCross {First = a, Second = b, CrossPoint = a.pointB};
+        d1 = b.RelativeDistance(a._pointA);
+        if (d1 == 0) return new TopologySideCross {First = a, Second = b, CrossPoint = a._pointA};
+        d2 = b.RelativeDistance(a._pointB);
+        if (d2 == 0) return new TopologySideCross {First = a, Second = b, CrossPoint = a._pointB};
         if (d1 < 0 && d2 < 0 || d1 > 0 && d2 > 0) return null;
 
         var fragment = (0 - d1) / (d2 - d1);
-        var realAB   = a.pointB - a.pointA;
-        return new TopologySideCross {First = a, Second = b, CrossPoint = a.pointA + realAB * fragment};
+        var realAB   = a._pointB - a._pointA;
+        return new TopologySideCross {First = a, Second = b, CrossPoint = a._pointA + realAB * fragment};
     }
 
     /// <summary>
@@ -223,7 +217,7 @@ public sealed class TopologyTriangleLine : TopologyBase
     /// <returns></returns>
     public static TopologySideCross? CrossByLL(TopologyTriangleLine? segment, TopologyTriangleLine longLine)
     {
-        if (segment.pointA == segment.pointB || longLine.pointA == longLine.pointB) return null;
+        if (segment._pointA == segment._pointB || longLine._pointA == longLine._pointB) return null;
         var d1 = longLine.RelativeDistance(segment.PointA);
         var d2 = longLine.RelativeDistance(segment.PointB);
         if (d1 < 0 && d2 < 0 || d1 > 0 && d2 > 0) return null;
@@ -232,8 +226,8 @@ public sealed class TopologyTriangleLine : TopologyBase
         if (d2 == 0)
             return new TopologySideCross {First = segment, Second = longLine, CrossPoint = segment.PointB};
         var fragment = (0 - d1) / (d2 - d1);
-        var vAB      = segment.pointB - segment.pointA;
-        var cp       = segment.pointA + vAB * fragment;
+        var vAB      = segment._pointB - segment._pointA;
+        var cp       = segment._pointA + vAB * fragment;
         return new TopologySideCross {First = segment, Second = longLine, CrossPoint = cp};
     }
 }

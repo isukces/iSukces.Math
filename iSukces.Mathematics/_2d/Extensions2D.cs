@@ -45,4 +45,10 @@ public static class Extensions2D
             new Point(left, top)
         };
     }
+    
+    public static Vector SetLength(this Vector sourceVector, double newLength)
+    {
+        return sourceVector * (newLength / sourceVector.Length);
+    }
+
 }
