@@ -16,12 +16,12 @@ public sealed class AverageWeighted
     public override string ToString() { return string.Format("{0} from {1} points", Average, Count); }
 
     /// <summary>
-    ///     ilosc dodanych punktów; własność jest tylko do odczytu.
+    ///     Ilosc dodanych punktów; własność jest tylko do odczytu.
     /// </summary>
     public int Count { get; private set; }
 
     /// <summary>
-    ///     wartość średnia; własność jest tylko do odczytu.
+    ///     Wartość średnia; własność jest tylko do odczytu.
     /// </summary>
     public double Average => _licznik / _mianownik;
 

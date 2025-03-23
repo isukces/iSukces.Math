@@ -37,13 +37,13 @@ public static class Extensions2D
         var right  = rectangle.Right;
         var top    = rectangle.Top;
         var bottom = rectangle.Bottom;
-        return new[]
-        {
+        return
+        [
             new Point(left, bottom),
             new Point(right, bottom),
             new Point(right, top),
             new Point(left, top)
-        };
+        ];
     }
     
     public static Vector SetLength(this Vector sourceVector, double newLength)
