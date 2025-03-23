@@ -16,7 +16,7 @@ public sealed class SimpleRectTopologySolverTests
     public void T01_Should_check_CommonRangeWithPositiveLength(double min, double max, bool result)
     {
         MinMax r = new MinMax(0, 10);
-        var    q = r.HasCommonRangeWithPositiveLength(new Range(min, max));
+        var    q = r.HasCommonRangeWithPositiveLength(new DRange(min, max));
         Assert.Equal(result, q);
         q = r.HasCommonRangeWithPositiveLength(min, max);
         Assert.Equal(result, q);

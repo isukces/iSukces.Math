@@ -15,31 +15,31 @@ namespace iSukces.Mathematics;
 
 public static class RangeExtensions
 {
-    public static Range GetRange<T>(this IEnumerable<T>? src, Func<T, double> map)
+    public static DRange GetRange<T>(this IEnumerable<T>? src, Func<T, double> map)
     {
         if (src is null)
-            return Range.Empty;
+            return DRange.Empty;
         if (map is null) throw new ArgumentNullException(nameof(map));
 
         var min = double.NaN;
         var max = double.NaN;
         foreach (var current in src)
             Aggregate(map(current), ref max, ref min);
-        return double.IsNaN(min) ? Range.Empty : new Range(min, max);
+        return double.IsNaN(min) ? DRange.Empty : new DRange(min, max);
     }
 
-    public static Range GetRange(this IEnumerable<double>? src)
+    public static DRange GetRange(this IEnumerable<double>? src)
     {
         switch (src)
         {
-            case null: return Range.Empty;
-            case IReadOnlyList<double> list: return Range.FromList(list);
+            case null: return DRange.Empty;
+            case IReadOnlyList<double> list: return DRange.FromList(list);
         }
         var min = double.NaN;
         var max = double.NaN;
         foreach (var current in src)
             Aggregate(current, ref max, ref min);
-        return double.IsNaN(min) ? Range.Empty : new Range(min, max);
+        return double.IsNaN(min) ? DRange.Empty : new DRange(min, max);
     }
 
     public static Range2D GetRange(this IEnumerable<ThePoint>? src)
@@ -47,8 +47,8 @@ public static class RangeExtensions
         if (src is null)
             return Range2D.Empty;
 
-        var x = Range.Empty;
-        var y = Range.Empty;
+        var x = DRange.Empty;
+        var y = DRange.Empty;
         foreach (var current in src)
         {
             Aggregate(current.X, ref x);
@@ -62,9 +62,9 @@ public static class RangeExtensions
         if (src is null)
             return Range3D.Empty;
 
-        var x = Range.Empty;
-        var y = Range.Empty;
-        var z = Range.Empty;
+        var x = DRange.Empty;
+        var y = DRange.Empty;
+        var z = DRange.Empty;
         foreach (var current in src)
         {
             Aggregate(current.X, ref x);
@@ -78,8 +78,8 @@ public static class RangeExtensions
     {
         if (src is null)
             return Range2D.Empty;
-        var x = Range.Empty;
-        var y = Range.Empty;
+        var x = DRange.Empty;
+        var y = DRange.Empty;
         foreach (var current in src)
         {
             var c = map(current);
@@ -93,8 +93,8 @@ public static class RangeExtensions
     {
         if (src is null)
             return Range2D.Empty;
-        var x = Range.Empty;
-        var y = Range.Empty;
+        var x = DRange.Empty;
+        var y = DRange.Empty;
         foreach (var current in src)
         {
             Aggregate(mapX(current), ref x);
@@ -116,16 +116,16 @@ public static class RangeExtensions
             min = current;
     }
 
-    private static void Aggregate(double current, ref Range range)
+    private static void Aggregate(double current, ref DRange range)
     {
         if (range.IsEmpty)
-            range = new Range(current, current);
+            range = new DRange(current, current);
         else
         {
             if (current > range.Max)
-                range = new Range(range.Min, current);
+                range = new DRange(range.Min, current);
             else if (current < range.Min)
-                range = new Range(current, range.Max);
+                range = new DRange(current, range.Max);
         }
     }
 }

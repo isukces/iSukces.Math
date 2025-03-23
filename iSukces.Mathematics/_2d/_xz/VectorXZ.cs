@@ -126,5 +126,6 @@ public struct VectorXZ : IEquatable<VectorXZ>
     public double X      { get; }
     public double Z      { get; }
     public double Length => Math.Sqrt(X * X + Z * Z);
+    public double LengthSquared => X * X + Z * Z;
 }
 

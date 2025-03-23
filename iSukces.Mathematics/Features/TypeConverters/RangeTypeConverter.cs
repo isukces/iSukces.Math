@@ -5,20 +5,20 @@ using System.Globalization;
 
 namespace iSukces.Mathematics.TypeConverters;
 
-public class RangeTypeConverter : GenericTypeConverter<Range>
+public class RangeTypeConverter : GenericTypeConverter<DRange>
 {
-    protected override Range ConvertFromStringInternal(ITypeDescriptorContext context, CultureInfo culture,
+    protected override DRange ConvertFromStringInternal(ITypeDescriptorContext context, CultureInfo culture,
         string value)
     {
         if (string.Equals(value.Trim(), Empty, StringComparison.OrdinalIgnoreCase))
-            return Range.Empty;
+            return DRange.Empty;
         var a = value.Split(GetSeparator(culture));
         if (a.Length < 2) throw PrepareArgumentException(value);
-        return new Range(DeserializeDouble(a[0], culture), DeserializeDouble(a[1], culture));
+        return new DRange(DeserializeDouble(a[0], culture), DeserializeDouble(a[1], culture));
     }
 
     protected override string ConvertToStringInternal(ITypeDescriptorContext context, CultureInfo culture,
-        Range value)
+        DRange value)
     {
         if (value.IsEmpty)
             return Empty;

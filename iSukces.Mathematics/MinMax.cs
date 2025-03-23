@@ -483,7 +483,7 @@ public sealed class MinMax : MinMaxGeneric<double>, ICloneable
 
     public bool HasCommonRangeWithPositiveLength(double min, double max) { return max > Min && min < Max; }
 
-    public bool HasCommonRangeWithPositiveLength(Range q) { return q.Max > Min && q.Min < Max; }
+    public bool HasCommonRangeWithPositiveLength(DRange q) { return q.Max > Min && q.Min < Max; }
 
     /// <summary>
     ///     Czy liczba zawiera się w przedziale domkniętym [min;max]

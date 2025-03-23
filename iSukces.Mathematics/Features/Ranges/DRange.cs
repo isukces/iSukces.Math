@@ -18,10 +18,9 @@ namespace iSukces.Mathematics;
 [TypeConverter(typeof(RangeTypeConverter))]
 #endif
 
-[Obsolete("Use DRange instead. Renamed due to System.Range conflicts", true)]
-public struct Range : IEquatable<Range>
+public struct DRange : IEquatable<DRange>
 {
-    public Range(double min, double max)
+    public DRange(double min, double max)
         : this()
     {
         Min = min;
@@ -34,14 +33,14 @@ public struct Range : IEquatable<Range>
             _kind = RangeKind.Zero;
     }
 
-    public static Range FromCenterAndLength(double center, double length)
+    public static DRange FromCenterAndLength(double center, double length)
     {
         if (length < 0) return Empty;
         length *= 0.5;
-        return new Range(center - length, center + length);
+        return new DRange(center - length, center + length);
     }
 
-    public static Range FromList(IReadOnlyList<double>? doubles)
+    public static DRange FromList(IReadOnlyList<double>? doubles)
     {
         if (doubles is null || doubles.Count == 0)
             return Empty;
@@ -56,12 +55,12 @@ public struct Range : IEquatable<Range>
                 min = current;
         }
 
-        return new Range(min, max);
+        return new DRange(min, max);
     }
 
-    public static Range FromValues(double a, double b) { return a > b ? new Range(b, a) : new Range(a, b); }
+    public static DRange FromValues(double a, double b) { return a > b ? new DRange(b, a) : new DRange(a, b); }
 
-    public static Range FromValues(params double[] a) { return FromList(a); }
+    public static DRange FromValues(params double[] a) { return FromList(a); }
 
     /*public static Range operator +(Range a, Range b)
     {
@@ -73,41 +72,41 @@ public struct Range : IEquatable<Range>
         return new Range(min, max);
     }*/
 
-    public static Range operator +(Range a, double b) { return a.IsEmpty ? a : new Range(a.Min + b, a.Max + b); }
+    public static DRange operator +(DRange a, double b) { return a.IsEmpty ? a : new DRange(a.Min + b, a.Max + b); }
 
-    public static Range operator +(double b, Range a) { return a.IsEmpty ? a : new Range(a.Min + b, a.Max + b); }
+    public static DRange operator +(double b, DRange a) { return a.IsEmpty ? a : new DRange(a.Min + b, a.Max + b); }
 
-    public static Range operator &(Range a, Range b)
+    public static DRange operator &(DRange a, DRange b)
     {
         if (a.IsEmptyOrInvalid || b.IsEmptyOrInvalid)
             return Empty;
-        var tmp = new Range(Math.Max(a.Min, b.Min), Math.Min(a.Max, b.Max));
+        var tmp = new DRange(Math.Max(a.Min, b.Min), Math.Min(a.Max, b.Max));
         return tmp._kind == RangeKind.Invalid ? Empty : tmp;
     }
 
-    public static Range operator |(Range a, Range b)
+    public static DRange operator |(DRange a, DRange b)
     {
         if (a.IsEmptyOrInvalid)
             return b;
         if (b.IsEmptyOrInvalid)
             return a;
-        return new Range(Math.Min(a.Min, b.Min), Math.Max(a.Max, b.Max));
+        return new DRange(Math.Min(a.Min, b.Min), Math.Max(a.Max, b.Max));
     }
 
-    public static Range operator |(Range a, double b)
+    public static DRange operator |(DRange a, double b)
     {
         if (a.IsEmptyOrInvalid)
-            return new Range(b, b);
-        return new Range(Math.Min(a.Min, b), Math.Max(a.Max, b));
+            return new DRange(b, b);
+        return new DRange(Math.Min(a.Min, b), Math.Max(a.Max, b));
     }
 
-    public static bool operator ==(Range left, Range right) { return left.Equals(right); }
+    public static bool operator ==(DRange left, DRange right) { return left.Equals(right); }
 
-    public static explicit operator MinMax(Range r) { return r.IsEmpty ? new MinMax() : new MinMax(r.Min, r.Max); }
+    public static explicit operator MinMax(DRange r) { return r.IsEmpty ? new MinMax() : new MinMax(r.Min, r.Max); }
 
-    public static explicit operator Range(MinMax r) { return r.IsInvalid ? Empty : new Range(r.Min, r.Max); }
+    public static explicit operator DRange(MinMax r) { return r.IsInvalid ? Empty : new DRange(r.Min, r.Max); }
 
-    public static bool operator !=(Range left, Range right) { return !left.Equals(right); }
+    public static bool operator !=(DRange left, DRange right) { return !left.Equals(right); }
 
 
     /*
@@ -120,9 +119,9 @@ public struct Range : IEquatable<Range>
     }
     */
 
-    public static Range operator -(Range a, double b) { return a.IsEmpty ? a : new Range(a.Min - b, a.Max - b); }
+    public static DRange operator -(DRange a, double b) { return a.IsEmpty ? a : new DRange(a.Min - b, a.Max - b); }
 
-    public static Range[] operator -(Range a, Range b)
+    public static DRange[] operator -(DRange a, DRange b)
     {
         var notCutting = a.IsZeroOnInvalid
                          || b.IsZeroOnInvalid
@@ -133,14 +132,14 @@ public struct Range : IEquatable<Range>
         var has1 = b.Min > a.Min;
         var has2 = b.Max < a.Max;
         if (!has1)
-            return has2 ? new[] { new Range(b.Max, a.Max) } : Array.Empty<Range>();
-        var r1 = new Range(a.Min, b.Min);
+            return has2 ? new[] { new DRange(b.Max, a.Max) } : Array.Empty<DRange>();
+        var r1 = new DRange(a.Min, b.Min);
         return has2
-            ? new[] { r1, new Range(b.Max, a.Max) }
+            ? new[] { r1, new DRange(b.Max, a.Max) }
             : new[] { r1 };
     }
 
-    public static Range operator -(Range a) { return a.IsEmpty ? a : new Range(-a.Max, -a.Min); }
+    public static DRange operator -(DRange a) { return a.IsEmpty ? a : new DRange(-a.Max, -a.Min); }
 
     public bool Cut(ref double x)
     {
@@ -153,7 +152,7 @@ public struct Range : IEquatable<Range>
         return true;
     }
 
-    public bool Equals(Range other)
+    public bool Equals(DRange other)
     {
         var e1 = IsEmpty;
         var e2 = other.IsEmpty;
@@ -164,7 +163,7 @@ public struct Range : IEquatable<Range>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        return obj is Range range && Equals(range);
+        return obj is DRange range && Equals(range);
     }
 
     public override int GetHashCode()
@@ -182,7 +181,7 @@ public struct Range : IEquatable<Range>
     public bool IncludesExclusive(double x) { return !IsEmpty && x > Min && x < Max; }
 
     public RangeI Round() { return new RangeI(Min.Round(), Max.Round()); }
-    public Range RoundDouble() { return new Range(Min.Round(), Max.Round()); }
+    public DRange RoundDouble() { return new DRange(Min.Round(), Max.Round()); }
 
     public bool ShouldSerializeCenter() { return false; }
 
@@ -205,29 +204,29 @@ public struct Range : IEquatable<Range>
                 : $"Range {Min}..{Max}";
     }
 
-    public Range WithDeltaMax(double deltaMax)
+    public DRange WithDeltaMax(double deltaMax)
     {
-        return _kind != RangeKind.Empty ? new Range(Min, Max + deltaMax) : this;
+        return _kind != RangeKind.Empty ? new DRange(Min, Max + deltaMax) : this;
     }
 
-    public Range WithDeltaMin(double deltaMin)
+    public DRange WithDeltaMin(double deltaMin)
     {
-        return _kind != RangeKind.Empty ? new Range(Min + deltaMin, Max) : this;
+        return _kind != RangeKind.Empty ? new DRange(Min + deltaMin, Max) : this;
     }
 
-    public Range WithMax(double newMax) { return _kind != RangeKind.Empty ? new Range(Min, newMax) : this; }
+    public DRange WithMax(double newMax) { return _kind != RangeKind.Empty ? new DRange(Min, newMax) : this; }
 
 
-    public Range WithMin(double newMin) { return _kind != RangeKind.Empty ? new Range(newMin, Max) : this; }
+    public DRange WithMin(double newMin) { return _kind != RangeKind.Empty ? new DRange(newMin, Max) : this; }
 
-    public Range WithValue(double x)
+    public DRange WithValue(double x)
     {
         return IsEmpty
-            ? new Range(x, x)
-            : new Range(Math.Min(Min, x), Math.Max(Max, x));
+            ? new DRange(x, x)
+            : new DRange(Math.Min(Min, x), Math.Max(Max, x));
     }
 
-    public static Range Empty => new Range();
+    public static DRange Empty => new DRange();
 
     public double Min { get; }
     public double Max { get; }
@@ -245,11 +244,4 @@ public struct Range : IEquatable<Range>
 
     private readonly RangeKind _kind;
 }
-
-public enum RangeKind : byte
-{
-    Empty,
-    Zero,
-    Invalid,
-    Normal
-}
+ 

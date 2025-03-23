@@ -22,17 +22,17 @@ namespace iSukces.Mathematics.test
         [Fact]
         public void T01_Should_Serialize_Range()
         {
-            Action<Range, string> test = (range, s) =>
+            Action<DRange, string> test = (range, s) =>
             {
                 var json = JsonConvert.SerializeObject(range);
                 Assert.Equal(Quote + s + Quote, json);
-                var range2 = JsonConvert.DeserializeObject<Range>(json);
+                var range2 = JsonConvert.DeserializeObject<DRange>(json);
                 Assert.Equal(range.Min, range2.Min);
                 Assert.Equal(range.Max, range2.Max);
             };
-            test(new Range(1, 3.3), "1,3.3");
-            test(new Range(1, -3.3), "1,-3.3");
-            test(Range.Empty, "Empty");
+            test(new DRange(1, 3.3), "1,3.3");
+            test(new DRange(1, -3.3), "1,-3.3");
+            test(DRange.Empty, "Empty");
         }
 
         [Fact]

@@ -13,7 +13,7 @@ namespace iSukces.Mathematics;
 
 public struct Range3D
 {
-    public Range3D(Range xRange, Range yRange, Range zRange)
+    public Range3D(DRange xRange, DRange yRange, DRange zRange)
     {
         XRange = xRange;
         YRange = yRange;
@@ -41,9 +41,9 @@ public struct Range3D
     }
 
 
-    public Range XRange { get; private set; }
-    public Range YRange { get; private set; }
-    public Range ZRange { get; private set; }
+    public DRange XRange { get; private set; }
+    public DRange YRange { get; private set; }
+    public DRange ZRange { get; private set; }
     public bool IsEmpty
     {
         get { return XRange.IsEmpty || YRange.IsEmpty || ZRange.IsEmpty; }

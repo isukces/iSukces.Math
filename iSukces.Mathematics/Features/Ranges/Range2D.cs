@@ -19,7 +19,7 @@ namespace iSukces.Mathematics;
 
 public struct Range2D
 {
-    public Range2D(Range xRange, Range yRange)
+    public Range2D(DRange xRange, DRange yRange)
     {
         XRange = xRange;
         YRange = yRange;
@@ -27,14 +27,14 @@ public struct Range2D
         
     public Range2D(Point p1, Point p2)
     {
-        XRange = Range.FromValues(p1.X, p2.X);
-        YRange = Range.FromValues(p1.Y, p2.Y);
+        XRange = DRange.FromValues(p1.X, p2.X);
+        YRange = DRange.FromValues(p1.Y, p2.Y);
     }
 
     public Range2D(Rect rect)
     {
-        XRange = new Range(rect.Left, rect.Right);
-        YRange = new Range(rect.Top, rect.Bottom);
+        XRange = new DRange(rect.Left, rect.Right);
+        YRange = new DRange(rect.Top, rect.Bottom);
     }
 
     public Range2D Round()
@@ -64,8 +64,8 @@ public struct Range2D
         get { return new Range2D(); }
     }
 
-    public Range XRange { get; private set; }
-    public Range YRange { get; private set; }
+    public DRange XRange { get; private set; }
+    public DRange YRange { get; private set; }
     public bool IsEmpty
     {
         get { return XRange.IsEmpty || YRange.IsEmpty; }
