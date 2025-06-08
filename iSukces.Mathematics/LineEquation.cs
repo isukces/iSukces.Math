@@ -1,7 +1,8 @@
+using System;
+using System.Text;
 #if !WPFFEATURES
 using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;
-
 #else
 using System.Windows;
 using System.Windows.Media;
@@ -9,8 +10,6 @@ using System.Windows.Media.Media3D;
 using ThePoint = System.Windows.Point;
 using TheVector = System.Windows.Vector;
 #endif
-using System;
-using System.Text;
 
 
 namespace iSukces.Mathematics;
@@ -29,7 +28,8 @@ public sealed class LineEquation : ICloneable
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
-    public LineEquation(ThePoint a, ThePoint b) :
+    public LineEquation(ThePoint a, ThePoint b)
+        :
         this(a.X, a.Y, b.X, b.Y)
     {
         Normalize();
@@ -144,7 +144,7 @@ public sealed class LineEquation : ICloneable
             return true;
         }
 
-        if (Test(p1Begin, p1End) && Test(p2Begin, p2End)) 
+        if (Test(p1Begin, p1End) && Test(p2Begin, p2End))
             return cross;
         return null;
     }
@@ -252,21 +252,23 @@ public sealed class LineEquation : ICloneable
     public override string ToString()
     {
         var sb = new StringBuilder();
-        if (A != 0)
-            sb.AppendFormat("{0} * x", A);
-        if (B != 0)
-            if (sb.Length > 0)
-            {
-                if (B > 0)
-                    sb.Append(" + ");
-                else
-                    sb.Append(" - ");
-                sb.AppendFormat("{0} * y", Math.Abs(B));
-            }
-            else
-            {
-                sb.AppendFormat("{0} * y", B);
-            }
+        if (B == 0)
+        {
+            if (A == 0) return "0 = " + C;
+            return "x = " + -C / A;
+        }
+
+        if (A == 0)
+        {
+            return "y = " + -C / B;
+        }
+
+        sb.Append($"{A} * x");
+        if (B > 0)
+            sb.Append(" + ");
+        else
+            sb.Append(" - ");
+        sb.Append($"{Math.Abs(B)} * y");
 
         if (C != 0)
             if (sb.Length > 0)
@@ -275,21 +277,20 @@ public sealed class LineEquation : ICloneable
                     sb.Append(" + ");
                 else
                     sb.Append(" - ");
-                sb.AppendFormat("{0}", Math.Abs(C));
+                sb.Append($"{Math.Abs(C)}");
             }
             else
             {
-                sb.AppendFormat("{0}", C);
+                sb.Append($"{C}");
             }
 
         sb.Append(" = 0");
         return "Line: " + sb;
     }
 
-    public bool MoreVertical
-    {
-        get { return Math.Abs(A) > Math.Abs(B); }
-    }
+    #region Properties
+
+    public bool MoreVertical => Math.Abs(A) > Math.Abs(B);
 
     /// <summary>
     ///     wsp. A
@@ -299,10 +300,7 @@ public sealed class LineEquation : ICloneable
     /// <summary>
     ///     Własność jest tylko do odczytu.
     /// </summary>
-    public double AngleDeg
-    {
-        get { return Math.Atan2(-B, A) * (180.0 / Math.PI); }
-    }
+    public double AngleDeg => Math.Atan2(-B, A) * (180.0 / Math.PI);
 
     /// <summary>
     ///     wsp. B
@@ -317,10 +315,7 @@ public sealed class LineEquation : ICloneable
     /// <summary>
     ///     Własność jest tylko do odczytu.
     /// </summary>
-    public bool IsInvalid
-    {
-        get { return A == 0 && B == 0; }
-    }
+    public bool IsInvalid => A == 0 && B == 0;
 
     /// <summary>
     ///     Punkt zerowy - taki X dla którego Y=0
@@ -335,4 +330,6 @@ public sealed class LineEquation : ICloneable
             return -C / A;
         }
     }
+
+    #endregion
 }
