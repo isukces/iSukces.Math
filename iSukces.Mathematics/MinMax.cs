@@ -124,6 +124,16 @@ public sealed class MinMax : MinMaxGeneric<double>, ICloneable
         return new MinMax(center - size, center + size);
     }
 
+    public static MinMax FromMinAndSize(double min, double size)
+    {
+        return new MinMax(min, min + size);
+    }
+
+    public static MinMax FromMaxAndSize(double max, double size)
+    {
+        return new MinMax(max - size, max);
+    }
+
     [Obsolete]
     public static MinMax FromList<T>(IEnumerable<T> src, Func<T, double> function)
     {

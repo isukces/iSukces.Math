@@ -39,6 +39,16 @@ public struct DRange : IEquatable<DRange>
         length *= 0.5;
         return new DRange(center - length, center + length);
     }
+    
+    public static DRange FromMinAndLength(double min, double size)
+    {
+        return new DRange(min, min + size);
+    }
+
+    public static DRange FromMaxAndLength(double max, double size)
+    {
+        return new DRange(max - size, max);
+    }
 
     public static DRange FromList(IReadOnlyList<double>? doubles)
     {
@@ -61,16 +71,6 @@ public struct DRange : IEquatable<DRange>
     public static DRange FromValues(double a, double b) { return a > b ? new DRange(b, a) : new DRange(a, b); }
 
     public static DRange FromValues(params double[] a) { return FromList(a); }
-
-    /*public static Range operator +(Range a, Range b)
-    {
-        if (a.IsZeroOnInvalid) return b;
-        if (b.IsZeroOnInvalid) return a;
-
-        var min = Math.Min(a.Min, b.Min);
-        var max = Math.Max(a.Max, b.Max);
-        return new Range(min, max);
-    }*/
 
     public static DRange operator +(DRange a, double b) { return a.IsEmpty ? a : new DRange(a.Min + b, a.Max + b); }
 

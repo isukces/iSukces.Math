@@ -59,6 +59,17 @@ public struct RangeI : IEquatable<RangeI>
         var min = center - length / 2;
         return new RangeI(min, min + length);
     }
+    
+    public static RangeI FromMinAndLength(int min, int size)
+    {
+        return new RangeI(min, min + size);
+    }
+
+    public static RangeI FromMaxAndLength(int max, int size)
+    {
+        return new RangeI(max - size, max);
+    }
+
 
     public static RangeI FromList(IList<int>? a)
     {
