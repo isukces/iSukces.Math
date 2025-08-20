@@ -40,10 +40,10 @@ public struct RangeI : IEquatable<RangeI>
         return result;
     }
 
-    public static IReadOnlyList<RangeI> Cut(IEnumerable<RangeI> src, IEnumerable<RangeI> cutters)
+    public static IReadOnlyList<RangeI> Cut(IEnumerable<RangeI>? src, IEnumerable<RangeI>? cutters)
     {
         if (src is null)
-            return Array.Empty<RangeI>();
+            return [];
         if (cutters != null)
             foreach (var c in cutters)
             {
@@ -60,14 +60,14 @@ public struct RangeI : IEquatable<RangeI>
         return new RangeI(min, min + length);
     }
     
-    public static RangeI FromMinAndLength(int min, int size)
+    public static RangeI FromMinAndLength(int min, int length)
     {
-        return new RangeI(min, min + size);
+        return new RangeI(min, min + length);
     }
 
-    public static RangeI FromMaxAndLength(int max, int size)
+    public static RangeI FromMaxAndLength(int max, int length)
     {
-        return new RangeI(max - size, max);
+        return new RangeI(max - length, max);
     }
 
 
@@ -210,16 +210,16 @@ public struct RangeI : IEquatable<RangeI>
                          || b.IsZeroOnInvalid
                          || b.Min >= a.Max
                          || b.Max <= a.Min;
-        if (notCutting) return new[] {a};
+        if (notCutting) return [a];
 
         var has1 = b.Min > a.Min;
         var has2 = b.Max < a.Max;
         if (!has1)
-            return has2 ? new[] {new RangeI(b.Max, a.Max)} : Array.Empty<RangeI>();
+            return has2 ? [new RangeI(b.Max, a.Max)] : [];
         var r1 = new RangeI(a.Min, b.Min);
         return has2
-            ? new[] {r1, new RangeI(b.Max, a.Max)}
-            : new[] {r1};
+            ? [r1, new RangeI(b.Max, a.Max)]
+            : [r1];
     }
 
 
@@ -238,7 +238,7 @@ public struct RangeI : IEquatable<RangeI>
     {
         var edges1 = edges.Distinct().OrderBy(a => a).ToArray();
         var cnt    = edges1.Length - 1;
-        if (cnt < 1) return Array.Empty<RangeI>();
+        if (cnt < 1) return [];
         var result = new RangeI[cnt];
         for (var i = 0; i < cnt; i++)
             result[i] = new RangeI(edges1[i], edges1[i + 1]);
@@ -248,33 +248,33 @@ public struct RangeI : IEquatable<RangeI>
     public RangeI[] ArrayOfValid()
     {
         return IsZeroOnInvalid
-            ? Array.Empty<RangeI>()
-            : new[] {this};
+            ? []
+            : [this];
     }
 
     public IReadOnlyList<RangeI> Cut(IEnumerable<RangeI> cutters)
     {
-        return Cut(new[] {this}, cutters);
+        return Cut([this], cutters);
     }
 
     public IReadOnlyList<RangeI> Cut(RangeI cutter)
     {
         if (IsEmpty)
-            return Array.Empty<RangeI>();
+            return [];
         var common = cutter * this;
         if (common.IsZeroOnInvalid)
-            return new[] {this};
+            return [this];
         if (common.Equals(this))
-            return Array.Empty<RangeI>();
+            return [];
 
         if (cutter.IsZeroOnInvalid || cutter.Max <= Min || cutter.Min >= Max)
-            return new[] {this};
+            return [this];
         if (cutter.Min > Min && cutter.Max < Max)
             // wycina środek
-            return new[] {new RangeI(Min, cutter.Min), new RangeI(cutter.Max, Max)};
+            return [new RangeI(Min, cutter.Min), new RangeI(cutter.Max, Max)];
         if (cutter.Min <= Min && cutter.Max >= Max)
             // całkowicie wycina
-            return Array.Empty<RangeI>();
+            return [];
         var result = new List<RangeI>();
         if (cutter.Min > Min)
             result.Add(new RangeI(Min, Math.Min(Max, cutter.Min)));

@@ -273,7 +273,7 @@ public sealed class TopologyTriangle : TopologyBase
 
     public Point[] Points
     {
-        get { return new[] {pA, pB, pC}; }
+        get { return [pA, pB, pC]; }
     }
 
     public string PointsStr

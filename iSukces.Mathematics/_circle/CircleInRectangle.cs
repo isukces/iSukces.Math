@@ -53,7 +53,7 @@ public sealed class CircleInRectangle
 
     public SolutionTypes Solve()
     {
-        CrossPoints = Array.Empty<Point>();
+        CrossPoints = [];
         if (Rectangle.IsEmpty || Radius <= 0)
             return SolutionType = SolutionTypes.PartialCross;
         if (Center.X + Radius <= Rectangle.Right && Center.X - Radius >= Rectangle.Left
@@ -61,7 +61,7 @@ public sealed class CircleInRectangle
                                                  Center.Y + Radius <= Rectangle.Bottom)
             return SolutionType = SolutionTypes.CircleInsideRectangle;
 
-        points = new List<Point>();
+        points = [];
         CrossV(Rectangle.Right, true);
         CrossH(Rectangle.Bottom, false);
         CrossV(Rectangle.Left, false);

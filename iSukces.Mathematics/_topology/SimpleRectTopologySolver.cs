@@ -18,12 +18,12 @@ public sealed class SimpleRectTopologySolver
     private static Tuple<Point, Point>[] Divide(Point p1, Point p2, Rect[] cutters)
     {
         if (p1 == p2)
-            return Array.Empty<Tuple<Point, Point>>();
+            return [];
         IEnumerable<Tuple<Point, Point>> o;
         if (p1.X == p2.X)
         {
             var      x   = p1.X;
-            MinMax[] src = { MinMax.From2Values(p1.Y, p2.Y) };
+            MinMax[] src = [MinMax.From2Values(p1.Y, p2.Y)];
             var cutters2 = (
                 from r in cutters
                 where MinMax.From2Values(r.Left, r.Right).Includes(x)
@@ -36,7 +36,7 @@ public sealed class SimpleRectTopologySolver
         else
         {
             var      y   = p1.Y;
-            MinMax[] src = { MinMax.From2Values(p1.X, p2.X) };
+            MinMax[] src = [MinMax.From2Values(p1.X, p2.X)];
             var cutters2 = (
                 from r in cutters
                 where MinMax.From2Values(r.Top, r.Bottom).Includes(y)
@@ -116,7 +116,7 @@ public sealed class SimpleRectTopologySolver
 
     private List<Range2D> ComputeRoundedHolesInside(Range2D source)
     {
-        if (Source.IsEmpty) return new List<Range2D>();
+        if (Source.IsEmpty) return [];
         var a = from r in RoundedHoles
             where
                 r.X1() >= source.X1() && r.X2() <= source.X2() &&
@@ -139,7 +139,7 @@ public sealed class SimpleRectTopologySolver
     {
         var source = Source;
         if (Source.IsEmpty || Holes is null || Holes.Length == 0)
-            return new List<Rect>();
+            return [];
         RoundedHoles = Holes
             .Select(a => new Range2D(a).Round())
             .ToArray();
@@ -151,13 +151,15 @@ public sealed class SimpleRectTopologySolver
         {
             if (Source.IsEmpty)
             {
-                XEdges = new List<double>();
+                XEdges = [];
             }
             else if (Holes is null)
             {
-                XEdges = new List<double>(2);
-                XEdges.Add(Source.Left());
-                XEdges.Add(Source.Right());
+                XEdges =
+                [
+                    Source.Left(),
+                    Source.Right()
+                ];
             }
             else
             {

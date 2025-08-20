@@ -114,7 +114,7 @@ public sealed class MinMax : MinMaxGeneric<double>, ICloneable
         return result;
     }
 
-    public static List<MinMax> Cut(MinMax src, IEnumerable<MinMax> cutters) { return Cut(new[] { src }, cutters); }
+    public static List<MinMax> Cut(MinMax src, IEnumerable<MinMax> cutters) { return Cut([src], cutters); }
 
     public static MinMax From2Values(double a, double b) { return a < b ? new MinMax(a, b) : new MinMax(b, a); }
 
@@ -298,7 +298,7 @@ public sealed class MinMax : MinMaxGeneric<double>, ICloneable
     {
         var edges1 = edges.Distinct().OrderBy(a => a).ToArray();
         var cnt    = edges1.Length - 1;
-        if (cnt < 1) return Array.Empty<MinMax>();
+        if (cnt < 1) return [];
         var result = new MinMax[cnt];
         for (var i = 0; i < cnt; i++)
             result[i] = new MinMax(edges1[i], edges1[i + 1]);
@@ -607,7 +607,7 @@ public sealed class MinMax : MinMaxGeneric<double>, ICloneable
 
     public MinMax[] ArrayOfValid
     {
-        get { return IsZeroOnInvalid ? Array.Empty<MinMax>() : new[] { this }; }
+        get { return IsZeroOnInvalid ? [] : [this]; }
     }
 
     public double Center => (Min + Max) / 2;

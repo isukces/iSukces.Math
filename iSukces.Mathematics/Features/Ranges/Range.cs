@@ -128,16 +128,16 @@ public struct Range : IEquatable<Range>
                          || b.IsZeroOnInvalid
                          || b.Min >= a.Max
                          || b.Max <= a.Min;
-        if (notCutting) return new[] { a };
+        if (notCutting) return [a];
 
         var has1 = b.Min > a.Min;
         var has2 = b.Max < a.Max;
         if (!has1)
-            return has2 ? new[] { new Range(b.Max, a.Max) } : Array.Empty<Range>();
+            return has2 ? [new Range(b.Max, a.Max)] : [];
         var r1 = new Range(a.Min, b.Min);
         return has2
-            ? new[] { r1, new Range(b.Max, a.Max) }
-            : new[] { r1 };
+            ? [r1, new Range(b.Max, a.Max)]
+            : [r1];
     }
 
     public static Range operator -(Range a) { return a.IsEmpty ? a : new Range(-a.Max, -a.Min); }
@@ -237,11 +237,11 @@ public struct Range : IEquatable<Range>
     public double Length => _kind != RangeKind.Empty ? Max - Min : double.NaN;
 
     public bool IsEmpty          => _kind == RangeKind.Empty;
-    public bool IsEmptyOrInvalid => _kind == RangeKind.Empty || _kind == RangeKind.Invalid;
+    public bool IsEmptyOrInvalid => _kind is RangeKind.Empty or RangeKind.Invalid;
 
     public bool HasPositiveLength => _kind == RangeKind.Normal;
 
-    public bool IsZeroOnInvalid => _kind == RangeKind.Empty || _kind == RangeKind.Zero;
+    public bool IsZeroOnInvalid => _kind is RangeKind.Empty or RangeKind.Zero;
 
     private readonly RangeKind _kind;
 }

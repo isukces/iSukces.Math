@@ -58,7 +58,7 @@ public abstract class GenericTypeConverter<T> : MathTypeConverter
 
     protected string[] Split(string? x, CultureInfo culture)
     {
-        if (string.IsNullOrEmpty(x)) return new[] { x ?? string.Empty };
+        if (string.IsNullOrEmpty(x)) return [x ?? string.Empty];
         var separator = GetSeparator(culture);
         return x.Split(separator);
     }

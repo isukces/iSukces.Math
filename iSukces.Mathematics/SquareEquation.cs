@@ -116,14 +116,14 @@ c = ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯�
         {
             double d = Delta;
             if (d < 0)
-                return Array.Empty<double>();
+                return [];
             double m = -2 * A;
             if (d == 0)
-                return new double[] { B / m };
+                return [B / m];
             d = Math.Sqrt(d);
             if (m > 0)
-                return new double[] { (B - d) / m, (B + d) / m };
-            return new double[] { (B + d) / m, (B - d) / m };
+                return [(B - d) / m, (B + d) / m];
+            return [(B + d) / m, (B - d) / m];
         }
     }
 

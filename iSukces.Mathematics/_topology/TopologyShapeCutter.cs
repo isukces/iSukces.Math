@@ -38,7 +38,7 @@ public sealed class TopologyShapeCutter
     public static TopologyTriangle[] CutByLine(TopologyTriangle src, TopologyTriangleLine? line)
     {
         if (line is null)
-            return new[] {src};
+            return [src];
         var p1 = TopologyTriangleLine.CrossByLL(src.LineAB, line);
         var p2 = TopologyTriangleLine.CrossByLL(src.LineAC, line);
         var p3 = TopologyTriangleLine.CrossByLL(src.LineBC, line);
@@ -48,8 +48,8 @@ public sealed class TopologyShapeCutter
         if (dcp.Length < 2)
         {
             // brak przecięć albo cały albo pusty
-            if (line.IsOnDarkSide(src.Center)) return Array.Empty<TopologyTriangle>();
-            return new[] {src}; // cały
+            if (line.IsOnDarkSide(src.Center)) return [];
+            return [src]; // cały
         }
 
         if (dcp.Length > 2)
@@ -59,7 +59,7 @@ public sealed class TopologyShapeCutter
             where !line.IsOnDarkSide(Point)
             select Point).ToArray();
         if (nonDarkPoints.Length == 3)
-            return new[] {src}; // cały
+            return [src]; // cały
         if (nonDarkPoints.Length == 1)
             // brak określenia, które krawędzie są uktyte - uzupełnić
             return TopologyShape.FromPoints(nonDarkPoints[0], dcp[0], dcp[1]).Triangles.ToArray();
@@ -74,7 +74,7 @@ public sealed class TopologyShapeCutter
                 if (up.Length == 3)
                     return TopologyShape.FromPoints(up[0], up[1], up[2]).Triangles.ToArray();
                 if (up.Length < 3)
-                    return Array.Empty<TopologyTriangle>();
+                    return [];
             }
             var i1 = Vector.CrossProduct(v2 - v1, t2 - v2);
             var i2 = Vector.CrossProduct(t2 - v1, t1 - t2);
@@ -102,13 +102,13 @@ public sealed class TopologyShapeCutter
     private static Point[] Find2And1(Point a, Point b, Point c, Point d)
     {
         if (a.Equals(c))
-            return new[] {a, b, d};
+            return [a, b, d];
         if (a.Equals(d))
-            return new[] {a, b, c};
+            return [a, b, c];
         if (b.Equals(c))
-            return new[] {b, a, d};
+            return [b, a, d];
         if (b.Equals(d))
-            return new[] {b, a, c};
+            return [b, a, c];
         throw new NotSupportedException();
     }
 
@@ -121,7 +121,7 @@ public sealed class TopologyShapeCutter
         ref List<TopologySideCross>
             c)
     {
-        List<TopologySideCross>[] tmp = {a, b, c};
+        List<TopologySideCross>[] tmp = [a, b, c];
         tmp = tmp.OrderBy(x => x.Count).ToArray();
         // if (tmp[0].Count != 0 || tmp[1].Count != 2 || tmp[2].Count != 2)
         //  throw new NotSupportedException();
@@ -486,10 +486,10 @@ public sealed class TopologyShapeCutter
         if (_insidePoints.Length != 1)
             throw new NotSupportedException();
 
-        TopologySideCross[] allcross = {dual1[0], dual1[1], dual2[0], dual2[1]};
-        var grupy = allcross.GroupBy(x => x.Second).OrderBy(x => -x.Count()).Select(x => x.Key).ToArray();
-        var dualPointLine = grupy[0];
-        var dwapunktyNaJednymKrosie = allcross.Where(x => x.Second.Equals(dualPointLine)).ToArray();
+        TopologySideCross[] allcross                = [dual1[0], dual1[1], dual2[0], dual2[1]];
+        var                 grupy                   = allcross.GroupBy(x => x.Second).OrderBy(x => -x.Count()).Select(x => x.Key).ToArray();
+        var                 dualPointLine           = grupy[0];
+        var                 dwapunktyNaJednymKrosie = allcross.Where(x => x.Second.Equals(dualPointLine)).ToArray();
 
         Point a, b, c;
         {
@@ -673,7 +673,7 @@ public sealed class TopologyShapeCutter
 
     private void Situation_320(List<TopologySideCross> a, List<TopologySideCross> b, List<TopologySideCross> c)
     {
-        List<TopologySideCross>[] tmp = {a, b, c};
+        List<TopologySideCross>[] tmp = [a, b, c];
         var                       z   = tmp.OrderBy(x => x.Count).ToArray();
         if (z[0].Count == 0 && z[1].Count == 2 && z[2].Count == 3)
         {
@@ -725,12 +725,12 @@ public sealed class TopologyShapeCutter
                     // if (tmp1.Length != 1) throw new NotSupportedException();
                     var cr1 = tmp1[0].CrossPoint;
                     TopologySideCross[] inne =
-                    {
+                    [
                         bezPrzeciec[0],
                         bezPrzeciec[1],
                         dwaPrzeciecia[0],
                         dwaPrzeciecia[1]
-                    };
+                    ];
                     tmp1 = inne.Where(x => !x.IsCrossVertexOfFirst).ToArray();
                     if (tmp1.Length != 1) throw new NotSupportedException();
                     var cr2 = tmp1[0].CrossPoint;

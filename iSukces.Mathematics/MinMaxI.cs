@@ -53,7 +53,7 @@ public sealed class MinMaxI : MinMaxGeneric<int>, IEquatable<MinMaxI>
 
     public static List<MinMaxI> Cut(MinMaxI src, IEnumerable<MinMaxI> cutters)
     {
-        return Cut(new[] {src}, cutters);
+        return Cut([src], cutters);
     }
 
     public static List<MinMaxI> Cut(IEnumerable<MinMaxI> src, MinMaxI cutter)
@@ -182,7 +182,7 @@ public sealed class MinMaxI : MinMaxGeneric<int>, IEquatable<MinMaxI>
     {
         var edges1 = edges.Distinct().OrderBy(a => a).ToArray();
         var cnt    = edges1.Length - 1;
-        if (cnt < 1) return Array.Empty<MinMaxI>();
+        if (cnt < 1) return [];
         var result = new MinMaxI[cnt];
         for (var i = 0; i < cnt; i++)
             result[i] = new MinMaxI(edges1[i], edges1[i + 1]);
@@ -290,7 +290,7 @@ public sealed class MinMaxI : MinMaxGeneric<int>, IEquatable<MinMaxI>
 
     public IEnumerable<int> Enumerate()
     {
-        return Min > Max ? Array.Empty<int>() : Enumerable.Range(Min, Max - Min + 1);
+        return Min > Max ? [] : Enumerable.Range(Min, Max - Min + 1);
     }
 
     public bool Equals(MinMaxI? other)
@@ -431,7 +431,7 @@ public sealed class MinMaxI : MinMaxGeneric<int>, IEquatable<MinMaxI>
 
     public MinMaxI[] ArrayOfValid
     {
-        get { return IsZeroOnInvalid ? Array.Empty<MinMaxI>() : new[] {this}; }
+        get { return IsZeroOnInvalid ? [] : [this]; }
     }
 
     public int Center
