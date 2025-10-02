@@ -689,7 +689,11 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
     /// <summary>
     ///     Układ współrzędnych o osiach naturalnie skierowanych (brak obrotów) i umiejscowiony w punkcie (0,0,0)
     /// </summary>
-    public static Coordinates3D NORMAL => new Coordinates3D(new Vector3D(1, 0, 0), new Vector3D(0, 1, 0));
+    public static Coordinates3D NORMAL => new Coordinates3D(
+        new Vector3D(1, 0, 0),
+        new Vector3D(0, 1, 0),
+        new Vector3D(0, 0, 1),
+        new Point3D());
 
     /// <summary>
     ///     Macierz reprezentująca ten układ

@@ -17,7 +17,7 @@ public readonly struct PointXZ : IEquatable<PointXZ>
         X = x;
         Z = z;
     }
-
+ 
     public static PointXZ operator +(PointXZ point, VectorXZ vector)
     {
         return new PointXZ(point.X + vector.X, point.Z + vector.Z);
@@ -46,7 +46,7 @@ public readonly struct PointXZ : IEquatable<PointXZ>
 
     public static Point3D operator *(PointXZ p, Coordinates3D c)
     {
-        return p.To3D() * c;
+        return p.ToPoint3D() * c;
     }
 
     // minus operator
@@ -90,11 +90,6 @@ public readonly struct PointXZ : IEquatable<PointXZ>
         }
     }
 
-    private Point3D To3D(double y = 0)
-    {
-        return new Point3D(X, y, Z);
-    }
-
     public Point3D ToPoint3D(double y = 0)
     {
         return new Point3D(X, y, Z);
@@ -110,11 +105,7 @@ public readonly struct PointXZ : IEquatable<PointXZ>
         return new PointXZ(X, z);
     }
 
-    #region Properties
-
     public double X { get; }
     public double Z { get; }
-
-    #endregion
 }
 

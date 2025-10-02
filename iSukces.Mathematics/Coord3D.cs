@@ -635,7 +635,12 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     /// <summary>
     ///     Układ współrzędnych o osiach naturalnie skierowanych (brak obrotów) i umiejscowiony w punkcie (0,0,0)
     /// </summary>
-    public static readonly Coord3D Identity = new Coord3D(new Vector3D(1, 0, 0), new Vector3D(0, 1, 0));
+    public static readonly Coord3D Identity = new Coord3D(
+        new Vector3D(1, 0, 0),
+        new Vector3D(0, 1, 0),
+        new Vector3D(0, 0, 1),
+        new Point3D()
+    );
 
     /// <summary>
     ///     Macierz reprezentująca ten układ
