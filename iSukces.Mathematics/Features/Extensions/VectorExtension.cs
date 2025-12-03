@@ -1,5 +1,5 @@
+using System;
 #if !WPFFEATURES
-using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;
 using iSukces.Mathematics.Compatibility;
 #else
@@ -8,275 +8,275 @@ using System.Windows.Media.Media3D;
 using ThePoint = System.Windows.Point;
 using TheVector = System.Windows.Vector;
 #endif
-using System;
 
 
 namespace iSukces.Mathematics;
 
 public static class VectorExtension
 {
-    /// <summary>
-    ///     Zwraca wektor prostopadły
-    /// </summary>
+    private const double MinusOne = -1d;
+
     /// <param name="vector">wektor źródłowy</param>
-    /// <param name="leftHand">czy układ lewoskrętny (domyślnie tak)</param>
-    /// <returns></returns>
-    public static TheVector GetPrependicular(this TheVector vector, bool leftHand = true)
+    extension(TheVector vector)
     {
-        if (leftHand)
-            return new TheVector(-vector.Y, vector.X);
-        return new TheVector(vector.Y, -vector.X);
-    }
-
-    public static TheVector GetReversedIf(this TheVector vector, bool condition)
-    {
-        return condition ? -vector : vector;
-    }
-
-    public static Vector3D GetReversedIf(this Vector3D vector, bool condition)
-    {
-        return condition ? -vector : vector;
-    }
-
-
-    public static Vector NormalizeFast(this Vector src)
-    {
-        var x = src.X;
-        var y = src.Y;
-
+        /// <summary>
+        ///     Zwraca wektor prostopadły
+        /// </summary>
+        /// <param name="leftHand">czy układ lewoskrętny (domyślnie tak)</param>
+        /// <returns></returns>
+        public TheVector GetPrependicular(bool leftHand = true)
         {
-            var    xMinus = x < 0;
-            var    yMinus = y < 0;
-            double vLength;
+            if (leftHand)
+                return new TheVector(-vector.Y, vector.X);
+            return new TheVector(vector.Y, -vector.X);
+        }
 
-            if (yMinus)
+        public TheVector GetReversedIf(bool condition)
+        {
+            return condition ? -vector : vector;
+        }
+
+        public Vector NormalizeFast()
+        {
+            var x = vector.X;
+            var y = vector.Y;
+
             {
-                var absY = -y;
+                var    xMinus = x < 0;
+                var    yMinus = y < 0;
+                double vLength;
 
-                if (xMinus)
+                if (yMinus)
                 {
-                    var absX = -x;
+                    var absY = -y;
 
-                    if (absX > absY)
+                    if (xMinus)
                     {
-                        y       /= absX;
-                        x       =  minusOne;
-                        vLength =  Math.Sqrt(1 + y * y);
+                        var absX = -x;
+
+                        if (absX > absY)
+                        {
+                            y       /= absX;
+                            x       =  MinusOne;
+                            vLength =  Math.Sqrt(1 + y * y);
+                        }
+                        else
+                        {
+                            x       /= absY;
+                            y       =  MinusOne;
+                            vLength =  Math.Sqrt(x * x + 1);
+                        }
                     }
                     else
                     {
-                        x       /= absY;
-                        y       =  minusOne;
-                        vLength =  Math.Sqrt(x * x + 1);
+                        var absX = x;
+                        if (absX > absY)
+                        {
+                            y       /= absX;
+                            x       =  1;
+                            vLength =  Math.Sqrt(1 + y * y);
+                        }
+                        else
+                        {
+                            x       /= absY;
+                            y       =  MinusOne;
+                            vLength =  Math.Sqrt(x * x + 1);
+                        }
                     }
                 }
                 else
                 {
-                    var absX = x;
-                    if (absX > absY)
+                    var absY = y;
+
+                    if (xMinus)
                     {
-                        y       /= absX;
-                        x       =  1;
-                        vLength =  Math.Sqrt(1 + y * y);
+                        var absX = -x;
+
+                        if (absX > absY)
+                        {
+                            y       /= absX;
+                            x       =  MinusOne;
+                            vLength =  Math.Sqrt(1 + y * y);
+                        }
+                        else
+                        {
+                            x       /= absY;
+                            y       =  1;
+                            vLength =  Math.Sqrt(x * x + 1);
+                        }
                     }
                     else
                     {
-                        x       /= absY;
-                        y       =  minusOne;
-                        vLength =  Math.Sqrt(x * x + 1);
+                        var absX = x;
+
+                        if (absX > absY)
+                        {
+                            y /= absX;
+                            x =  1;
+                            var a = y * y;
+                            a++;
+                            vLength = Math.Sqrt(a);
+                        }
+                        else
+                        {
+                            x /= absY;
+                            y =  1;
+                            var a = x * x;
+                            a++;
+                            vLength = Math.Sqrt(a);
+                        }
                     }
                 }
+
+                x /= vLength;
+                y /= vLength;
             }
-            else
+            return new Vector(x, y);
+        }
+
+        public Vector NormalizeFast(out double length)
+        {
+            var x = vector.X;
+            var y = vector.Y;
+
             {
-                var absY = y;
+                var    xMinus = x < 0;
+                var    yMinus = y < 0;
+                double vLength;
 
-                if (xMinus)
+                if (yMinus)
                 {
-                    var absX = -x;
+                    var absY = -y;
 
-                    if (absX > absY)
+                    if (xMinus)
                     {
-                        y       /= absX;
-                        x       =  minusOne;
-                        vLength =  Math.Sqrt(1 + y * y);
+                        var absX = -x;
+
+                        if (absX > absY)
+                        {
+                            length  =  absX;
+                            y       /= absX;
+                            x       =  MinusOne;
+                            vLength =  Math.Sqrt(1 + y * y);
+                        }
+                        else
+                        {
+                            length  =  absY;
+                            x       /= absY;
+                            y       =  MinusOne;
+                            vLength =  Math.Sqrt(x * x + 1);
+                        }
                     }
                     else
                     {
-                        x       /= absY;
-                        y       =  1;
-                        vLength =  Math.Sqrt(x * x + 1);
+                        var absX = x;
+                        if (absX > absY)
+                        {
+                            length  =  absX;
+                            y       /= absX;
+                            x       =  1;
+                            vLength =  Math.Sqrt(1 + y * y);
+                        }
+                        else
+                        {
+                            length  =  absY;
+                            x       /= absY;
+                            y       =  MinusOne;
+                            vLength =  Math.Sqrt(x * x + 1);
+                        }
                     }
                 }
                 else
                 {
-                    var absX = x;
+                    var absY = y;
 
-                    if (absX > absY)
+                    if (xMinus)
                     {
-                        y /= absX;
-                        x =  1;
-                        var a = y * y;
-                        a++;
-                        vLength = Math.Sqrt(a);
+                        var absX = -x;
+
+                        if (absX > absY)
+                        {
+                            length  =  absX;
+                            y       /= absX;
+                            x       =  MinusOne;
+                            vLength =  Math.Sqrt(1 + y * y);
+                        }
+                        else
+                        {
+                            length  =  absY;
+                            x       /= absY;
+                            y       =  1;
+                            vLength =  Math.Sqrt(x * x + 1);
+                        }
                     }
                     else
                     {
-                        x /= absY;
-                        y =  1;
-                        var a = x * x;
-                        a++;
-                        vLength = Math.Sqrt(a);
+                        var absX = x;
+
+                        if (absX > absY)
+                        {
+                            length =  absX;
+                            y      /= absX;
+                            x      =  1;
+                            var a = y * y;
+                            a++;
+                            vLength = Math.Sqrt(a);
+                        }
+                        else
+                        {
+                            length =  absY;
+                            x      /= absY;
+                            y      =  1;
+                            var a = x * x;
+                            a++;
+                            vLength = Math.Sqrt(a);
+                        }
                     }
                 }
-            }
 
-            x /= vLength;
-            y /= vLength;
+                length *= vLength;
+                x      /= vLength;
+                y      /= vLength;
+            }
+            return new Vector(x, y);
         }
-        return new Vector(x, y);
     }
 
-    public static Vector NormalizeFast(this Vector src, out double length)
+    extension(Vector3D vector)
     {
-        var x = src.X;
-        var y = src.Y;
-
+        public Vector3D GetReversedIf(bool condition)
         {
-            var    xMinus = x < 0;
-            var    yMinus = y < 0;
-            double vLength;
+            return condition ? -vector : vector;
+        }
 
-            if (yMinus)
+        public Vector3D ToNormalized()
+        {
+            vector.Normalize();
+            switch (vector.Y)
             {
-                var absY = -y;
-
-                if (xMinus)
-                {
-                    var absX = -x;
-
-                    if (absX > absY)
-                    {
-                        length  =  absX;
-                        y       /= absX;
-                        x       =  minusOne;
-                        vLength =  Math.Sqrt(1 + y * y);
-                    }
-                    else
-                    {
-                        length  =  absY;
-                        x       /= absY;
-                        y       =  minusOne;
-                        vLength =  Math.Sqrt(x * x + 1);
-                    }
-                }
-                else
-                {
-                    var absX = x;
-                    if (absX > absY)
-                    {
-                        length  =  absX;
-                        y       /= absX;
-                        x       =  1;
-                        vLength =  Math.Sqrt(1 + y * y);
-                    }
-                    else
-                    {
-                        length  =  absY;
-                        x       /= absY;
-                        y       =  minusOne;
-                        vLength =  Math.Sqrt(x * x + 1);
-                    }
-                }
-            }
-            else
-            {
-                var absY = y;
-
-                if (xMinus)
-                {
-                    var absX = -x;
-
-                    if (absX > absY)
-                    {
-                        length  =  absX;
-                        y       /= absX;
-                        x       =  minusOne;
-                        vLength =  Math.Sqrt(1 + y * y);
-                    }
-                    else
-                    {
-                        length  =  absY;
-                        x       /= absY;
-                        y       =  1;
-                        vLength =  Math.Sqrt(x * x + 1);
-                    }
-                }
-                else
-                {
-                    var absX = x;
-
-                    if (absX > absY)
-                    {
-                        length =  absX;
-                        y      /= absX;
-                        x      =  1;
-                        var a = y * y;
-                        a++;
-                        vLength = Math.Sqrt(a);
-                    }
-                    else
-                    {
-                        length =  absY;
-                        x      /= absY;
-                        y      =  1;
-                        var a = x * x;
-                        a++;
-                        vLength = Math.Sqrt(a);
-                    }
-                }
+                case 1d:
+                    return new Vector3D(0, 1, 0);
+                case -1d:
+                    return new Vector3D(0, -1, 0);
             }
 
-            length *= vLength;
-            x      /= vLength;
-            y      /= vLength;
-        }
-        return new Vector(x, y);
-    }
+            switch (vector.X)
+            {
+                case 1d:
+                    return new Vector3D(1, 0, 0);
+                case -1d:
+                    return new Vector3D(-1, 0, 0);
+            }
 
-    public static Vector3D ToNormalized(this Vector3D v)
-    {
-        v.Normalize();
-        switch (v.Y)
-        {
-            case 1d:
-                return new Vector3D(0, 1, 0);
-            case -1d:
-                return new Vector3D(0, -1, 0);
-        }
-
-        switch (v.X)
-        {
-            case 1d:
-                return new Vector3D(1, 0, 0);
-            case -1d:
-                return new Vector3D(-1, 0, 0);
-        }
-
-        switch (v.Z)
-        {
-            case 1d:
-                return new Vector3D(0, 0, 1);
-            case -1d:
-                return new Vector3D(0, 0, -1);
-            default:
-                return v;
+            switch (vector.Z)
+            {
+                case 1d:
+                    return new Vector3D(0, 0, 1);
+                case -1d:
+                    return new Vector3D(0, 0, -1);
+                default:
+                    return vector;
+            }
         }
     }
-
-    #region Fields
-
-    const double minusOne = -1d;
-
-    #endregion
 }

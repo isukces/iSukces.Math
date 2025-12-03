@@ -8,10 +8,13 @@ using System.Windows.Media.Media3D;
 
 namespace iSukces.Mathematics;
 
-public static class Point3DExtension
+public static class Point3DExtensions
 {
-    public static Point ToPoint2D(this Point3D p)
+    extension(Point3D p)
     {
-        return new Point(p.X, p.Y);
+        public Point ToPoint2D()
+        {
+            return new Point(p.X, p.Y);
+        }
     }
 }

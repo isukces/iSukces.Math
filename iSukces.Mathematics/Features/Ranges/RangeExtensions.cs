@@ -74,33 +74,36 @@ public static class RangeExtensions
         return new Range3D(x, y, z);
     }
 
-    public static Range2D GetRange<T>(this IEnumerable<T>? src, Func<T, ThePoint> map)
+    extension<T>(IEnumerable<T>? src)
     {
-        if (src is null)
-            return Range2D.Empty;
-        var x = DRange.Empty;
-        var y = DRange.Empty;
-        foreach (var current in src)
+        public Range2D GetRange(Func<T, ThePoint> map)
         {
-            var c = map(current);
-            Aggregate(c.X, ref x);
-            Aggregate(c.Y, ref y);
+            if (src is null)
+                return Range2D.Empty;
+            var x = DRange.Empty;
+            var y = DRange.Empty;
+            foreach (var current in src)
+            {
+                var c = map(current);
+                Aggregate(c.X, ref x);
+                Aggregate(c.Y, ref y);
+            }
+            return new Range2D(x, y);
         }
-        return new Range2D(x, y);
-    }
 
-    public static Range2D GetRange<T>(this IEnumerable<T>? src, Func<T, double> mapX, Func<T, double> mapY)
-    {
-        if (src is null)
-            return Range2D.Empty;
-        var x = DRange.Empty;
-        var y = DRange.Empty;
-        foreach (var current in src)
+        public Range2D GetRange(Func<T, double> mapX, Func<T, double> mapY)
         {
-            Aggregate(mapX(current), ref x);
-            Aggregate(mapY(current), ref y);
+            if (src is null)
+                return Range2D.Empty;
+            var x = DRange.Empty;
+            var y = DRange.Empty;
+            foreach (var current in src)
+            {
+                Aggregate(mapX(current), ref x);
+                Aggregate(mapY(current), ref y);
+            }
+            return new Range2D(x, y);
         }
-        return new Range2D(x, y);
     }
 
     private static void Aggregate(double current, ref double max, ref double min)

@@ -11,17 +11,27 @@ namespace iSukces.Mathematics;
 
 public static class CenterExtensions
 {
-    public static double Center(this double a, double b)
+    extension(double a)
     {
-        return (a + b) * 0.5;
+        public double Center(double b)
+        {
+            return (a + b) * 0.5;
+        }
     }
     
-    public static Point Center(this Point a, Point b)
+    extension(Point a)
     {
-        return new Point( (a.X + b.X) * 0.5, (a.Y + b.Y) * 0.5);
+        public Point Center(Point b)
+        {
+            return new Point( (a.X + b.X) * 0.5, (a.Y + b.Y) * 0.5);
+        }
     }    
-    public static Point3D Center(this Point3D a, Point3D b)
+    
+    extension(Point3D a)
     {
-        return new Point3D((a.X + b.X) * 0.5, (a.Y + b.Y) * 0.5, (a.Z + b.Z) * 0.5);
+        public Point3D Center(Point3D b)
+        {
+            return new Point3D((a.X + b.X) * 0.5, (a.Y + b.Y) * 0.5, (a.Z + b.Z) * 0.5);
+        }
     }
 }

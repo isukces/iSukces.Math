@@ -104,7 +104,7 @@ public sealed class SimpleRectTopologySolver
         var lines = new List<Tuple<Point, Point>>();
         for (var i = 0; i < u.Length; i++)
         {
-            var p1 = i == 0 ? u[u.Length - 1] : u[i - 1];
+            var p1 = i == 0 ? u[^1] : u[i - 1];
             var p2 = u[i];
             if (p1 != p2)
                 lines.Add(new Tuple<Point, Point>(p1, p2));

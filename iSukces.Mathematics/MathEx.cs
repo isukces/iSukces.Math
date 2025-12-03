@@ -172,10 +172,6 @@ public static class MathEx
     {
         return (l + m - 1) / m;
     }
-    public static int Ceil(this double x)
-    {
-        return (int)Math.Ceiling(x);
-    }
 
     public static double SuareEquationDelta(double a, double b, double c)
     {

@@ -4,5 +4,8 @@ namespace iSukces.Mathematics.test;
 
 public static class Extensions
 {
-    public static string ToInv(this double x) { return x.ToString(CultureInfo.InvariantCulture); }
+    extension(double x)
+    {
+        public string ToInv() { return x.ToString(CultureInfo.InvariantCulture); }
+    }
 }
