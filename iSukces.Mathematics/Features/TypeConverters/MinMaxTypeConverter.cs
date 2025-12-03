@@ -14,7 +14,7 @@ public class MinMaxTypeConverter : GenericTypeConverter<MinMax>
         return new MinMax(DeserializeDouble(a[0], culture), DeserializeDouble(a[1], culture));
     }
 
-    protected override string ConvertToStringInternal(ITypeDescriptorContext context, CultureInfo culture,
+    protected override string ConvertToStringInternal(ITypeDescriptorContext? context, CultureInfo? culture,
         MinMax value)
     {
         return value.Min.ToString(culture) + GetSeparator(culture) + value.Max.ToString(culture);

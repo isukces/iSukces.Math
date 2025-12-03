@@ -827,7 +827,7 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
     /// <summary>
     ///     Occurs when a property value changes.
     /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
     ///     Przechowuje informacje o osi i kącie obrotu oraz translacji która przekształca jeden układ współrzędnych w inny

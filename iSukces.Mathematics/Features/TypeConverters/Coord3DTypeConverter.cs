@@ -62,7 +62,7 @@ namespace iSukces.Mathematics.TypeConverters
             throw PrepareArgumentException(value);
         }
 
-        protected override string ConvertToStringInternal(ITypeDescriptorContext context, CultureInfo culture,
+        protected override string ConvertToStringInternal(ITypeDescriptorContext? context, CultureInfo? culture,
             Coord3D value)
         {
             var separator = GetSeparator(culture);

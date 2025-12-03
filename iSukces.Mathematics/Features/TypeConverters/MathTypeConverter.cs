@@ -46,8 +46,9 @@ public abstract class MathTypeConverter : TypeConverter
         return data;
     }
 
-    protected static char GetSeparator(CultureInfo culture)
+    protected static char GetSeparator(CultureInfo? culture)
     {
+        if (culture is null) culture = CultureInfo.CurrentCulture;
         if (culture.LCID == _invariantCultureLcid)
             return _invariantCultureSeparator;
         var c = culture.TextInfo.ListSeparator.Trim();

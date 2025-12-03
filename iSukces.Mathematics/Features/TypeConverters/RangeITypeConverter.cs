@@ -18,7 +18,7 @@ public class RangeITypeConverter : GenericTypeConverter<RangeI>
         return new RangeI(DeserializeInt(a[0], culture), DeserializeInt(a[1], culture));
     }
 
-    protected override string ConvertToStringInternal(ITypeDescriptorContext context, CultureInfo culture,
+    protected override string ConvertToStringInternal(ITypeDescriptorContext? context, CultureInfo? culture,
         RangeI value)
     {
         if (value.IsEmpty) return Empty;
