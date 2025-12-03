@@ -48,6 +48,18 @@ public sealed class LineEquation : ICloneable
         Normalize();
     }
 
+    public static LineEquation Horizontal(double y)
+    {
+        return new LineEquation(0, -1, y);
+    }
+
+    public static LineEquation Vertical(double x)
+    {
+        return new LineEquation(-1, 0, x);
+    }
+    
+    
+
     /// <summary>
     ///     Tworzy instancję obiektu
     ///     <param name="a">wsp. A</param>
@@ -288,8 +300,6 @@ public sealed class LineEquation : ICloneable
         return "Line: " + sb;
     }
 
-    #region Properties
-
     public bool MoreVertical => Math.Abs(A) > Math.Abs(B);
 
     /// <summary>
@@ -330,6 +340,4 @@ public sealed class LineEquation : ICloneable
             return -C / A;
         }
     }
-
-    #endregion
 }
