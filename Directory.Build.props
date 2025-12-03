@@ -4,7 +4,7 @@
     <Copyright>Copyright © Internet Sukces Piotr Stęclik 2017-2025</Copyright>
     <Authors>Internet Sukces Piotr Stęclik</Authors>
     <Company>Internet Sukces Piotr Stęclik</Company>
-    <LangVersion>13</LangVersion>
+    <LangVersion>14</LangVersion>
     <DefineConstants>$(DefineConstants);TYPECONVERTERS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.EndsWith('windows'))">
