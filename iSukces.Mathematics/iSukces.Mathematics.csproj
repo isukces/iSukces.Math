@@ -5,9 +5,9 @@
     <ProjectGuid>{F65D90E2-7284-40AD-8D61-A27A027B835E}</ProjectGuid>
     <TargetFrameworks>net6.0;net6.0-windows;net8.0;net8.0-windows;net9.0;net9.0-windows;net10.0;net10.0-windows</TargetFrameworks>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
-    <AssemblyVersion>1.25.323.131</AssemblyVersion>
-    <FileVersion>1.25.323.131</FileVersion>
-    <Version>1.25.323.131</Version>
+    <AssemblyVersion>1.25.1203.132</AssemblyVersion>
+    <FileVersion>1.25.1203.132</FileVersion>
+    <Version>1.25.1203.132</Version>
     <LangVersion>14</LangVersion>
     <Nullable>enable</Nullable>
     <SignAssembly>true</SignAssembly>
@@ -32,5 +32,11 @@
     <Compile Update="Features\TypeConverters\GenericTypeConverter.cs">
       <DependentUpon>MathTypeConverter.cs</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>
