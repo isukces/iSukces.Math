@@ -3,6 +3,7 @@ using System.Text;
 #if !WPFFEATURES
 using ThePoint = iSukces.Mathematics.Compatibility.Point;
 using TheVector = iSukces.Mathematics.Compatibility.Vector;
+
 #else
 using System.Windows;
 using System.Windows.Media;
@@ -14,12 +15,17 @@ using TheVector = System.Windows.Vector;
 
 namespace iSukces.Mathematics;
 
-public sealed class LineEquation : ICloneable
+using Self = LineEquationNotNormalized;
+
+/// <summary>
+/// Reprezentuje równanie prostej dwuwymiarowej w nieznormalizowanej postaci ogólnej (Ax + By + C = 0).
+/// </summary>
+public sealed class LineEquationNotNormalized : ICloneable
 {
     /// <summary>
     ///     Tworzy instancję obiektu
     /// </summary>
-    public LineEquation()
+    public LineEquationNotNormalized()
     {
     }
 
@@ -28,11 +34,10 @@ public sealed class LineEquation : ICloneable
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
-    public LineEquation(ThePoint a, ThePoint b)
+    public LineEquationNotNormalized(ThePoint a, ThePoint b)
         :
         this(a.X, a.Y, b.X, b.Y)
     {
-        Normalize();
     }
 
     /// <summary>
@@ -40,25 +45,12 @@ public sealed class LineEquation : ICloneable
     /// </summary>
     /// <param name="tangent"></param>
     /// <param name="y0"></param>
-    public LineEquation(double tangent, double y0)
+    public LineEquationNotNormalized(double tangent, double y0)
     {
         A = tangent;
         B = -1;
         C = y0;
-        Normalize();
     }
-
-    public static LineEquation Horizontal(double y)
-    {
-        return new LineEquation(0, -1, y);
-    }
-
-    public static LineEquation Vertical(double x)
-    {
-        return new LineEquation(-1, 0, x);
-    }
-    
-    
 
     /// <summary>
     ///     Tworzy instancję obiektu
@@ -66,15 +58,14 @@ public sealed class LineEquation : ICloneable
     ///     <param name="b">wsp. B</param>
     ///     <param name="c">wsp. C</param>
     /// </summary>
-    public LineEquation(double a, double b, double c)
+    public LineEquationNotNormalized(double a, double b, double c)
     {
         A = a;
         B = b;
         C = c;
-        Normalize();
     }
 
-    public LineEquation(double x1, double y1, double x2, double y2)
+    public LineEquationNotNormalized(double x1, double y1, double x2, double y2)
     {
         var dx = x2 - x1;
         var dy = y2 - y1;
@@ -94,11 +85,13 @@ public sealed class LineEquation : ICloneable
         C = -(A * x1 + B * y1);
     }
 
-    public static ThePoint? Cross(LineEquation p1, LineEquation p2)
+    public static ThePoint? Cross(Self p1, Self p2)
     {
-        if (p1 is null) throw new ArgumentNullException(nameof(p1));
-        if (p2 is null) throw new ArgumentNullException(nameof(p2));
         // źródło http://www.math.edu.pl/punkt-przeciecia-dwoch-prostych
+        if (p1 is null)
+            throw new ArgumentNullException(nameof(p1));
+        if (p2 is null)
+            throw new ArgumentNullException(nameof(p2));
         if (p1.IsInvalid || p2.IsInvalid)
             return null;
 
@@ -118,15 +111,14 @@ public sealed class LineEquation : ICloneable
     /// <summary>
     ///     Punkt przecięcia odcinków
     /// </summary>
-    public static ThePoint? CrossLineSegment(ThePoint p1Begin, ThePoint p1End, ThePoint p2Begin, ThePoint p2End)
+    public static ThePoint? CrossLineSegment(ThePoint p1, ThePoint p2, ThePoint p3, ThePoint p4)
     {
-        var line1              = new LineEquation(p1Begin, p1End);
-        var line2              = new LineEquation(p2Begin, p2End);
-        var crossPointNullable = Cross(line1, line2);
-        if (crossPointNullable is null) return null;
-        var cross = crossPointNullable.Value;
-
-        bool Test(ThePoint a, ThePoint b)
+        var line1 = new Self(p1, p2);
+        var line2 = new Self(p3, p4);
+        var c     = Cross(line1, line2);
+        if (c is null) return null;
+        var cc = c.Value;
+        Func<ThePoint, ThePoint, bool> test = (a, b) =>
         {
             var dx = b.X - a.X;
             var dy = b.Y - a.Y;
@@ -134,61 +126,77 @@ public sealed class LineEquation : ICloneable
             {
                 if (dx > 0)
                 {
-                    if (cross.X < a.X || cross.X > b.X) return false;
+                    if (cc.X < a.X || cc.X > b.X) return false;
                 }
                 else
                 {
-                    if (cross.X > a.X || cross.X < b.X) return false;
+                    if (cc.X > a.X || cc.X < b.X) return false;
                 }
             }
             else
             {
                 if (dy > 0)
                 {
-                    if (cross.Y < a.Y || cross.Y > b.Y) return false;
+                    if (cc.Y < a.Y || cc.Y > b.Y) return false;
                 }
                 else
                 {
-                    if (cross.Y > a.Y || cross.Y < b.Y) return false;
+                    if (cc.Y > a.Y || cc.Y < b.Y) return false;
                 }
             }
 
             return true;
-        }
-
-        if (Test(p1Begin, p1End) && Test(p2Begin, p2End))
-            return cross;
+        };
+        if (test(p1, p2) && test(p3, p4)) return cc;
         return null;
     }
 
-    public static LineEquation FromPointAndDeltas(double x, double y, double dx, double dy)
-    {
-        //double a = -dy;
-        // double b = dx;
-        // LineEquation r = new LineEquation(-dy, dx, -a * x - b * y);
-        var r = new LineEquation(-dy, dx, dy * x - dx * y);
-        return r;
-    }
-
-    public static LineEquation Make(ThePoint p1, ThePoint p2)
+    public static Self From2Points(ThePoint p1, ThePoint p2)
     {
         return FromPointAndDeltas(p1.X, p1.Y, p2.X - p1.X, p2.Y - p1.Y);
     }
 
-    public static LineEquation Make(ThePoint p, TheVector v)
+    public static Self FromPointAndDeltas(double x, double y, double dx, double dy)
     {
-        return FromPointAndDeltas(p.X, p.Y, v.X, v.Y);
+        //double a = -dy;
+        // double b = dx;
+        // LineEquation2 r = new LineEquation2(-dy, dx, -a * x - b * y);
+        var r = new Self(-dy, dx, dy * x - dx * y);
+        return r;
     }
 
-    public static explicit operator LineEquation(LinearFunc a)
+    public static Self FromPointAndDeltas(ThePoint x, TheVector v)
     {
-        return new LineEquation(a.A, -1, a.B);
+        var dx = v.X;
+        var dy = v.Y;
+        var r  = new Self(-dy, dx, dy * x.X - dx * x.Y);
+        return r;
+    }
+
+    public static Self Horizontal(double y)
+    {
+        return new Self(0, -1, y);
+    }
+
+    public static explicit operator Self(LinearFunc a)
+    {
+        return new Self(a.A, -1, a.B);
+    }
+
+    public static implicit operator LineEquationNotNormalized(LineEquation x)
+    {
+        return new LineEquationNotNormalized(x.A, x.B, x.C);
     }
 
 
-    public static LineEquation operator -(LineEquation a)
+    public static Self operator -(Self a)
     {
-        return new LineEquation(-a.A, -a.B, -a.C);
+        return new Self(-a.A, -a.B, -a.C);
+    }
+
+    public static Self Vertical(double x)
+    {
+        return new Self(-1, 0, x);
     }
 
     public object Clone()
@@ -196,9 +204,9 @@ public sealed class LineEquation : ICloneable
         return MemberwiseClone();
     }
 
-    public ThePoint? Cross(LineEquation other)
+    public ThePoint? CrossWith(Self line)
     {
-        return Cross(this, other);
+        return Cross(this, line);
     }
 
     public double DistanceNotNormalized(ThePoint p)
@@ -229,7 +237,7 @@ public sealed class LineEquation : ICloneable
     }
 
     /// <summary>
-    ///     Zwraca współrzędną Y dla podanego X - jeśli linia pionowa (dx=b=0) to będzie NaN
+    ///     Zwraca współrzędną Y dla podanego X-jeśli linia pionowa (dx=b=0) to będzie NaN
     /// </summary>
     /// <param name="x"></param>
     /// <returns></returns>
@@ -241,7 +249,7 @@ public sealed class LineEquation : ICloneable
     }
 
     /// <summary>
-    ///     Zwraca współrzędną Y dla podanego X - jeśli linia pionowa (dx=b=0) to będzie NaN
+    ///     Zwraca współrzędną Y dla podanego X-jeśli linia pionowa (dx=b=0) to będzie NaN
     /// </summary>
     /// <param name="x"></param>
     /// <returns></returns>
@@ -250,50 +258,46 @@ public sealed class LineEquation : ICloneable
         return new ThePoint(x, GetY(x));
     }
 
-    public void Normalize()
-    {
-        var l = Math.Sqrt(A * A + B * B);
-        if (l > 0 && l != 1)
-        {
-            A /= l;
-            B /= l;
-            C /= l;
-        }
-    }
-
     public override string ToString()
     {
+        var aSer = A.ToString();
+        var bSer = B.ToString();
+        if (aSer == "0")
+        {
+            if (bSer == "0")
+                return "Invalid C=" + C;
+            return "y=" + -C / B;
+        }
+
+        if (bSer == "0")
+            return "x=" + -C / A;
+
         var sb = new StringBuilder();
-        if (B == 0)
-        {
-            if (A == 0) return "0 = " + C;
-            return "x = " + -C / A;
-        }
 
-        if (A == 0)
+        sb.AppendFormat("{0} * x", A);
+        if (sb.Length > 0)
         {
-            return "y = " + -C / B;
+            if (B > 0)
+                sb.Append(" + ");
+            else
+                sb.Append(" - ");
+            sb.AppendFormat("{0} * y", Math.Abs(B));
         }
-
-        sb.Append($"{A} * x");
-        if (B > 0)
-            sb.Append(" + ");
         else
-            sb.Append(" - ");
-        sb.Append($"{Math.Abs(B)} * y");
+        {
+            sb.AppendFormat("{0} * y", B);
+        }
 
-        if (C != 0)
+        var cSer = C.ToString();
+        if (cSer != "0")
             if (sb.Length > 0)
             {
-                if (C > 0)
-                    sb.Append(" + ");
-                else
-                    sb.Append(" - ");
-                sb.Append($"{Math.Abs(C)}");
+                sb.Append(C > 0 ? " + " : " - ");
+                sb.AppendFormat("{0}", Math.Abs(C));
             }
             else
             {
-                sb.Append($"{C}");
+                sb.AppendFormat("{0}", C);
             }
 
         sb.Append(" = 0");
@@ -302,10 +306,6 @@ public sealed class LineEquation : ICloneable
 
     public bool MoreVertical => Math.Abs(A) > Math.Abs(B);
 
-    /// <summary>
-    ///     wsp. A
-    /// </summary>
-    public double A { get; set; }
 
     /// <summary>
     ///     Własność jest tylko do odczytu.
@@ -313,9 +313,22 @@ public sealed class LineEquation : ICloneable
     public double AngleDeg => Math.Atan2(-B, A) * (180.0 / Math.PI);
 
     /// <summary>
+    ///     wsp. A
+    /// </summary>
+    public double A
+    {
+        get => _a;
+        set => _a = value;
+    }
+
+    /// <summary>
     ///     wsp. B
     /// </summary>
-    public double B { get; set; }
+    public double B
+    {
+        get => _b;
+        set => _b = value;
+    }
 
     /// <summary>
     ///     wsp. C
@@ -328,7 +341,7 @@ public sealed class LineEquation : ICloneable
     public bool IsInvalid => A == 0 && B == 0;
 
     /// <summary>
-    ///     Punkt zerowy - taki X dla którego Y=0
+    ///     Punkt zerowy-taki X, dla którego Y=0
     /// </summary>
     public double ZeroPoint
     {
@@ -340,4 +353,7 @@ public sealed class LineEquation : ICloneable
             return -C / A;
         }
     }
+
+    private double _a;
+    private double _b;
 }

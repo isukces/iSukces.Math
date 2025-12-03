@@ -1,43 +1,32 @@
 using System;
 #if !WPFFEATURES
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
+using ThePoint = iSukces.Mathematics.Compatibility.Point;
 
 #else
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using ThePoint=System.Windows.Point;
-using TheVector=System.Windows.Vector;
+using ThePoint = System.Windows.Point;
+using TheVector = System.Windows.Vector;
 #endif
 
 namespace iSukces.Mathematics;
 
 /// <summary>
-/// Funkcja liniowa y=ax+b
+///     Funkcja liniowa y=ax+b
 /// </summary>
 public sealed class LinearFunc
 {
-    /// <summary>
-    /// Punkt zerowy - taki X dla którego Y=0
-    /// </summary>
-    public double ZeroPoint
-    {
-        get { return -B / A; }
-    }
-
     public LinearFunc(double x1, double y1, double a)
     {
         A = a;
         B = y1 - a * x1;
     }
-    public override string ToString()
-    {
-        return string.Format("Line {0} {1}", A, B);
-    }
 
     public LinearFunc()
     {
     }
+
     public LinearFunc(double a, double b)
     {
         A = a;
@@ -61,41 +50,9 @@ b1 ≔ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
         B = (p1.X * p2.Y - p1.Y * p2.X) / dx;
     }
 
-    /// <summary>
-    /// współczynnik A
-    /// </summary>
-    public double A { get; set; }
 
     /// <summary>
-    /// współczynnik B
-    /// </summary>
-    public double B { get; set; }
-
-
-    /// <summary>
-    /// Miejsce zerowe
-    /// </summary>
-    public double X0
-    {
-        get { return -B / A; }
-    }
-
-    /// <summary>
-    /// Kąt prostej względem osi OX
-    /// </summary>
-    public double AngleDeg
-    {
-        get { return MathEx.AtanDeg(A); }
-    }
-
-    public double Value(double x)
-    {
-        return A * x + B;
-    }
-
-
-    /// <summary>
-    /// Punkt przecięcia z inną linią
+    ///     Punkt przecięcia z inną linią
     /// </summary>
     /// <param name="otherLine"></param>
     /// <returns></returns>
@@ -113,4 +70,40 @@ b1 ≔ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
             (A * otherLine.B - otherLine.A * B) / d
         );
     }
+
+    public override string ToString()
+    {
+        return string.Format("Line {0} {1}", A, B);
+    }
+
+    public double Value(double x)
+    {
+        return A * x + B;
+    }
+
+    /// <summary>
+    ///     Punkt zerowy - taki X dla którego Y=0
+    /// </summary>
+    public double ZeroPoint => -B / A;
+
+    /// <summary>
+    ///     współczynnik A
+    /// </summary>
+    public double A { get; set; }
+
+    /// <summary>
+    ///     współczynnik B
+    /// </summary>
+    public double B { get; set; }
+
+
+    /// <summary>
+    ///     Miejsce zerowe
+    /// </summary>
+    public double X0 => -B / A;
+
+    /// <summary>
+    ///     Kąt prostej względem osi OX
+    /// </summary>
+    public double AngleDeg => MathEx.AtanDeg(A);
 }
