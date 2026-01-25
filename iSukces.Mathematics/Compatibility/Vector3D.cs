@@ -1,7 +1,8 @@
+/*
 #if !WPFFEATURES
 using System;
 
-namespace iSukces.Mathematics.Compatibility
+namespace iSukces.Mathematics
 {
     public struct Vector3D : IEquatable<Vector3D>
     {
@@ -111,3 +112,4 @@ namespace iSukces.Mathematics.Compatibility
     }
 }
 #endif
+*/

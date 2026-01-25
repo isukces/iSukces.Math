@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using iSukces.Mathematics.Compatibility;
 #if !WPFFEATURES
 #else
 using System.Windows;

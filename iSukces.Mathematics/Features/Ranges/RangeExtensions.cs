@@ -1,15 +1,5 @@
 using System;
 using System.Collections.Generic;
-using iSukces.Mathematics.Compatibility;
-#if !WPFFEATURES
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
-#else
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using ThePoint=System.Windows.Point;
-using TheVector=System.Windows.Vector;
-#endif
 
 namespace iSukces.Mathematics;
 
@@ -42,7 +32,7 @@ public static class RangeExtensions
         return double.IsNaN(min) ? DRange.Empty : new DRange(min, max);
     }
 
-    public static Range2D GetRange(this IEnumerable<ThePoint>? src)
+    public static Range2D GetRange(this IEnumerable<Point>? src)
     {
         if (src is null)
             return Range2D.Empty;
@@ -76,7 +66,7 @@ public static class RangeExtensions
 
     extension<T>(IEnumerable<T>? src)
     {
-        public Range2D GetRange(Func<T, ThePoint> map)
+        public Range2D GetRange(Func<T, Point> map)
         {
             if (src is null)
                 return Range2D.Empty;

@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using iSukces.Mathematics;
-using iSukces.Mathematics.Compatibility;
 using Xunit;
 #if !WPFFEATURES
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
-using TheVector=iSukces.Mathematics.Compatibility.Vector;
+using ThePoint=iSukces.Mathematics.Point;
+using TheVector=iSukces.Mathematics.Vector;
 #else
 using System.Windows;
 using System.Windows.Media;

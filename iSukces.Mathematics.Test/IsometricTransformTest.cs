@@ -1,38 +1,26 @@
 using System.Collections.Generic;
-using iSukces.Mathematics.Compatibility;
 using Xunit;
 using Xunit.Abstractions;
-#if !WPFFEATURES
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
-using TheVector=iSukces.Mathematics.Compatibility.Vector;
-#else
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using ThePoint = System.Windows.Point;
-using TheVector = System.Windows.Vector;
-#endif
-
 
 namespace iSukces.Mathematics.test;
 
 class MyIsometricTranformator : IPointTransformator2D, IMatrixTransform2D
 {
-    private TheVector _x = new TheVector(1, 0);
-    public ThePoint Origin { get; set; }
+    private Vector _x = new Vector(1, 0);
+    public Point Origin { get; set; }
 
-    public TheVector X
+    public Vector X
     {
         get { return _x; }
         set
         {
             if (value.LengthSquared > 0)
-                value.Normalize();
+                value = value.GetNormalized();
             _x = value;
         }
     }
 
-    public ThePoint Transform(ThePoint point)
+    public Point Transform(Point point)
     {
         var y = _x.GetPrependicular();
         return Origin + point.X * _x + point.Y * y;

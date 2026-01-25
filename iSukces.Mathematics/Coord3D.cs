@@ -1,12 +1,3 @@
-#if !WPFFEATURES
-using ThePoint = iSukces.Mathematics.Compatibility.Point;
-using TheVector = iSukces.Mathematics.Compatibility.Vector;
-using iSukces.Mathematics.Compatibility;
-#else
-using System.Windows.Media.Media3D;
-using ThePoint = System.Windows.Point;
-using TheVector = System.Windows.Vector;
-#endif
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -95,11 +86,12 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
 #if DEBUG
             if (double.IsNaN(v.X) || double.IsNaN(v.Y) || double.IsNaN(v.Z)) throw new Exception("Błędny wektor");
 #endif
-        if (v.X == 1 || v.X == -1)
+// ReSharper disable CompareOfFloatsByEqualityOperator
+        if (v.X is 1 or -1)
             return new Vector3D(v.X, 0, 0);
-        if (v.Y == 1 || v.Y == -1)
+        if (v.Y is 1 or -1)
             return new Vector3D(0, v.Y, 0);
-        if (v.Z == 1 || v.Z == -1)
+        if (v.Z is 1 or -1)
             return new Vector3D(0, 0, v.Z);
 
         if (MathEx.PitagorasCSquared(v.X, v.Z) == one)
@@ -121,6 +113,7 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
         }
 
         return v;
+        // ReSharper enable CompareOfFloatsByEqualityOperator        
     }
 
     public static Coord3D Coalesce(Coord3D? value)
@@ -218,8 +211,7 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     {
         return new Coord3D(XVersor, YVersor, translateVector);
     }
-
-
+    
     public static Coord3D FromYXO(Vector3D yVector, Vector3D xVector, Point3D o = new Point3D())
     {
         var r = new Coord3D
@@ -311,22 +303,8 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     /// <returns></returns>
     public static bool operator ==(Coord3D? a, Coord3D? b)
     {
-        if (ReferenceEquals(a, null) && ReferenceEquals(b, null)) return true;
-        if (ReferenceEquals(a, null) || ReferenceEquals(b, null)) return false;
-        return a._x.Equals(b._x) &&
-               a._y.Equals(b._y) &&
-               a._z.Equals(b._z) &&
-               a._origin.Equals(b._origin);
-    }
-
-    /// <summary>
-    ///     Rzutuje <see cref="Coord3D">Coord3DBase</see> na <see cref="Transform3D">Transform3D</see>
-    /// </summary>
-    /// <param name="src">obiekt źródłowy</param>
-    /// <returns>wynik rzutowania</returns>
-    public static implicit operator Transform3D(Coord3D src)
-    {
-        return new MatrixTransform3D(src.Matrix);
+        if (a is null) return b is null;
+        return a.Equals(b);
     }
 
     /// <summary>
@@ -337,7 +315,8 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     /// <returns></returns>
     public static bool operator !=(Coord3D? a, Coord3D? b)
     {
-        return !(a == b);
+        if (a is null) return b is not null;
+        return !a.Equals(b);
     }
 
     public static Coord3D operator *(Coord3D src, Coord3D? c)
@@ -396,7 +375,7 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     /// <param name="p">punkt</param>
     /// <param name="c">lokalny układ współrzędnych</param>
     /// <returns>wektor transformowany</returns>
-    public static Point3D operator *(ThePoint v, Coord3D c)
+    public static Point3D operator *(Point v, Coord3D c)
     {
         return new Point3D(
             c.X.X * v.X +
@@ -462,7 +441,7 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
 
     private static Vector3D MakeVersor(Vector3D c)
     {
-        c.Normalize();
+        c =c.GetNormalized();
         c = BeautyVersor(c);
         return c;
     }
@@ -470,7 +449,7 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     private static Vector3D MakeVersor(Vector3D a, Vector3D b)
     {
         var c = Vector3D.CrossProduct(a, b);
-        c.Normalize();
+        c = c.GetNormalized();
         c = BeautyVersor(c);
         return c;
     }
@@ -525,9 +504,14 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     /// </summary>
     /// <param name="obj">obiekt do porównania</param>
     /// <returns><c>true</c> jeśli obiekty są równe; <c>false</c> w przeciwnym wypadku</returns>
-    public bool Equals(Coord3D? obj)
+    public bool Equals(Coord3D? other)
     {
-        return this == obj;
+        if (ReferenceEquals(other, this)) return true;
+        if (ReferenceEquals(other, null)) return false;
+        return other._x.Equals(_x) &&
+               other._y.Equals(_y) &&
+               other._z.Equals(_z) &&
+               other._origin.Equals(_origin);
     }
 
     /// <summary>
@@ -537,7 +521,7 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     /// <returns><c>true</c> jeśli obiekty są równe; <c>false</c> w przeciwnym wypadku</returns>
     public override bool Equals(object? obj)
     {
-        return base.Equals(obj as Coord3D);
+        return obj is Coord3D other && Equals(other);
     }
 
     /// <summary>
@@ -549,7 +533,7 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
         return _x.GetHashCode() ^ _y.GetHashCode() ^ _z.GetHashCode() ^ _origin.GetHashCode();
     }
 
-    public Point3D MapPoint23(ThePoint srcPoint)
+    public Point3D MapPoint23(Point srcPoint)
     {
         return new Point3D(srcPoint.X, srcPoint.Y, 0) * this;
     }
@@ -646,10 +630,10 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     ///     Macierz reprezentująca ten układ
     /// </summary>
     public Matrix3D Matrix => new Matrix3D(
-        _x.X, _x.Y, _x.Z, 0.0,
-        _y.X, _y.Y, _y.Z, 0.0,
-        _z.X, _z.Y, _z.Z, 0.0,
-        _origin.X, _origin.Y, _origin.Z, 1.0);
+        _x.X, _x.Y, _x.Z,
+        _y.X, _y.Y, _y.Z,
+        _z.X, _z.Y, _z.Z,
+        _origin.X, _origin.Y, _origin.Z);
 
     /// <summary>
     ///     Wektor Z
@@ -826,10 +810,10 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
             v2  = dst.X;
         }
 
-        vp1.Normalize();
-        vp2.Normalize();
+        vp1 = vp1.GetNormalized();
+        vp2 = vp2.GetNormalized();
         var tmp = Vector3D.CrossProduct(vp1, vp2);
-        tmp.Normalize();
+        tmp = tmp.GetNormalized();
         if (double.IsNaN(tmp.X)) tmp = vp1;
         ttt.RotateAxis = tmp;
 
@@ -840,10 +824,10 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
 
         var ac         = new Coord3D(v1a, ttt.RotateAxis);
         var acReversed = ac.Reversed;
-        var v2a        = v1a * acReversed;
+        //var v2a        = v1a * acReversed;
         var v2b        = v1b * acReversed;
-        v2a.Normalize();
-        v2b.Normalize();
+        //v2a = v2a.GetNormalized();
+        v2b = v2b.GetNormalized();
 
         ttt.AngleDeg = -MathEx.Atan2Deg(v2b.Z, v2b.X);
         if (ttt.AngleDeg < 0)

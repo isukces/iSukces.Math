@@ -1,8 +1,7 @@
 using System;
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
-using ThePoint = iSukces.Mathematics.Compatibility.Point;
-using TheVector = iSukces.Mathematics.Compatibility.Vector;
+using ThePoint = iSukces.Mathematics.Point;
+using TheVector = iSukces.Mathematics.Vector;
 #else
 using System.Windows;
 using System.Windows.Media;
@@ -48,7 +47,7 @@ public class SimpleCoordinateSystem2D : ICloneable
     {
         var c = new SimpleCoordinateSystem2D(a);
 
-        v.Normalize();
+        v =v.GetNormalized();
         c.Ax = v.X;
         c.Bx = -v.Y;
         c.Ay = v.Y;

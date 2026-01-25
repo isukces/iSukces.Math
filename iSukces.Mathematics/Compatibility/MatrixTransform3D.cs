@@ -1,6 +1,7 @@
+/*
 #nullable disable
 #if !WPFFEATURES
-namespace iSukces.Mathematics.Compatibility
+namespace iSukces.Mathematics
 {
     public sealed class MatrixTransform3D : Transform3D
     {
@@ -13,3 +14,4 @@ namespace iSukces.Mathematics.Compatibility
     }
 }
 #endif
+*/

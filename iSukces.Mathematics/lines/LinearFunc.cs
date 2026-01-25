@@ -1,6 +1,6 @@
 using System;
 #if !WPFFEATURES
-using ThePoint = iSukces.Mathematics.Compatibility.Point;
+using ThePoint = iSukces.Mathematics.Point;
 
 #else
 using System.Windows;

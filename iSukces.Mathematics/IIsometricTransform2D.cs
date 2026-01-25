@@ -1,7 +1,6 @@
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
-using ThePoint = iSukces.Mathematics.Compatibility.Point;
-using TheVector = iSukces.Mathematics.Compatibility.Vector;
+using ThePoint = iSukces.Mathematics.Point;
+using TheVector = iSukces.Mathematics.Vector;
 #else
 using System.Windows;
 using System.Windows.Media;

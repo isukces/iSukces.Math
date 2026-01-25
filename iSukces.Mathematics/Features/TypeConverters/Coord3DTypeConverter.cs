@@ -3,18 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Globalization;
-#if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
-using TheVector=iSukces.Mathematics.Compatibility.Vector;
-#else
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using ThePoint = System.Windows.Point;
-using TheVector = System.Windows.Vector;
-#endif
-
 
 #if TYPECONVERTERS
 

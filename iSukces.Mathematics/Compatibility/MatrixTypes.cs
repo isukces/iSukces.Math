@@ -1,7 +1,8 @@
+/*
 #if !WPFFEATURES
 using System;
 
-namespace iSukces.Mathematics.Compatibility
+namespace iSukces.Mathematics
 {
     [Flags]
     internal enum MatrixTypes
@@ -13,3 +14,4 @@ namespace iSukces.Mathematics.Compatibility
     }
 }
 #endif
+*/

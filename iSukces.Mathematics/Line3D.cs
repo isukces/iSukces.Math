@@ -1,5 +1,4 @@
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
 #else
 using System.Windows;
 using System.Windows.Media;
@@ -28,8 +27,7 @@ public sealed class Line3D
     public Line3D(Point3D p1, Point3D p2)
     {
         Point  = p1;
-        Vector = p2 - p1;
-        Vector.Normalize();
+        Vector = (p2 - p1).GetNormalized();
     }
  
 

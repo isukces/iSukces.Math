@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using Xunit;
 
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
 
 #else
 using iSukces.Mathematics.TypeConverters;

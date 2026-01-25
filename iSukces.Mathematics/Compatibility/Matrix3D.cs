@@ -1,6 +1,7 @@
+/*
 #nullable disable
 #if !WPFFEATURES
-namespace iSukces.Mathematics.Compatibility
+namespace iSukces.Mathematics
 {
     public struct Matrix3D
     {
@@ -69,4 +70,5 @@ namespace iSukces.Mathematics.Compatibility
     }
 }
 #endif
+*/
 

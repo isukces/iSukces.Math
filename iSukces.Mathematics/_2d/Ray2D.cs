@@ -1,5 +1,4 @@
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
 #else
 using System.Windows;
 #endif
@@ -18,7 +17,7 @@ public sealed class Ray2D : IPoint12Mapper
         BeginPoint = _beginPoint;
         axis       = _endPoint - _beginPoint;
         Distance   = axis.Length;
-        axis.Normalize();
+        axis = axis.GetNormalized();
     }
 
     public Ray2D(Point _beginPoint, Vector _axis)
@@ -26,7 +25,7 @@ public sealed class Ray2D : IPoint12Mapper
         BeginPoint = _beginPoint;
         axis       = _axis;
         Distance   = axis.Length;
-        axis.Normalize();
+        axis = axis.GetNormalized();
     }
 
     public static Point CrossLines(Ray2D ray1, Ray2D ray2)
@@ -128,8 +127,8 @@ public sealed class Ray2D : IPoint12Mapper
         get { return axis; }
         set
         {
-            value.Normalize();
-            if (value == axis) return;
+            value = value.GetNormalized();
+            //if (value == axis) return;
             axis = value;
         }
     }

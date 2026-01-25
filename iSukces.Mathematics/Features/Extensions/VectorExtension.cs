@@ -1,14 +1,4 @@
 using System;
-#if !WPFFEATURES
-using TheVector = iSukces.Mathematics.Compatibility.Vector;
-using iSukces.Mathematics.Compatibility;
-#else
-using System.Windows;
-using System.Windows.Media.Media3D;
-using ThePoint = System.Windows.Point;
-using TheVector = System.Windows.Vector;
-#endif
-
 
 namespace iSukces.Mathematics;
 
@@ -17,25 +7,26 @@ public static class VectorExtension
     private const double MinusOne = -1d;
 
     /// <param name="vector">wektor źródłowy</param>
-    extension(TheVector vector)
+    extension(Vector vector)
     {
         /// <summary>
         ///     Zwraca wektor prostopadły
         /// </summary>
         /// <param name="leftHand">czy układ lewoskrętny (domyślnie tak)</param>
         /// <returns></returns>
-        public TheVector GetPrependicular(bool leftHand = true)
+        public Vector GetPrependicular(bool leftHand = true)
         {
             if (leftHand)
-                return new TheVector(-vector.Y, vector.X);
-            return new TheVector(vector.Y, -vector.X);
+                return new Vector(-vector.Y, vector.X);
+            return new Vector(vector.Y, -vector.X);
         }
 
-        public TheVector GetReversedIf(bool condition)
+        public Vector GetReversedIf(bool condition)
         {
             return condition ? -vector : vector;
         }
 
+        [Obsolete("Use GetNormalized instead", true)]
         public Vector NormalizeFast()
         {
             var x = vector.X;
@@ -134,6 +125,7 @@ public static class VectorExtension
             return new Vector(x, y);
         }
 
+        [Obsolete("Use GetNormalized instead")]
         public Vector NormalizeFast(out double length)
         {
             var x = vector.X;
@@ -251,7 +243,7 @@ public static class VectorExtension
 
         public Vector3D ToNormalized()
         {
-            vector.Normalize();
+            vector = vector.GetNormalized();
             switch (vector.Y)
             {
                 case 1d:

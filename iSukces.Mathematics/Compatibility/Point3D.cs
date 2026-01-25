@@ -1,7 +1,8 @@
+/*
 #if !WPFFEATURES
 using System;
 
-namespace iSukces.Mathematics.Compatibility
+namespace iSukces.Mathematics
 {
     public struct Point3D : IEquatable<Point3D>
     {
@@ -76,3 +77,4 @@ namespace iSukces.Mathematics.Compatibility
     }
 }
 #endif
+*/

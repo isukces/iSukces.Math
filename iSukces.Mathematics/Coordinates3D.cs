@@ -2,16 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
-#if !WPFFEATURES
-using ThePoint = iSukces.Mathematics.Compatibility.Point;
-using TheVector = iSukces.Mathematics.Compatibility.Vector;
-using iSukces.Mathematics.Compatibility;
-#else
-using System.Windows.Media.Media3D;
-using ThePoint = System.Windows.Point;
-using TheVector = System.Windows.Vector;
-#endif
+ 
 #if TYPECONVERTERS
 using iSukces.Mathematics.TypeConverters;
 #endif
@@ -355,6 +346,7 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
                a._origin.Equals(b._origin);
     }
 
+    /*
     /// <summary>
     ///     Rzutuje <see cref="Coordinates3D">Coordinates3DBase</see> na <see cref="Transform3D">Transform3D</see>
     /// </summary>
@@ -364,6 +356,7 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
     {
         return new MatrixTransform3D(src.Matrix);
     }
+    */
 
     /// <summary>
     ///     Realizuje operator różności
@@ -432,7 +425,7 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
     /// <param name="p">punkt</param>
     /// <param name="c">lokalny układ współrzędnych</param>
     /// <returns>wektor transformowany</returns>
-    public static Point3D operator *(ThePoint v, Coordinates3D c)
+    public static Point3D operator *(Point v, Coordinates3D c)
     {
         return new Point3D(
             c.X.X * v.X +
@@ -492,7 +485,7 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
 
     private static Vector3D MakeVersor(Vector3D c)
     {
-        c.Normalize();
+        c = c.GetNormalized();
         c = BeautyVersor(c);
         return c;
     }
@@ -500,7 +493,7 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
     private static Vector3D MakeVersor(Vector3D a, Vector3D b)
     {
         var c = Vector3D.CrossProduct(a, b);
-        c.Normalize();
+        c = c.GetNormalized();
         c = BeautyVersor(c);
         return c;
     }
@@ -577,7 +570,7 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
         return _x.GetHashCode() ^ _y.GetHashCode() ^ _z.GetHashCode() ^ _origin.GetHashCode();
     }
 
-    public Point3D MapPoint23(ThePoint srcPoint)
+    public Point3D MapPoint23(Point srcPoint)
     {
         return new Point3D(srcPoint.X, srcPoint.Y, 0) * this;
     }
@@ -699,10 +692,10 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
     ///     Macierz reprezentująca ten układ
     /// </summary>
     public Matrix3D Matrix => new Matrix3D(
-        _x.X, _x.Y, _x.Z, 0.0,
-        _y.X, _y.Y, _y.Z, 0.0,
-        _z.X, _z.Y, _z.Z, 0.0,
-        _origin.X, _origin.Y, _origin.Z, 1.0);
+        _x.X, _x.Y, _x.Z,
+        _y.X, _y.Y, _y.Z,
+        _z.X, _z.Y, _z.Z,
+        _origin.X, _origin.Y, _origin.Z);
 
     /// <summary>
     ///     Wektor Z
@@ -932,11 +925,11 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
             v2  = dst.X;
         }
 
-        vp1.Normalize();
-        vp2.Normalize();
+        vp1 = vp1.GetNormalized();
+        vp2 = vp2.GetNormalized();
         // Transormation t = new Transormation();
         var tmp = Vector3D.CrossProduct(vp1, vp2);
-        tmp.Normalize();
+        tmp = tmp.GetNormalized();
         if (double.IsNaN(tmp.X)) tmp = vp1;
         ttt.RotateAxis = tmp;
 
@@ -947,10 +940,10 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
 
         var ac         = new Coordinates3D(v1a, ttt.RotateAxis);
         var acReversed = ac.Reversed;
-        var v2a        = v1a * acReversed;
+        //var v2a        = v1a * acReversed;
         var v2b        = v1b * acReversed;
-        v2a.Normalize();
-        v2b.Normalize();
+        //v2a = v2a.GetNormalized();
+        v2b = v2b.GetNormalized();
 
         ttt.AngleDeg = -MathEx.Atan2Deg(v2b.Z, v2b.X);
         if (ttt.AngleDeg < 0)

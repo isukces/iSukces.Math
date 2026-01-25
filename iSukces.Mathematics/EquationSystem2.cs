@@ -1,15 +1,3 @@
-#if !WPFFEATURES
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
-
-#else
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using ThePoint=System.Windows.Point;
-using TheVector=System.Windows.Vector;
-#endif
-
-
 namespace iSukces.Mathematics;
 
 /// <summary>
@@ -81,14 +69,14 @@ public sealed class EquationSystem2
         get { return A2 * C1 - A1 * C2; }
     }
 
-    public ThePoint? Solution
+    public Point? Solution
     {
         get
         {
             double w = Determinant;
             if (w == 0)
                 return null;
-            return new ThePoint(DeterminantX / w, DeterminantY / w);
+            return new Point(DeterminantX / w, DeterminantY / w);
         }
     }
 }

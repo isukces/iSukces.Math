@@ -7,9 +7,11 @@
     <LangVersion>14</LangVersion>
     <DefineConstants>$(DefineConstants);TYPECONVERTERS</DefineConstants>
   </PropertyGroup>
+<!--
   <PropertyGroup Condition="$(TargetFramework.EndsWith('windows'))">
     <ImplicitUsings>true</ImplicitUsings>
     <DefineConstants>$(DefineConstants);WPFFEATURES</DefineConstants>
     <UseWpf>true</UseWpf>
   </PropertyGroup>
+-->
 </Project>

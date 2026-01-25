@@ -1,12 +1,3 @@
-#if !WPFFEATURES
-using TheVector = iSukces.Mathematics.Compatibility.Vector;
-#else
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using ThePoint = System.Windows.Point;
-using TheVector = System.Windows.Vector;
-#endif
 using System;
 
 namespace iSukces.Mathematics;
@@ -177,25 +168,25 @@ public sealed class AngleInfo : object
     /// <summary>
     ///     Wektro [-sin, cos]
     /// </summary>
-    public TheVector V_MinusSin_Cos
+    public Vector V_MinusSin_Cos
     {
-        get { return new TheVector(-Sin, Cos); }
+        get { return new Vector(-Sin, Cos); }
     }
 
     /// <summary>
     ///     Wersor [ cos, sin ]
     /// </summary>
-    public TheVector VectorX
+    public Vector VectorX
     {
-        get { return new TheVector(Cos, Sin); }
+        get { return new Vector(Cos, Sin); }
     }
 
     /// <summary>
     ///     Wersor [ -sin, cos ]
     /// </summary>
-    public TheVector VectorY
+    public Vector VectorY
     {
-        get { return new TheVector(-Sin, Cos); }
+        get { return new Vector(-Sin, Cos); }
     }
 
     private double _degrees;

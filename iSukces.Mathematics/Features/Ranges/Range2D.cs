@@ -1,20 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-#if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
-using TheVector=iSukces.Mathematics.Compatibility.Vector;
-#else
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using ThePoint = System.Windows.Point;
-using TheVector = System.Windows.Vector;
-#endif
-
-
 namespace iSukces.Mathematics;
 
 public struct Range2D
@@ -42,17 +25,17 @@ public struct Range2D
         return new Range2D(XRange.RoundDouble(), YRange.RoundDouble());
     }
         
-    public bool Includes(ThePoint point)
+    public bool Includes(Point point)
     {
         return XRange.Includes(point.X) && YRange.Includes(point.Y);
     }
 
-    public bool IncludesExclusive(ThePoint point)
+    public bool IncludesExclusive(Point point)
     {
         return XRange.IncludesExclusive(point.X) && YRange.IncludesExclusive(point.Y);
     }
 
-    public Range2D WithPoint(ThePoint x)
+    public Range2D WithPoint(Point x)
     {
         return new Range2D(
             XRange.WithValue(x.X),
@@ -77,19 +60,19 @@ public struct Range2D
     }
 
 
-    public ThePoint Min
+    public Point Min
     {
-        get { return new ThePoint(XRange.Min, YRange.Min); }
+        get { return new Point(XRange.Min, YRange.Min); }
     }
 
-    public ThePoint Max
+    public Point Max
     {
-        get { return new ThePoint(XRange.Max, YRange.Max); }
+        get { return new Point(XRange.Max, YRange.Max); }
     }
 
-    public ThePoint Center
+    public Point Center
     {
-        get { return new ThePoint(XRange.Center, YRange.Center); }
+        get { return new Point(XRange.Center, YRange.Center); }
     }
 
     public Size Size

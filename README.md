@@ -4,11 +4,19 @@
 
 Small .NET library with helpers for 2D/3D geometry, coordinate systems, and assorted math utilities. Targets net6, net8, net9, net10 (including Windows variants) and is distributed under the MIT license.
 
+## Version 2.x.x.x Notes
+
+The library has been consolidated into a single version with its own lightweight implementations of core math and geometry types such as `Point`, `Vector`, `Matrix`, `Rect`, and `Size`. This change eliminates the dependency on Windows and Windows Media–specific types, improving portability and consistency across platforms. Portions of these implementations are derived from Microsoft open-source code released under the MIT license.
+
+An immutable design was applied to most of the geometry types, which may require code changes — for example, replacing 
+`vector.Normalize()` with `vector = vector.GetNormalized()`.
+As a result, migrating from version 1.x.x.x to 2.x.x.x requires significant modifications to existing code.
+
 ## Features
-- 2D/3D coordinate systems with rotation, translation, and easy inversion (`Coordinates3D.Reversed`).
+- 2D/3D coordinate syst[README-pl.md](README-pl.md)ems with rotation, translation, and easy inversion (`Coordinates3D.Reversed`).
 - Line, plane, circle, and triangle primitives with distance and intersection helpers (`LineEquation`, `Plane3D`, and related types).
 - Angle helpers, ranges, and trigonometric utilities (`AngleInfo`, `AngleRange`, `MathEx`, `SinusCosinus`).
-- Bounding ranges with merging/compaction helpers (`MinMax`, `MinMaxI`, `MinMaxGeneric`).
+- Bounding ranges with merging/[README-pl.md](README-pl.md)compaction helpers (`MinMax`, `MinMaxI`, `MinMaxGeneric`).
 - Extra utilities such as weighted averages and numeric iterators.
 - Optional type converters and WPF compatibility wrappers (`Compatibility` namespace) useful for serialization and UI bindings.
 

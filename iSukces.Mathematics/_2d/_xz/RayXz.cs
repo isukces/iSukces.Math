@@ -1,6 +1,5 @@
 using System;
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
 #else
 using System.Windows.Media.Media3D;
 #endif

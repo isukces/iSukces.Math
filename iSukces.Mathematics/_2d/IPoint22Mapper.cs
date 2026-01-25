@@ -1,5 +1,4 @@
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
 #else
 using System.Windows;
 #endif

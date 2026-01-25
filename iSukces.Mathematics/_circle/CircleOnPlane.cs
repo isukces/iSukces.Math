@@ -1,5 +1,5 @@
 #if !WPFFEATURES
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
+using ThePoint=iSukces.Mathematics.Point;
 #else
 using System.Windows;
 using System.Windows.Media;
@@ -190,14 +190,14 @@ public class CircleOnPlane : Circle, ICloneable
 
         if (odl == _radius - c._radius)
         {
-            v.Normalize();
+            v = v.GetNormalized();
             var p = Center + v * _radius;
             return new CircleCrossInfo(CircleLocations.OtherCircleInside1Point, p);
         }
 
         if (odl == c._radius - _radius)
         {
-            v.Normalize();
+            v = v.GetNormalized();
             var p = Center - v * _radius;
             return new CircleCrossInfo(CircleLocations.InsideOtherCircle, p);
         }

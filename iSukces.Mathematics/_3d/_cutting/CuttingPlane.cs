@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using iSukces.Mathematics.Compatibility;
 
 #if !WPFFEATURES
 #else
@@ -198,13 +197,10 @@ public sealed class CuttingPlane : ICuttingSurface, INotifyPropertyChanged, IEqu
     private void UpdateNormal()
     {
         _normal = new Vector3D(-Xfactor, -Yfactor, 1);
-        _normal.Normalize();
+        _normal = _normal.GetNormalized();
     }
 
-    public bool HasSharpYEdges
-    {
-        get { return false; }
-    }
+    public bool HasSharpYEdges => false;
 
     /// <summary>
     ///     współczynnik nachylenia zależny od parametru X

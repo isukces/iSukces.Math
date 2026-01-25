@@ -1,7 +1,6 @@
 #if WPFFEATURES
 using System.Windows;
 #else
-using iSukces.Mathematics.Compatibility;
 #endif
 
 

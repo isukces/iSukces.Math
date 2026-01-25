@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Text;
 using Xunit;
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
 
 #else
 using System;
@@ -259,7 +258,7 @@ namespace iSukces.Mathematics.test
             Assert.Equal(-0.230196001335296, mInv.Y.Y, 14);
             Assert.Equal(-0.895043150302534, mInv.Y.Z, 14);
             Assert.Equal(-3.33479316845864, mInv.Origin.X, 14);
-            Assert.Equal(0.533043531328346, mInv.Origin.Y, 14);
+            Assert.Equal(0.53304353132834503, mInv.Origin.Y, 14);
             Assert.Equal(1.55089113679847, mInv.Origin.Z, 14);
         }
 

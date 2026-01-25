@@ -1,17 +1,5 @@
 using System;
 using System.Text;
-#if !WPFFEATURES
-using ThePoint = iSukces.Mathematics.Compatibility.Point;
-using TheVector = iSukces.Mathematics.Compatibility.Vector;
-
-#else
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using ThePoint = System.Windows.Point;
-using TheVector = System.Windows.Vector;
-#endif
-
 
 namespace iSukces.Mathematics;
 
@@ -31,7 +19,7 @@ public sealed class LineEquation : ICloneable
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
-    public LineEquation(ThePoint a, ThePoint b)
+    public LineEquation(Point a, Point b)
         :
         this(a.X, a.Y, b.X, b.Y)
     {
@@ -85,7 +73,7 @@ public sealed class LineEquation : ICloneable
         C = -(A * x1 + B * y1);
     }
 
-    public static ThePoint? Cross(Self p1, Self p2)
+    public static Point? Cross(Self p1, Self p2)
     {
         if (p1 is null) throw new ArgumentNullException(nameof(p1));
         if (p2 is null) throw new ArgumentNullException(nameof(p2));
@@ -109,7 +97,7 @@ public sealed class LineEquation : ICloneable
     /// <summary>
     ///     Punkt przecięcia odcinków
     /// </summary>
-    public static ThePoint? CrossLineSegment(ThePoint p1Begin, ThePoint p1End, ThePoint p2Begin, ThePoint p2End)
+    public static Point? CrossLineSegment(Point p1Begin, Point p1End, Point p2Begin, Point p2End)
     {
         var line1              = new Self(p1Begin, p1End);
         var line2              = new Self(p2Begin, p2End);
@@ -117,7 +105,7 @@ public sealed class LineEquation : ICloneable
         if (crossPointNullable is null) return null;
         var cross = crossPointNullable.Value;
 
-        bool Test(ThePoint a, ThePoint b)
+        bool Test(Point a, Point b)
         {
             var dx = b.X - a.X;
             var dy = b.Y - a.Y;
@@ -166,12 +154,12 @@ public sealed class LineEquation : ICloneable
         return new Self(0, -1, y);
     }
 
-    public static Self Make(ThePoint p1, ThePoint p2)
+    public static Self Make(Point p1, Point p2)
     {
         return FromPointAndDeltas(p1.X, p1.Y, p2.X - p1.X, p2.Y - p1.Y);
     }
 
-    public static Self Make(ThePoint p, TheVector v)
+    public static Self Make(Point p, Vector v)
     {
         return FromPointAndDeltas(p.X, p.Y, v.X, v.Y);
     }
@@ -197,12 +185,12 @@ public sealed class LineEquation : ICloneable
         return MemberwiseClone();
     }
 
-    public ThePoint? Cross(Self other)
+    public Point? Cross(Self other)
     {
         return Cross(this, other);
     }
 
-    public double DistanceNotNormalized(ThePoint p)
+    public double DistanceNotNormalized(Point p)
     {
         return A * p.X + B * p.Y + C;
     }
@@ -224,9 +212,9 @@ public sealed class LineEquation : ICloneable
         return -(B * y + C) / A;
     }
 
-    public ThePoint GetXPoint(double y)
+    public Point GetXPoint(double y)
     {
-        return new ThePoint(GetX(y), y);
+        return new Point(GetX(y), y);
     }
 
     /// <summary>
@@ -246,9 +234,9 @@ public sealed class LineEquation : ICloneable
     /// </summary>
     /// <param name="x"></param>
     /// <returns></returns>
-    public ThePoint GetYPoint(double x)
+    public Point GetYPoint(double x)
     {
-        return new ThePoint(x, GetY(x));
+        return new Point(x, GetY(x));
     }
 
     public void Normalize()

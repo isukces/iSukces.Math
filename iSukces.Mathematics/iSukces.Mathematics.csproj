@@ -3,17 +3,17 @@
   <PropertyGroup>
     <Product>iSukces.Math</Product>
     <ProjectGuid>{F65D90E2-7284-40AD-8D61-A27A027B835E}</ProjectGuid>
-    <TargetFrameworks>net6.0;net6.0-windows;net8.0;net8.0-windows;net9.0;net9.0-windows;net10.0;net10.0-windows</TargetFrameworks>
+    <TargetFrameworks>net6.0;net8.0;net10.0</TargetFrameworks>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
-    <AssemblyVersion>1.25.1203.132</AssemblyVersion>
-    <FileVersion>1.25.1203.132</FileVersion>
-    <Version>1.25.1203.132</Version>
+    <AssemblyVersion>2.26.120.133</AssemblyVersion>
+    <FileVersion>2.26.120.133</FileVersion>
+    <Version>2.26.120.133</Version>
     <LangVersion>14</LangVersion>
     <Nullable>enable</Nullable>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SignKey)</AssemblyOriginatorKeyFile>
     <NoWarn>1701;1702;CS1591;CS1572;CS1573;CS1591</NoWarn>
-    <Description>Użyteczne klasy i metody do nieco bardziej zaawansowanej matematyki</Description>
+    <Description>A versatile .NET mathematics and 2D/3D geometry toolkit. Includes coordinate systems, analytic geometry, equation solvers, and assorted numeric utilities. Features high-performance algorithms derived from the Microsoft .NET Runtime under the MIT License.</Description>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <PackageId>iSukces.Math</PackageId>
     <WarningLevel>3</WarningLevel>
@@ -29,7 +29,11 @@
     <RepositoryUrl>https://github.com/isukces/iSukces.Math</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+    <None Include="..\LICENSE" Pack="true" PackagePath="" />
+    <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

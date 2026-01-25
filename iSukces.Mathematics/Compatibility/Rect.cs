@@ -1,6 +1,7 @@
+/*
 #if !WPFFEATURES
 
-namespace iSukces.Mathematics.Compatibility
+namespace iSukces.Mathematics
 {
     public struct Rect
     {
@@ -118,5 +119,6 @@ namespace iSukces.Mathematics.Compatibility
     }
 }
 #endif
+*/
 
 

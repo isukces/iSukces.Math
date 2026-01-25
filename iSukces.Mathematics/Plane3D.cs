@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
-using ThePoint=iSukces.Mathematics.Compatibility.Point;
-using TheVector=iSukces.Mathematics.Compatibility.Vector;
+using ThePoint=iSukces.Mathematics.Point;
+using TheVector=iSukces.Mathematics.Vector;
 #else
 using System.Windows;
 using System.Windows.Media;
@@ -21,7 +20,7 @@ public sealed class Plane3D : ICloneable
 {
     public Plane3D(Point3D center, Vector3D versor)
     {
-        versor.Normalize();
+        versor = versor.GetNormalized();
         A = versor.X;
         B = versor.Y;
         C = versor.Z;
@@ -50,7 +49,7 @@ public sealed class Plane3D : ICloneable
         var v2 = b.Normal;
 
         var n = Vector3D.CrossProduct(v1, v2);
-        n.Normalize();
+        n = n.GetNormalized();
 
         var     x = Math.Abs(n.X);
         var     y = Math.Abs(n.Y);
@@ -109,7 +108,7 @@ public sealed class Plane3D : ICloneable
             return (Plane3D)srcPlane.MemberwiseClone();
         var normal      = new Vector3D(srcPlane.A, srcPlane.B, srcPlane.C);
         var dNormalized = srcPlane.D / normal.Length;
-        normal.Normalize();
+        normal = normal.GetNormalized();
         var newNormal = normal * coordinates;
 
         // var center = new Point3D(-dNormalized * normal.X, -dNormalized * normal.Y, -dNormalized * normal.Z);

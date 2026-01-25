@@ -1,8 +1,9 @@
+/*
 #if !WPFFEATURES
 
 using System;
 
-namespace iSukces.Mathematics.Compatibility
+namespace iSukces.Mathematics
 {
     public struct Vector : IEquatable<Vector>
     {
@@ -180,4 +181,5 @@ namespace iSukces.Mathematics.Compatibility
 }
 
 #endif
+*/
 

@@ -1,5 +1,4 @@
 #if !WPFFEATURES
-using iSukces.Mathematics.Compatibility;
 #else
 using System.Windows;
 #endif
@@ -41,7 +40,7 @@ public sealed class PointTuple : IPoint12Mapper
     {
         _axis    = _endPoint - _beginPoint;
         Distance = _axis.Length;
-        _axis.Normalize();
+        _axis = _axis.GetNormalized();
         EndValue = _startValue + Distance;
     }
 

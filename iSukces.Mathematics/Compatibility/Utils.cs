@@ -1,8 +1,8 @@
-using System;
+/*using System;
 using System.Globalization;
 
 
-namespace iSukces.Mathematics.Compatibility;
+namespace iSukces.Mathematics;
 
 internal static class Utils
 {
@@ -17,4 +17,4 @@ internal static class Utils
         return Comma;
     }
     
-}
+}*/
