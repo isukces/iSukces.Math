@@ -47,6 +47,7 @@ public readonly record struct Rect3D : IFormattable
         _sizeX = Math.Max(point1.X, point2.X) - _x;
         _sizeY = Math.Max(point1.Y, point2.Y) - _y;
         _sizeZ = Math.Max(point1.Z, point2.Z) - _z;
+        _isSet = true;
     }
 
     /// <summary>
