@@ -197,9 +197,9 @@ public struct Matrix
     /// </summary>
     public static Matrix Multiply(Matrix trans1, Matrix trans2)
     {
-        MatrixUtil.MultiplyMatrix(ref trans1, ref trans2);
-        trans1.Debug_CheckType();
-        return trans1;
+        var result = MatrixUtil.MultiplyMatrix(ref trans1, ref trans2);
+        result.Debug_CheckType();
+        return result;
     }
 
 
@@ -208,9 +208,9 @@ public struct Matrix
     /// </summary>
     public static Matrix operator *(Matrix trans1, Matrix trans2)
     {
-        MatrixUtil.MultiplyMatrix(ref trans1, ref trans2);
-        trans1.Debug_CheckType();
-        return trans1;
+        var result = MatrixUtil.MultiplyMatrix(ref trans1, ref trans2);
+        result.Debug_CheckType();
+        return result;
     }
 
     /*/// <summary>
@@ -286,8 +286,8 @@ public struct Matrix
             case MatrixTypes.TRANSFORM_IS_SCALING | MatrixTypes.TRANSFORM_IS_TRANSLATION:
                 var m11     = 1.0 / _m11;
                 var m22     = 1.0 / _m22;
-                var offsetX = -_offsetX * _m11;
-                var offsetY = -_offsetY * _m22;
+                var offsetX = -_offsetX * m11;
+                var offsetY = -_offsetY * m22;
                 return new Matrix(m11, 0, 0, m22, offsetX, offsetY);
             default:
                 var invdet = 1.0 / determinant;
