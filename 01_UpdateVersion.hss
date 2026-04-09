@@ -1,0 +1,9 @@
+var builder = new ProjectBuilder
+{
+    ProjectName  = "iSukces.Mathematics",
+    SolutionDir  = ConfigDir
+};
+
+var version = builder.UpdateVersionCore();
+Console.WriteLine("Nuget release "+version);
+Console.WriteLine("--FINISHED--");

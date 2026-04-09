@@ -5,9 +5,9 @@
     <ProjectGuid>{F65D90E2-7284-40AD-8D61-A27A027B835E}</ProjectGuid>
     <TargetFrameworks>net6.0;net8.0;net10.0</TargetFrameworks>
     <RootNamespace>iSukces.Mathematics</RootNamespace>
-    <AssemblyVersion>2.26.226.134</AssemblyVersion>
-    <FileVersion>2.26.226.134</FileVersion>
-    <Version>2.26.226.134</Version>
+    <AssemblyVersion>2.26.409.135</AssemblyVersion>
+    <FileVersion>2.26.409.135</FileVersion>
+    <Version>2.26.409.135</Version>
     <LangVersion>14</LangVersion>
     <Nullable>enable</Nullable>
     <SignAssembly>true</SignAssembly>
