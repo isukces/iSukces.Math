@@ -1,9 +1,3 @@
-// Copyright © Internet Sukces Piotr Stęclik 2017-2026. All rights reserved.
-// Licensed under the MIT license.
-//
-// This file contains portions of code derived from the .NET Runtime (Microsoft Corporation).
-// For more information, see the THIRD-PARTY-NOTICES.txt file in the project root.
-
 using System;
 
 namespace iSukces.Mathematics;
@@ -36,6 +30,13 @@ public readonly struct Size3D : IEquatable<Size3D>
         return a.X != b.X || a.Y != b.Y || a.Z != b.Z;
     }
 
+    public static Size3D TryCreate(double x, double y, double z)
+    {
+        if (x < 0 || y < 0 || z < 0)
+            return Empty;
+        return new Size3D(x, y, z, true);
+    }
+
     public bool Equals(Size3D other)
     {
         return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
@@ -55,6 +56,15 @@ public readonly struct Size3D : IEquatable<Size3D>
             hashCode = (hashCode * 397) ^ Z.GetHashCode();
             return hashCode;
         }
+    }
+
+
+    public override string ToString()
+    {
+        if (IsEmpty)
+            return "Empty";
+        var numericListSeparator = MsCompatibility.GetNumericListSeparator(null);
+        return $"{X}{numericListSeparator}{Y}{numericListSeparator}{Z}";
     }
 
     public Size3D WithX(double x)
@@ -85,13 +95,4 @@ public readonly struct Size3D : IEquatable<Size3D>
     public double Y { get; }
 
     public double Z { get; }
-
-
-    public override string ToString()
-    {
-        if (IsEmpty)
-            return "Empty";
-        var numericListSeparator = MsCompatibility.GetNumericListSeparator(null);
-        return $"{X}{numericListSeparator}{Y}{numericListSeparator}{Z}";
-    }
 }

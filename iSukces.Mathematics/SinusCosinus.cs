@@ -20,6 +20,11 @@ public struct SinusCosinus
     /// </summary>
     public SinusCosinus(double sin, double cos)
     {
+        if (sin == +1 || sin == -1)
+            cos = 0;
+        else if (cos == +1 || cos == -1)
+            sin = 0;
+
         Sin = sin;
         Cos = cos;
     }
@@ -62,5 +67,15 @@ public struct SinusCosinus
     /// <summary>
     ///     Tangent
     /// </summary>
-    public double Tan => Sin / Cos;
+    public double Tan
+    {
+        get
+        {
+            if (Sin == 1)
+                return double.PositiveInfinity;
+            if (Sin == -1)
+                return double.NegativeInfinity;
+            return Sin / Cos;
+        }
+    }
 }

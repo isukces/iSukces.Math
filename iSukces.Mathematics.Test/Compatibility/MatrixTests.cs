@@ -113,7 +113,7 @@ public sealed class MatrixTests
     {
         var m = new Matrix(1, 2, 2, 4, 0, 0);
         Assert.False(m.HasInverse);
-        Assert.Throws<InvalidOperationException>(() => m.GetInverted());
+        Assert.Throws<MatrixException>(() => m.GetInverted());
     }
 
     [Fact]

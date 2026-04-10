@@ -35,7 +35,7 @@ public sealed class QuaternionTests
     [Fact]
     public void T03_Axis_angle_constructor_should_throw_for_zero_axis()
     {
-        Assert.Throws<InvalidOperationException>(() => new Quaternion(new Vector3D(0, 0, 0), 45));
+        Assert.Throws<GeometryException>(() => new Quaternion(new Vector3D(0, 0, 0), 45));
     }
 
     [Fact]

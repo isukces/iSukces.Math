@@ -64,20 +64,20 @@ public class Test1
         t1(
             new ThePoint(0, 0), new ThePoint(100, 0),
             new ThePoint(0, 10), new ThePoint(100, 10),
-            c => Assert.Null(c)
+            Assert.Null
         );
 
 
         t1(
             new ThePoint(0, 10), new ThePoint(100, 10),
             new ThePoint(-1, 0), new ThePoint(-1, 20),
-            c => Assert.Null(c)
+            Assert.Null
         );
 
         t1(
             new ThePoint(5, 11), new ThePoint(5, 20),
             new ThePoint(0, 10), new ThePoint(100, 10),
-            c => Assert.Null(c)
+            Assert.Null
         );
 
 

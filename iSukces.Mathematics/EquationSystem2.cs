@@ -54,20 +54,13 @@ public sealed class EquationSystem2
     /// </summary>
     public double C2 { get; set; }
 
-    public double Determinant
-    {
-        get { return A1 * B2 - A2 * B1; }
-    }
+    public double Determinant => A1 * B2 - A2 * B1;
 
-    public double DeterminantX
-    {
-        get { return B1 * C2 - B2 * C1; }
-    }
+    //public double DeterminantX => B2 * C1 - B1 * C2;
+    public double DeterminantX => B1 * C2 - B2 * C1;
 
-    public double DeterminantY
-    {
-        get { return A2 * C1 - A1 * C2; }
-    }
+    //public double DeterminantY => A1 * C2 - A2 * C1;
+     public double DeterminantY => A2 * C1 - A1 * C2;
 
     public Point? Solution
     {

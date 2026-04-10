@@ -40,4 +40,93 @@ public sealed class SinusCosinusTests
         Assert.Contains("cos=", s);
         Assert.Contains("sin=", s);
     }
+
+    [Theory]
+    [InlineData(0, 0, 1)]
+    [InlineData(30, 0.5, 0.866025403784)]
+    [InlineData(45, 0.707106781187, 0.707106781187)]
+    [InlineData(60, 0.866025403784, 0.5)]
+    [InlineData(90, 1, 0)]
+    [InlineData(180, 0, -1)]
+    public void T05_SinSquaredPlusCosSquared_Should_Equal_1(double degrees, double expectedSin, double expectedCos)
+    {
+        // Act
+        var sc = SinusCosinus.FromAngleDeg(degrees);
+
+        // Assert
+        Assert.Equal(expectedSin, sc.Sin, 12);
+        Assert.Equal(expectedCos, sc.Cos, 12);
+
+        // Assert: sin²(α) + cos²(α) = 1
+        var identity = sc.Sin * sc.Sin + sc.Cos * sc.Cos;
+        Assert.Equal(1.0, identity, 12);
+    }
+
+    [Fact]
+    public void T06_Factory_Methods_Should_Be_Consistent()
+    {
+        // Arrange
+        var degrees = 45;
+
+        // Act
+        var fromDeg = SinusCosinus.FromAngleDeg(degrees);
+        var fromRad = SinusCosinus.FromAngleRad(degrees * MathEx.DEGTORAD);
+
+        // Assert
+        Assert.Equal(fromDeg.Sin, fromRad.Sin, 12);
+        Assert.Equal(fromDeg.Cos, fromRad.Cos, 12);
+    }
+
+    [Theory]
+    [InlineData(0, 0)]
+    [InlineData(30, 0.57735026919)]
+    [InlineData(45, 1)]
+    [InlineData(60, 1.73205080757)]
+    public void T07_Tan_Should_Equal_Sin_Divided_By_Cos(double degrees, double expectedTan)
+    {
+        // Arrange
+        var sc = SinusCosinus.FromAngleDeg(degrees);
+
+        // Act & Assert
+        Assert.Equal(expectedTan, sc.Tan, 9);
+    }
+
+    [Fact]
+    public void T08_Tan_At_90_Degrees_Should_Be_PositiveInfinity()
+    {
+        // Arrange
+        var sc = SinusCosinus.FromAngleDeg(90);
+
+        // Act & Assert
+        Assert.Equal(double.PositiveInfinity, sc.Tan);
+    }
+
+    [Fact]
+    public void T09_Constructor_Should_Set_Sin_And_Cos()
+    {
+        // Arrange
+        var sin = 0.707;
+        var cos = 0.707;
+
+        // Act
+        var sc = new SinusCosinus(sin, cos);
+
+        // Assert
+        Assert.Equal(sin, sc.Sin, 12);
+        Assert.Equal(cos, sc.Cos, 12);
+    }
+
+    [Theory]
+    [InlineData(-90)]
+    [InlineData(-180)]
+    [InlineData(-270)]
+    public void T10_Negative_Angles_Should_Work_Correctly(double degrees)
+    {
+        // Act
+        var sc = SinusCosinus.FromAngleDeg(degrees);
+
+        // Assert: sin² + cos² = 1 should still hold
+        var identity = sc.Sin * sc.Sin + sc.Cos * sc.Cos;
+        Assert.Equal(1.0, identity, 12);
+    }
 }

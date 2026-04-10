@@ -79,7 +79,7 @@ public sealed class Matrix3DTests
             0, 0, 0);
 
         Assert.False(m.HasInverse);
-        Assert.Throws<InvalidOperationException>(() => m.GetInverted());
+        Assert.Throws<MatrixException>(() => m.GetInverted());
     }
 
     [Fact]
