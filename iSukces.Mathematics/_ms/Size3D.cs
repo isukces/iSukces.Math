@@ -13,7 +13,7 @@ public readonly struct Size3D : IEquatable<Size3D>
     public Size3D(double x, double y, double z)
     {
         if (x < 0 || y < 0 || z < 0)
-            throw new ArgumentException(ua);
+            throw new SizeException(ErrorMessages.NegativeSizeArgument);
         X = x;
         Y = y;
         Z = z;
@@ -86,9 +86,7 @@ public readonly struct Size3D : IEquatable<Size3D>
 
     public double Z { get; }
 
-    private const string ua = "ujemny argument";
-    
-    
+
     public override string ToString()
     {
         if (IsEmpty)

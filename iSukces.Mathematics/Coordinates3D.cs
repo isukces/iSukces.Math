@@ -94,7 +94,8 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
     {
         const double one = 1;
 #if DEBUG
-            if (double.IsNaN(v.X) || double.IsNaN(v.Y) || double.IsNaN(v.Z)) throw new Exception("Błędny wektor");
+        if (double.IsNaN(v.X) || double.IsNaN(v.Y) || double.IsNaN(v.Z))
+            throw new InvalidVectorException();
 #endif
         if (v.X == 1 || v.X == -1)
             return new Vector3D(v.X, 0, 0);
@@ -129,36 +130,6 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
         if (value != null) return value;
         return NORMAL;
     }
-
-    /*
-    /// <summary>
-    /// Deserializuje watrość Coordinates3DBase
-    /// </summary>
-    /// <param name="value">postać tekstowa</param>
-    /// <returns>wartość zdeserializowana</returns>
-    [DataSerialize]
-    [System.Reflection.Obfuscation(Exclude = true)]
-    public static Coordinates3DBase Deserialize(string value)
-    {
-        if (value == "<NULL>")
-            return null;
-        var m = Regex2.Match(value, @"\[(.+)\];\[(.+)\];\[(.+)\];\[(.+)\]");
-        if (m == (object)null)
-            return null;
-        SerializerInfo si;
-        if (!DataObjectManager.Instance.Serializers.TryGetValue(typeof(Vector3D), out si))
-            return null;
-
-        Vector3D x = si.Deserialize<Vector3D>(m[1]);
-        Vector3D y = si.Deserialize<Vector3D>(m[2]);
-
-        if (!DataObjectManager.Instance.Serializers.TryGetValue(typeof(Point3D), out si))
-            return null;
-        Point3D p = si.Deserialize<Point3D>(m[4]);
-
-        return new Coordinates3DBase(x, y, p);
-    }
-    */
 
     public static Coordinates3D From2Points(Point3D a, Point3D b, Vector3D vx)
     {
@@ -778,27 +749,6 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
     /// </summary>
     public Vector3D Z => _z;
 
-    /*
-    /// <summary>
-    /// Serializuje wartość Coordinates3DBase
-    /// </summary>
-    /// <param name="value">wartość do zamiany na postać tekstową</param>
-    /// <returns>postać tekstowa</returns>
-    [DataSerialize]
-    [System.Reflection.Obfuscation(Exclude = true)]
-    public static string Serialize(Coordinates3DBase value)
-    {
-        if (value == (object)null)
-            return "<NULL>";
-        List<string> l = new List<string>();
-        l.Add(DataObjectManager.Instance.Serializers.Serialize(value.X));
-        l.Add(DataObjectManager.Instance.Serializers.Serialize(value.Y));
-        l.Add(DataObjectManager.Instance.Serializers.Serialize(value.Z));
-        l.Add(DataObjectManager.Instance.Serializers.Serialize(value.Origin));
-        return "[" + string.Join("];[", l.ToArray()) + "]";
-    }
-     */
-
     public static readonly Coordinates3D RotationX180;
     public static readonly Coordinates3D RotationY180;
     public static readonly Coordinates3D RotationZ180;
@@ -829,23 +779,6 @@ public sealed class Coordinates3D : ICloneable, INotifyPropertyChanged, IEquatab
     {
         public Coordinates3D GetCoordinates(double factor)
         {
-            /*
-            var a = Vector3D.CrossProduct( RotateAxis, XVersor);
-            var b = Vector3D.CrossProduct( RotateAxis, YVersor);
-            var c = Vector3D.CrossProduct( RotateAxis, ZVersor);
-            if (b.Length>a.Length)
-                a = b;
-            if (c.Length>a.Length)
-                a = c;
-
-            Coordinates3DBase a2 = new Coordinates3DBase(RotateAxis, a);
-            Coordinates3DBase a2o = Coordinates3DBase.NORMAL.RotateX(-AngleDeg * factor);
-            var tmp1 = RotateAxis * a2.Reversed * a2o * a2;
-
-            Coordinates3DBase aaa = a2.Reversed * a2o * a2;
-            aaa = aaa.Translate(Translate * factor);
-            */
-
             var aa = FromFreeRotate(RotateAxis, AngleDeg * factor);
             aa = aa.Translate(Translate * factor);
             return aa;

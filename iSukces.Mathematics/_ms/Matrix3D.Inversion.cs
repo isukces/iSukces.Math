@@ -23,7 +23,7 @@ public readonly partial record struct Matrix3D
     {
         if (!InvertCore(out var inverted))
         {
-            throw new InvalidOperationException("Matrix3D_NotInvertible");
+            throw new MatrixException(ErrorMessages.MatrixNotInvertible);
         }
 
         return inverted;

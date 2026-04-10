@@ -133,7 +133,7 @@ public sealed class TopologyTriangle : TopologyBase
         if (!pA.Equals(a) && !pA.Equals(b)) return pA;
         if (!pB.Equals(a) && !pB.Equals(b)) return pB;
         if (!pC.Equals(a) && !pC.Equals(b)) return pC;
-        throw new ArgumentException();
+        throw new GeometryException($"{ErrorMessages.InvalidPoint}: Unable to find third point for {a} and {b}");
     }
 
     public Point GetOtherPointOfTrangle(TopologyTriangleLine? l)

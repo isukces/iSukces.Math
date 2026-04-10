@@ -85,12 +85,13 @@ public sealed class TopologyShapeCutter
         }
     }
 
+    /*
     public static void SomeTest()
     {
         var a    = TopologyShape.FromPoints(new Point(0, 0), new Point(40, 0), new Point(41, 20));
         var line = new TopologyTriangleLine(new Point(100, 10), new Point(-100, 9), false);
         var b    = CutByLine(a.Triangles[0], line);
-    }
+    }*/
 
     private static void Addx(IList<TopologySideCross> l, TopologySideCross? p)
     {

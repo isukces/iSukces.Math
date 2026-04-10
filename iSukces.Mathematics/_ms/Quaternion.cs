@@ -60,7 +60,7 @@ public readonly record struct Quaternion : IFormattable
         var angleInRadians = angleInDegrees * (Math.PI / 180.0);
         var length         = axisOfRotation.Length;
         if (length == 0)
-            throw new InvalidOperationException("ZeroAxisSpecified");
+            throw new GeometryException(ErrorMessages.ZeroAxisSpecified);
         var v = axisOfRotation / length * Math.Sin(0.5 * angleInRadians);
         _x = v.X;
         _y = v.Y;

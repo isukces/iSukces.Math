@@ -11,3 +11,5 @@ obj
 /.idea
 *.bak
 hotCopy.bat
+.claude/
+CLAUDE.md

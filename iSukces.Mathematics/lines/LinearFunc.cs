@@ -45,7 +45,7 @@ b1 ≔ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
          */
         double dx = p1.X - p2.X;
         if (dx == 0)
-            throw new ArgumentException("Punkty nie mogą mieć tego samego X");
+            throw new GeometryException(ErrorMessages.PointsCannotHaveSameX);
         A = (p1.Y - p2.Y) / dx;
         B = (p1.X * p2.Y - p1.Y * p2.X) / dx;
     }

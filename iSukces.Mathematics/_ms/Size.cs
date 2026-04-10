@@ -13,9 +13,9 @@ public readonly record struct Size : IEquatable<Size>
     public Size(double width, double height)
     {
         if (width < 0)
-            throw new ArgumentException("Width and height must be non-negative", nameof(width));
+            throw new SizeException($"{ErrorMessages.NegativeSizeArgument}: {nameof(width)}");
         if (height < 0)
-            throw new ArgumentException("Width and height must be non-negative", nameof(height));
+            throw new SizeException($"{ErrorMessages.NegativeSizeArgument}: {nameof(height)}");
         _width  = width;
         _height = height;
         _isSet  = true;

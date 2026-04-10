@@ -271,7 +271,7 @@ public struct Matrix
 
         if (DoubleUtil.IsZero(determinant))
         {
-            throw new InvalidOperationException("Matrix is not invertible");
+            throw new MatrixException(ErrorMessages.MatrixNotInvertible);
         }
 
         // Inversion does not change the type of a matrix.

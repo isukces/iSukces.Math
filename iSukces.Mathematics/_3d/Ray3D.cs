@@ -93,7 +93,7 @@ public readonly struct Ray3D : IRay3D
     
     public Point3D Cross(Plane3D plane3D)
     {
-        return TryCross(plane3D) ?? throw new InvalidOperationException();
+        return TryCross(plane3D) ?? throw new GeometryException("Ray does not intersect with plane");
     }
     
 

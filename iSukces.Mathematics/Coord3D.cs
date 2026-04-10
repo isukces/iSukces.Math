@@ -84,7 +84,8 @@ public sealed class Coord3D : ICloneable, IEquatable<Coord3D>
     {
         const double one = 1;
 #if DEBUG
-            if (double.IsNaN(v.X) || double.IsNaN(v.Y) || double.IsNaN(v.Z)) throw new Exception("Błędny wektor");
+        if (double.IsNaN(v.X) || double.IsNaN(v.Y) || double.IsNaN(v.Z))
+            throw new InvalidVectorException();
 #endif
 // ReSharper disable CompareOfFloatsByEqualityOperator
         if (v.X is 1 or -1)

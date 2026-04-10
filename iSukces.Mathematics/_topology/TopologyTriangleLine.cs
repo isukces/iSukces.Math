@@ -136,7 +136,7 @@ public sealed class TopologyTriangleLine : TopologyBase
     {
         if (a.Equals(_pointA)) return _pointB;
         if (a.Equals(_pointB)) return _pointA;
-        throw new ArgumentException("Błędny punkt " + a);
+        throw new GeometryException($"{ErrorMessages.InvalidPoint}: {a}");
     }
 
     public bool HasThisTwoPoints(Point a, Point b)
