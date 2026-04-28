@@ -1,3 +1,9 @@
+// Copyright © Internet Sukces Piotr Stęclik 2017-2026. All rights reserved.
+// Licensed under the MIT license.
+//
+// This file contains portions of code derived from the .NET Runtime (Microsoft Corporation).
+// For more information, see the THIRD-PARTY-NOTICES.txt file in the project root.
+
 using System;
 
 namespace iSukces.Mathematics;

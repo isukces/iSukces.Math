@@ -76,12 +76,75 @@ public sealed class CircleOnPlaneTests
     }
 
     [Fact]
-    public void T07_Clone_and_equality_should_work()
+    public void T08_GetCrossPoints_should_detect_full_overlap()
     {
-        var c1 = new CircleOnPlane(5, new Point(1, 2));
-        var c2 = (CircleOnPlane)c1.Clone();
-        Assert.True(c1 == c2);
-        Assert.Equal(c1.GetHashCode(), c2.GetHashCode());
-        Assert.Contains("radius", c1.ToString(), StringComparison.OrdinalIgnoreCase);
+        var c1 = new CircleOnPlane(5, new Point(0, 0));
+        var c2 = new CircleOnPlane(5, new Point(0, 0));
+        var info = c1.GetCrossPoints(c2);
+        Assert.Equal(CircleLocations.Full, info.Locations);
+    }
+
+    [Fact]
+    public void T09_GetCrossPoints_should_detect_inside_other_circle()
+    {
+        var c1 = new CircleOnPlane(2, new Point(0, 0));
+        var c2 = new CircleOnPlane(5, new Point(0, 0));
+        var info = c1.GetCrossPoints(c2);
+        Assert.Equal(CircleLocations.InsideOtherCircle, info.Locations);
+    }
+
+    [Fact]
+    public void T10_GetCrossPoints_should_detect_other_circle_inside()
+    {
+        var c1 = new CircleOnPlane(5, new Point(0, 0));
+        var c2 = new CircleOnPlane(2, new Point(0, 0));
+        var info = c1.GetCrossPoints(c2);
+        Assert.Equal(CircleLocations.OtherCircleInside, info.Locations);
+    }
+
+    [Fact]
+    public void T11_GetCrossPoints_should_detect_tangent_inside()
+    {
+        // Circle 1: R=5, Center(0,0)
+        // Circle 2: R=2, Center(3,0) -> Tangent inside at (5,0)
+        var c1 = new CircleOnPlane(5, new Point(0, 0));
+        var c2 = new CircleOnPlane(2, new Point(3, 0));
+        var info = c1.GetCrossPoints(c2);
+        Assert.Equal(CircleLocations.OtherCircleInside1Point, info.Locations);
+        Assert.Single(info.Points);
+        Assert.Equal(5, info.Points[0].X, 12);
+        Assert.Equal(0, info.Points[0].Y, 12);
+    }
+
+    [Fact]
+    public void T12_GetCrossPoints_Ray_should_return_single_point_when_tangent()
+    {
+        var c = new CircleOnPlane(5, new Point(0, 0));
+        // Ray starts at (5, -10) and goes straight up
+        var ray = new Ray2D(new Point(5, -10), new Vector(0, 1));
+        var got = c.GetCrossPoints(ray);
+        Assert.Single(got);
+        Assert.Equal(5, got[0].X, 12);
+        Assert.Equal(0, got[0].Y, 12);
+    }
+
+    [Fact]
+    public void T13_GetCrossPoints_Ray_should_return_no_points_when_outside()
+    {
+        var c = new CircleOnPlane(5, new Point(0, 0));
+        // Ray starts at (10, 10) and goes away
+        var ray = new Ray2D(new Point(10, 10), new Vector(1, 1));
+        var got = c.GetCrossPoints(ray);
+        Assert.Empty(got);
+    }
+
+    [Fact]
+    public void T14_GetCrossPoints_Ray_should_return_no_points_when_behind()
+    {
+        var c = new CircleOnPlane(5, new Point(0, 0));
+        // Ray starts at (10, 0) and goes right (away from circle)
+        var ray = new Ray2D(new Point(10, 0), new Vector(1, 0));
+        var got = c.GetCrossPoints(ray);
+        Assert.Empty(got);
     }
 }

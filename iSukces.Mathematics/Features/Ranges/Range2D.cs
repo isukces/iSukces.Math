@@ -7,7 +7,7 @@ public struct Range2D
         XRange = xRange;
         YRange = yRange;
     }
-        
+
     public Range2D(Point p1, Point p2)
     {
         XRange = DRange.FromValues(p1.X, p2.X);
@@ -24,7 +24,7 @@ public struct Range2D
     {
         return new Range2D(XRange.RoundDouble(), YRange.RoundDouble());
     }
-        
+
     public bool Includes(Point point)
     {
         return XRange.Includes(point.X) && YRange.Includes(point.Y);
@@ -78,6 +78,19 @@ public struct Range2D
     public Size Size
     {
         get { return IsEmpty ? Size.Empty : new Size(XRange.Length, YRange.Length); }
+    }
+
+    public static Range2D operator &(Range2D a, Range2D b)
+    {
+        var xR = a.XRange & b.XRange;
+        var yR = a.YRange & b.YRange;
+        return new Range2D(xR, yR);
+    }
+    public static Range2D operator *(Range2D a, double b)
+    {
+        var xR = a.XRange * b;
+        var yR = a.YRange * b;
+        return new Range2D(xR, yR);
     }
 
     public double Left() => XRange.Min;

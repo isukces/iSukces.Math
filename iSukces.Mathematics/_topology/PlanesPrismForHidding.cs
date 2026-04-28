@@ -4,7 +4,7 @@ using System.Windows.Media.Media3D;
 #endif
 using System.Collections.Generic;
 using System.Linq;
-
+using System;
 
 namespace iSukces.Mathematics;
 
@@ -26,10 +26,9 @@ public sealed class PlanesPrismForHidding
         for (var index = 0; index < prismsList.Count; index++)
         {
             var i = prismsList[index];
-            for (var index1 = 0; index1 < src.Count; index1++)
+            foreach (var section in src)
             {
-                var line = src[index1];
-                var h    = i.FindNotHidden(line.Begin, line.End);
+                var h = i.FindNotHidden(section.Begin, section.End);
                 dst.AddRange(h);
             }
 
@@ -44,108 +43,72 @@ public sealed class PlanesPrismForHidding
 
     public List<Section3D> FindNotHidden(Point3D a, Point3D b)
     {
-        var sec   = new Section3D(a, b);
-        var l     = new Line3D(a, b);
-        var cross = new List<Point3D>();
-        for (int i = 0, max = Sides.Length; i < max; i++)
+        var vLine = b - a;
+        var length = vLine.Length;
+        if (length < 1e-9)
         {
-            var plane = Sides[i];
-            var pc    = plane.Cross(l);
-            if (!pc.HasValue) continue;
-            var dist = TopPlate.DistanceNotNormalized(pc.Value);
-            if (dist >= 0) continue;
-            plane = Sides[i == 0 ? max - 1 : i - 1];
-            dist  = plane.DistanceNotNormalized(pc.Value);
-            if (dist < 0) continue;
-            plane = Sides[(i + 1) % max];
-            dist  = plane.DistanceNotNormalized(pc.Value);
-            if (dist < 0) continue;
-            cross.Add(pc.Value);
+            return (TopPlate.DistanceNotNormalized(a) < 0 && InsideAllSides(a))
+                ? new List<Section3D>()
+                : new List<Section3D> { new Section3D(a, b) };
         }
+
+        var tValues = new List<double> { 0.0, 1.0 };
+
+        // Intersect TopPlate
+        double tTop = CalculateIntersectionT(a, vLine, TopPlate);
+        if (tTop > 0 && tTop < 1) tValues.Add(tTop);
+
+        // Intersect Sides
+        foreach (var side in Sides)
+        {
+            double tSide = CalculateIntersectionT(a, vLine, side);
+            if (tSide > 0 && tSide < 1) tValues.Add(tSide);
+        }
+
+        tValues.Sort();
 
         var result = new List<Section3D>();
-        if (cross.Count == 0)
+        for (int i = 0; i < tValues.Count - 1; i++)
         {
-            result.Add(new Section3D(a, b));
-        }
-        else
-        {
-            var dlugoscOdcinka = sec.Length;
-            var vLine          = l.Vector;
-            var cross1 = (
-                from o in cross
-                let dist = Vector3D.DotProduct(o - a, vLine)
-                where dist > 0 && dist < dlugoscOdcinka
-                select new PointAndDistance(o, dist)
-            ).ToList();
-            cross1.Add(new PointAndDistance(a, 0));
-            cross1.Add(new PointAndDistance(b, dlugoscOdcinka));
-            cross1.Sort(PointAndDistance.Comare);
-            {
-                var cnt = cross1.Count;
-                for (var i = 1; i < cnt; i++)
-                {
-                    var p1 = cross1[i - 1];
-                    var p2 = cross1[i];
-                    var c  = p1.Point - p2.Point;
-                    if (c.Length > 1e-6) continue;
-                    cross1.RemoveAt(i == cnt - 1 ? i - 1 : i);
-                    i--;
-                    cnt--;
-                }
+            double tStart = tValues[i];
+            double tEnd = tValues[i + 1];
+            if (tEnd - tStart < 1e-9) continue;
 
-                for (var i = 1; i < cnt; i++)
-                {
-                    var p1      = cross1[i - 1].Point;
-                    var p2      = cross1[i].Point;
-                    var pc      = new Point3D((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2, (p1.Z + p2.Z) / 2);
-                    var topDist = TopPlate.DistanceNotNormalized(pc);
-                    if (topDist < 0 && InsideAllSides(pc))
-                        continue;
-                    result.Add(new Section3D(p1, p2));
-                }
+            double tMid = (tStart + tEnd) / 2.0;
+            Point3D midPoint = a + vLine * tMid;
+
+            // Point is HIDDEN if it's below TopPlate AND inside all Side planes
+            if (!(TopPlate.DistanceNotNormalized(midPoint) < 0 && InsideAllSides(midPoint)))
+            {
+                result.Add(new Section3D(a + vLine * tStart, a + vLine * tEnd));
             }
         }
 
         return result;
     }
 
+    private double CalculateIntersectionT(Point3D origin, Vector3D direction, Plane3D plane)
+    {
+        var normal = plane.Normal;
+        var dotNormalDir = normal.X * direction.X + normal.Y * direction.Y + normal.Z * direction.Z;
+
+        if (Math.Abs(dotNormalDir) < 1e-9) return -1.0; // Parallel
+
+        var distOrigin = plane.DistanceNotNormalized(origin);
+        return -distOrigin / dotNormalDir;
+    }
+
     private bool InsideAllSides(Point3D a)
     {
         foreach (var s in Sides)
+        {
             if (s.DistanceNotNormalized(a) < 0)
                 return false;
+        }
         return true;
     }
 
-    /// <summary>
-    ///     płaszczyzna górna
-    /// </summary>
     public Plane3D TopPlate { get; set; }
-
-    /// <summary>
-    ///     płaszczyzny ograniczające boczne
-    /// </summary>
     public Plane3D[] Sides { get; set; }
-
-    /// <summary>
-    /// </summary>
     public object UserData { get; set; }
-
-    private sealed class PointAndDistance
-    {
-        public PointAndDistance(Point3D point, double dist)
-        {
-            Point = point;
-            Dist  = dist;
-        }
-
-        public static int Comare(PointAndDistance a, PointAndDistance b)
-        {
-            return a.Dist.CompareTo(b.Dist);
-        }
-
-        public readonly Point3D Point;
-        public readonly double Dist;
-    }
 }

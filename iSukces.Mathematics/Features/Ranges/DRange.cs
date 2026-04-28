@@ -31,7 +31,7 @@ public readonly struct DRange : IEquatable<DRange>
         length *= 0.5;
         return new DRange(center - length, center + length);
     }
-    
+
     public static DRange FromMinAndLength(double min, double length)
     {
         return new DRange(min, min + length);
@@ -74,6 +74,13 @@ public readonly struct DRange : IEquatable<DRange>
             return Empty;
         var tmp = new DRange(Math.Max(a.Min, b.Min), Math.Min(a.Max, b.Max));
         return tmp._kind == RangeKind.Invalid ? Empty : tmp;
+    }
+
+    public static DRange operator *(DRange a, double b)
+    {
+        if (a.IsEmpty)
+            return a;
+        return new DRange(a.Min * b, a.Max * b);
     }
 
     public static DRange operator |(DRange a, DRange b)
@@ -163,7 +170,7 @@ public readonly struct DRange : IEquatable<DRange>
     public bool IncludesExclusive(double x) { return !IsEmpty && x > Min && x < Max; }
 
     public RangeI Round() { return new RangeI(Min.Round(), Max.Round()); }
-    
+
     public DRange RoundDouble() { return new DRange(Min.Round(), Max.Round()); }
 
     public bool ShouldSerializeCenter() { return false; }
@@ -227,4 +234,3 @@ public readonly struct DRange : IEquatable<DRange>
 
     private readonly RangeKind _kind;
 }
- 

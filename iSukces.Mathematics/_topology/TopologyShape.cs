@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if !WPFFEATURES
-#else
-using System.Windows;
-#endif
 
 namespace iSukces.Mathematics;
 
@@ -79,7 +75,7 @@ public sealed class TopologyShape : TopologyBase
     /// </summary>
     public IList<TopologyTriangle> Triangles { get; set; }
 
-    public static TopologyShape operator -(TopologyShape? left, TopologyShape right)
+    public static TopologyShape? operator -(TopologyShape? left, TopologyShape right)
     {
         if (left is null) return null;
         return left.Substract(right);
