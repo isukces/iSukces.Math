@@ -166,3 +166,5 @@ yarn-error.log*
 .claude/
 CLAUDE.md
 .claude/doc/
+.roo/
+iSukces.Mathematics.Test/TestResults/
