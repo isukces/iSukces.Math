@@ -68,7 +68,7 @@ public readonly record struct Vector3D(double X, double Y, double Z) : IFormatta
         //                            _>
         //                       u  _-  \ (u-v)/2
         //                        _-  __-v
-        //                      _=__--      
+        //                      _=__--
         //                    .=----------->
         //                            v
         //
@@ -455,4 +455,13 @@ public readonly record struct Vector3D(double X, double Y, double Z) : IFormatta
 
 
     public bool IsNaN => double.IsNaN(X) || double.IsNaN(Y) || double.IsNaN(Z);
+
+
+    public static readonly Vector3D XUnit = new Vector3D(1, 0, 0);
+    public static readonly Vector3D YUnit = new Vector3D(0, 1, 0);
+    public static readonly Vector3D ZUnit = new Vector3D(0, 0, 1);
+
+    public static readonly Vector3D XMinusUnit = new Vector3D(-1, 0, 0);
+    public static readonly Vector3D YMinusUnit = new Vector3D(0, -1, 0);
+    public static readonly Vector3D ZMinusUnit = new Vector3D(0, 0, -1);
 }
