@@ -112,8 +112,8 @@ public readonly struct DRange : IEquatable<DRange>
 
     public static DRange[] operator -(DRange a, DRange b)
     {
-        var notCutting = a.IsZeroOnInvalid
-                         || b.IsZeroOnInvalid
+        var notCutting = a.IsZeroEmptyOrInvalid
+                         || b.IsZeroEmptyOrInvalid
                          || b.Min >= a.Max
                          || b.Max <= a.Min;
         if (notCutting) return [a];
@@ -230,6 +230,9 @@ public readonly struct DRange : IEquatable<DRange>
 
     public bool HasPositiveLength => _kind == RangeKind.Normal;
 
+    public bool IsZeroEmptyOrInvalid => _kind != RangeKind.Normal;
+
+    [Obsolete("Probably not needed", true)]
     public bool IsZeroOnInvalid => _kind is RangeKind.Empty or RangeKind.Zero;
 
     private readonly RangeKind _kind;

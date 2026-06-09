@@ -116,7 +116,16 @@ public sealed class MinMax : MinMaxGeneric<double>, ICloneable
 
     public static List<MinMax> Cut(MinMax src, IEnumerable<MinMax> cutters) { return Cut([src], cutters); }
 
-    public static MinMax From2Values(double a, double b) { return a < b ? new MinMax(a, b) : new MinMax(b, a); }
+    public static MinMax FromValues(double a, double b)
+    {
+        return a < b ? new MinMax(a, b) : new MinMax(b, a);
+    }
+
+    [Obsolete("Use FromValues instead", false)]
+    public static MinMax From2Values(double a, double b)
+    {
+        return a < b ? new MinMax(a, b) : new MinMax(b, a);
+    }
 
     public static MinMax FromCenterAndSize(double center, double size)
     {
@@ -152,7 +161,7 @@ public sealed class MinMax : MinMaxGeneric<double>, ICloneable
     public static MinMax FromValues(IEnumerable<double> a)
     {
         var items = a as double[] ?? a.ToArray();
-        if (!items.Any())
+        if (items.Length == 0)
             return new MinMax();
         var aMin = items.Min();
         var aMax = items.Max();
@@ -162,7 +171,7 @@ public sealed class MinMax : MinMaxGeneric<double>, ICloneable
     public static MinMax FromValues(IEnumerable<int> a)
     {
         var enumerable = a as int[] ?? a.ToArray();
-        if (!enumerable.Any())
+        if (enumerable.Length == 0)
             return new MinMax();
         var aMin = enumerable.Min();
         var aMax = enumerable.Max();

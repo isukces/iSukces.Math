@@ -240,7 +240,7 @@ public sealed class MinMaxI : MinMaxGeneric<int>, IEquatable<MinMaxI>
     {
         var itemsToCut = new List<MinMaxI> {this};
         var minMaxes   = cutList as MinMaxI[] ?? cutList.ToArray();
-        if (cutList is null || !minMaxes.Any())
+        if (cutList is null || minMaxes.Length == 0)
             return itemsToCut;
 
         foreach (var cutter in minMaxes)
