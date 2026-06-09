@@ -182,4 +182,7 @@ public readonly record struct Point3D(double X, double Y, double Z) : IFormattab
         // Delegate to the internal method which implements all ToString calls.
         return ConvertToString(format, provider);
     }
+
+
+    public static Point3D Zero { get; } = new(0, 0, 0);
 }

@@ -77,4 +77,7 @@ public readonly record struct Point(double X, double Y)
     {
         return new Vector(point1.X - point2.X, point1.Y - point2.Y);
     }
+
+
+    public static Point Zero { get; } = new(0, 0);
 }

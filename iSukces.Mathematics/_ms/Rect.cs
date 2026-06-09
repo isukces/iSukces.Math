@@ -125,7 +125,7 @@ public struct Rect : IEquatable<Rect>
         }
         else
         {
-            //  Max with 0 to prevent double weirdness from causing us to be (-epsilon..0)                    
+            //  Max with 0 to prevent double weirdness from causing us to be (-epsilon..0)
             var maxRight = Math.Max(Right, rect.Right);
             width = Math.Max(maxRight - left, 0);
         }
@@ -229,4 +229,5 @@ public struct Rect : IEquatable<Rect>
     public Size Size => new Size(Width, Height);
 
     public Point Location => new Point(Left, Right);
+
 }

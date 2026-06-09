@@ -614,10 +614,7 @@ public sealed class MinMax : MinMaxGeneric<double>, ICloneable
     /// </summary>
     public double Length => Max - Min;
 
-    public MinMax[] ArrayOfValid
-    {
-        get { return IsZeroOnInvalid ? [] : [this]; }
-    }
+    public MinMax[] ArrayOfValid => IsZeroOnInvalid ? [] : [this];
 
     public double Center => (Min + Max) / 2;
 }
